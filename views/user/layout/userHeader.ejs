@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+<head>
+    
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>FurniCube Furniture Store</title>
+    <meta name="keywords" content="eCommerce">
+    <meta name="description" content="FurniCube Furniture-Store">
+    <meta name="author" content="p-themes">
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/user/images/icons/apple-touch-icon.png">
+    <!-- <link rel="icon" type="image/png" sizes="32x32" href="assets/images/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/icons/favicon-16x16.png"> -->
+    <link rel="manifest" href="/user/images/icons/site.html">
+    <link rel="mask-icon" href="/user/images/icons/safari-pinned-tab.svg" color="#666666">
+    <link rel="shortcut icon" href="/user/images/icons/FurniCube.png">
+    <meta name="apple-mobile-web-app-title" content="FurniCube">
+    <meta name="application-name" content="FurniCube">
+    <meta name="msapplication-TileColor" content="#cc9966">
+    <meta name="msapplication-config" content="/user/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="/user/stylesheets/line-awesome.min.css">
+    <!-- Plugins CSS File -->
+    <link rel="stylesheet" type="text/css" href="/user/stylesheets/home.css">
+    <link rel="stylesheet" href="/user/stylesheets/owl.carousel.css">
+    <link rel="stylesheet" href="/user/stylesheets/magnific-popup.css">
+    <!-- Main CSS File -->
+    <link rel="stylesheet" href="/user/stylesheets/style.css">
+
+    <link rel="stylesheet" href="/user/stylesheets/nouislider.css">
+    <link rel="stylesheet" href="/user/stylesheets/home.css">
+    <link rel="stylesheet" href="/user/stylesheets/bootstrap.min.css">
+
+    <link rel="stylesheet" href="/user/stylesheets/plugins/nouislider/nouislider.css">
+
+    <link rel="stylesheet" href="/user/stylesheets/bootstrap.min.css">
+
+
+
+     <!-- Plugins CSS File -->
+     
+     <link rel="stylesheet" href="/user/stylesheets/plugins/owl-carousel/owl.carousel.css">
+     <link rel="stylesheet" href="/user/stylesheets/plugins/magnific-popup/magnific-popup.css">
+     <!-- Main CSS File -->
+     <link rel="stylesheet" href="/user/stylesheets/style.css">
+     <link rel="stylesheet" href="/user/stylesheets/plugins/nouislider/nouislider.css">
+
+</head>
+<body>
+    <div class="page-wrapper">
+
+        <header class="header header-7">
+            
+            <div class="header-middle sticky-header">
+                <div class="container">
+                    <div class="header-left">
+                        <button class="mobile-menu-toggler">
+                            <span class="sr-only">Toggle mobile menu</span>
+                            <i class="icon-bars"></i>
+                        </button>
+                        
+                        <a href="/home" class="logo">
+                            <img src="/user/images/home/logo.png" alt="Molla Logo" width="150" height="90">
+                        </a>
+                    </div><!-- End .header-left -->
+
+                    <div class="header-right">
+
+                        <nav class="main-nav">
+                            <ul class="menu sf-arrows">
+                                <li>
+                                    <a href="/home">Home</a>
+
+                                    
+                                </li>
+                                <li>
+                                    <a href="">Shop</a>
+
+                                    
+                                </li>
+                                <li>
+                                    <a href="">Product</a>
+
+                                    
+                                </li>
+                                
+                                <li>
+                                    <a href="">Blog</a>
+
+                                    
+                                </li>
+                                <li>
+                                    <a href="" class="sf-with-ul">Pages</a>
+
+                                    <ul>
+                                        <li>
+                                            <a href="">Home</a>
+
+                                        </li>
+                                        <li><a href="">Shop</a></li>
+                                        <li><a href="">Product</a></li>
+                                        <li><a href="">Cart</a></li>
+                                        <li><a href="">Wishlist</a></li>
+                                        <li><a href="">Blogs</a></li>
+                                    </ul>
+                                </li>
+                                
+                            </ul><!-- End .menu -->
+                        </nav><!-- End .main-nav -->
+                        
+                        <div class="header-search">
+                            <a href="" class="search-toggle" role="button"><i class="icon-search"></i></a>
+                            <form action="" method="get">
+                                <div class="header-search-wrapper">
+                                    <label for="q" class="sr-only">Search</label>
+                                    <input type="search" class="form-control" name="q" id="q" placeholder="Search in..." required>
+                                </div><!-- End .header-search-wrapper -->
+                            </form>
+                        </div><!-- End .header-search -->
+                        
+                        <a href="" class="wishlist-link">
+                            <i class="icon-heart-o"></i>
+                                <span class="wishlist-count">3</span>
+                        </a>
+
+                        <div class="dropdown cart-dropdown">
+                            <a href="" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+                                <i class="icon-shopping-cart"></i>
+                                <span class="cart-count">2</span>
+                                
+                            </a>
+
+                            
+                        </div><!-- End .cart-dropdown -->
+                        <div>
+                            <ul class="menu sf-arrows">
+                                <li>
+                                    <a href="" class="sf-with-ul"><%=name?name:"Account"%></a>
+                                    <ul>
+                                        
+                                        <%
+                                  if(name){
+                                    %>
+                                    <li><a href="/profile">Profile</a></li>
+                                    <li><a href="/logout">Logout</a></li>
+                                    <%
+                                  }else{
+                                    %>
+                                    <li><a href="/loadLogin">LogIn</a></li>
+                                    <li><a href="/register">Register</a></li>
+                                    <%
+                                  }
+                                  %>
+
+                                        <!-- <li><a href="/logout">Logout</a></li> -->
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div><!-- End .header-right -->
+                </div><!-- End .container -->
+            </div><!-- End .header-middle -->
+        </header><!-- End .header -->

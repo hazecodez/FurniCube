@@ -1,0 +1,66 @@
+<%- include('../admin/layout/adminSidebar.ejs')%>
+<%- include('../admin/layout/adminHeader.ejs')%>
+
+
+<div class="main-panel">
+<div class="row">
+    
+    <div class="col-lg-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Product Management</h4>
+          
+          <p class="card-description"> All BloomStyle Products</p>
+          <div class="table-responsive">
+            <table class="table ">
+              <thead>
+                <tr>
+                  <th>No.</th>
+                  
+                  <th>Name</th>
+                  <th>Category</th>
+                  <th>Stock</th>
+                  <th>Price</th>
+                  <th>Status</th>
+                  <th>Edit</th>
+                  <th>Action</th>
+                  <a href="/admin/addProduct" class="btn btn-outline-primary btn-rounded">Add Products</a>
+                </tr>
+              </thead>
+              <tbody>
+                <% if(products.length>0){
+                  for(let i=0;i<products.length;i++){  %>
+                <tr>
+                  <td><%= i+1 %></td>
+                  
+                  <td><%= products[i].name %></td>
+                  <td><%= products[i].category %></td>
+                  <td><%= products[i].quantity %></td>
+                  <td><%= products[i].price %></td>
+                  <%  if(products[i].blocked==0){ %>
+                  <td class="text-success">Active</td>
+                 <% }else{ %>
+                  <td class="text-danger">Blocked</td>
+
+                <% } %>
+                  <td><a href="/admin/edit-pro-page?id=<%= products[i]._id %>" class="badge badge-warning">Update</a></td>
+                  <td><a href="/admin/delete-pro?id=<%= products[i]._id %>" class="badge badge-danger">Delete</a></td>
+                  <!-- <td><button class="btn-inverse-danger">Delete</button></td> -->
+                </tr>
+                <% } %>
+                <% }else{ %>
+                  <tr>
+                      <td colspan="5">Products Not Found</td>
+                    </tr>
+  
+               <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+<%- include('../admin/layout/adminFooter.ejs')%>

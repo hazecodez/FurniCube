@@ -1,0 +1,291 @@
+<%- include('../user/layout/userHeader.ejs')%>
+
+<div class="container">
+  <div
+    class="page-header page-header-big text-center"
+    style="background-image: url('user/images/contact-header-bg.jpg')"
+  >
+    <h1 class="page-title text-white">
+      <%=name?name:"Account"%><span class="text-white">Personal Details</span>
+    </h1>
+  </div>
+  <!-- End .page-header -->
+</div>
+<!-- End .container -->
+<% if( address !==null ){%> <% for(let
+    i=0;i<=0;i++){ %>
+<div class="page-content pb-0">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 mb-2 mb-lg-0">
+        <h2 class="title mb-1">Contact Information</h2>
+        <!-- End .title mb-2 -->
+
+        <div class="row">
+          <div class="col-sm-7">
+            <div class="contact-info">
+              <ul class="contact-list">
+                
+                <li>
+                  <i class=""></i>
+                  First Name : <b> <%= address.address[i].firstname%></b>
+                </li>
+                <li>
+                  <i class=""></i>
+                  Last Name : <b> <%= address.address[i].lastname%></b>
+                </li>
+                <li>
+                  <i class="icon-phone"></i>
+                  Mobile No :<b><%= address.address[i].mobile%></b>
+                </li>
+                <li>
+                  <i class="icon-envelope"></i>
+                  Email Id :<b><%= address.address[i].email%></b>
+                </li>
+                <li>
+                  <i class="icon-map-marker"></i>
+                  Address :<b><%= address.address[i].address%></b>
+                  <!-- <a href="">info@Molla.com</a> -->
+                </li>
+                <li>
+                  <i class=""></i>
+                  Pin Code :<b><%= address.address[i].pin%></b>
+                </li>
+              </ul>
+
+              <!-- End .contact-list -->
+            </div>
+            <!-- End .contact-info -->
+          </div>
+          <!-- End .col-sm-7 -->
+          <div>
+            <a href="/forget">Forgot password ?</a> <br><a href="/changePass">Change password.</a>
+          </div>
+          
+          <!-- End .col-sm-5 -->
+        </div>
+
+        <!-- <a href=""><b>forget password ?</b></a>
+        <br>
+        <a href=""><b>change password ?</b></a> -->
+        <!-- End .row -->
+      </div>
+      <!-- End .col-lg-6 -->
+      <div class="col-lg-6">
+        <h2 class="title mb-1">Manage Your Details</h2>
+        <!-- End .title mb-2 -->
+
+        <form action="/add_address" class="contact-form mb-3" method="post">
+          <div class="row">
+            <div class="col-sm-6">
+              <label for="cname" class="sr-only">First Name</label>
+              <input
+                name="firstname"
+                type="text"
+                class="form-control"
+                id="cname"
+                value="<%= address.address[i].firstname%>"
+                required
+              />
+            </div>
+            <!-- End .col-sm-6 -->
+
+            <div class="col-sm-6">
+              <label for="cemail" class="sr-only">Last Name</label>
+              <input
+                name="lastname"
+                type="text"
+                class="form-control"
+                id="cemail"
+                value="<%= address.address[i].lastname%>"
+                required
+              />
+            </div>
+            <!-- End .col-sm-6 -->
+          </div>
+          <!-- End .row -->
+
+          <div class="row">
+            <div class="col-sm-6">
+              <label for="cphone" class="sr-only">Phone</label>
+              <input
+                name="mobile"
+                type="tel"
+                class="form-control"
+                id="cphone"
+                value="<%= address.address[i].mobile%>"
+              />
+            </div>
+            <!-- End .col-sm-6 -->
+
+            <div class="col-sm-6">
+              <label for="cphone" class="sr-only">Pincode</label>
+              <input
+                name="pin"
+                type="tel"
+                class="form-control"
+                id="cphone"
+                value="<%= address.address[i].pin%>"
+              />
+            </div>
+
+            <!-- End .col-sm-6 -->
+          </div>
+          <div class="col-sm-14">
+            <label for="csubject" class="sr-only">Email Id</label>
+            <input
+              name="email"
+              type="email"
+              class="form-control"
+              id="csubject"
+              value="<%= address.address[i].email%>"
+            />
+          </div>
+          <!-- End .row -->
+
+          <label for="cmessage" class="sr-only">Address</label>
+          <textarea
+            name="address"
+            class="form-control"
+            cols="30"
+            rows="4"
+            id="cmessage"
+            required
+          ><%= address.address[i].address%></textarea
+          >
+
+          <button
+            type="submit"
+            class="btn btn-outline-primary-2 btn-minwidth-sm"
+          >
+            <span>SUBMIT</span>
+            <i class="icon-long-arrow-right"></i>
+          </button>
+          
+        </form>
+
+        <!-- End .contact-form -->
+      </div>
+
+      <!-- End .col-lg-6 -->
+    </div>
+
+    <!-- End .row -->
+  </div>
+  <!-- End .container -->
+</div>
+<% }%>
+<%}else{%>
+
+<div class="page-content pb-0">
+  <div class="container">
+    <div class="row">
+
+
+      
+      <div class="col-lg-12">
+        <h2 class="title mb-1">Add Your Details</h2>
+        <!-- End .title mb-2 -->
+
+        <form action="/add_address" class="contact-form mb-3" method="post">
+          <div class="row">
+            <div class="col-sm-6">
+              <label for="cname" class="sr-only">First Name</label>
+              <input
+                name="firstname"
+                type="text"
+                class="form-control"
+                id="cname"
+                placeholder="First Name"
+                required
+              />
+            </div>
+            <!-- End .col-sm-6 -->
+
+            <div class="col-sm-6">
+              <label for="cemail" class="sr-only">Last Name</label>
+              <input
+                name="lastname"
+                type="text"
+                class="form-control"
+                id="cemail"
+                placeholder="Last Name"
+                required
+              />
+            </div>
+            <!-- End .col-sm-6 -->
+          </div>
+          <!-- End .row -->
+
+          <div class="row">
+            <div class="col-sm-6">
+              <label for="cphone" class="sr-only">Phone</label>
+              <input
+                name="mobile"
+                type="tel"
+                class="form-control"
+                id="cphone"
+                placeholder="Phone"
+              />
+            </div>
+            <!-- End .col-sm-6 -->
+
+            <div class="col-sm-6">
+              <label for="cphone" class="sr-only">Pincode</label>
+              <input
+                name="pin"
+                type="tel"
+                class="form-control"
+                id="cphone"
+                placeholder="Pincode"
+              />
+            </div>
+
+            <!-- End .col-sm-6 -->
+          </div>
+          <div class="col-sm-14">
+            <label for="csubject" class="sr-only">Email Id</label>
+            <input
+              name="email"
+              type="email"
+              class="form-control"
+              id="csubject"
+              placeholder="Email Id"
+            />
+          </div>
+          <!-- End .row -->
+
+          <label for="cmessage" class="sr-only">Address</label>
+          <textarea
+            name="address"
+            class="form-control"
+            cols="30"
+            rows="4"
+            id="cmessage"
+            placeholder="Address"
+            required
+          ></textarea>
+
+          <button
+            type="submit"
+            class="btn btn-outline-primary-2 btn-minwidth-sm" >
+            <span>SUBMIT</span>
+            <i class="icon-long-arrow-right"></i>
+          </button>
+          
+        </form>
+
+        <!-- End .contact-form -->
+      </div>
+
+      <!-- End .col-lg-6 -->
+    </div>
+
+    <!-- End .row -->
+  </div>
+  <!-- End .container -->
+</div>
+<%}%>
+<!-- End .page-content -->
+
+<%- include('../user/layout/userFooter.ejs')%>
