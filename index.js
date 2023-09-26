@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(noCache());
 
-//for user routes
+//for routes
 app.use("/admin", adminRoute);
 app.use("/", userRoute);
 
