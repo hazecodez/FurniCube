@@ -145,6 +145,7 @@ const loadLogin = async (req, res) => {
 const loadHome = async (req, res) => {
   try {
     const products = await Product.find({ blocked: 0 });
+    
     res.render("home", { name: req.session.name, products: products });
   } catch (error) {
     console.error(error.message);
@@ -374,6 +375,15 @@ const showProfile = async (req, res) => {
   }
 };
 
+//load Chechout
+const loadCheckOut = async(req,res)=> {
+  try {
+    res.render('checkOut',{name:req.session.name})
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
 
 
 module.exports = {
@@ -391,4 +401,5 @@ module.exports = {
   forgetPassMail,
   loadResetPass,
   newPass,
+  loadCheckOut
 };
