@@ -12,7 +12,7 @@
   <!-- End .page-header -->
 </div>
 <!-- End .container -->
-<% if( address !==null ){%> <% for(let
+<% if( address !== null ){%> <% for(let
     i=0;i<=0;i++){ %>
 <div class="page-content pb-0">
   <div class="container">
@@ -25,14 +25,9 @@
           <div class="col-sm-7">
             <div class="contact-info">
               <ul class="contact-list">
-                
                 <li>
                   <i class=""></i>
-                  First Name : <b> <%= address.address[i].firstname%></b>
-                </li>
-                <li>
-                  <i class=""></i>
-                  Last Name : <b> <%= address.address[i].lastname%></b>
+                  Full Name : <b> <%= address.address[i].fullname%></b>
                 </li>
                 <li>
                   <i class="icon-phone"></i>
@@ -44,14 +39,25 @@
                 </li>
                 <li>
                   <i class="icon-map-marker"></i>
-                  Address :<b><%= address.address[i].address%></b>
+                  House Name :<b><%= address.address[i].houseName%></b>
                   <!-- <a href="">info@Molla.com</a> -->
                 </li>
+                <li>
+                    <i class="icon-map-marker"></i>
+                    City :<b><%= address.address[i].city%></b>
+                    <!-- <a href="">info@Molla.com</a> -->
+                  </li>
+                  <li>
+                    <i class="icon-map-marker"></i>
+                    State :<b><%= address.address[i].state%></b>
+                    <!-- <a href="">info@Molla.com</a> -->
+                  </li>
                 <li>
                   <i class=""></i>
                   Pin Code :<b><%= address.address[i].pin%></b>
                 </li>
               </ul>
+              
 
               <!-- End .contact-list -->
             </div>
@@ -76,33 +82,20 @@
         <!-- End .title mb-2 -->
 
         <form action="/add_address" class="contact-form mb-3" method="post">
-          <div class="row">
-            <div class="col-sm-6">
-              <label for="cname" class="sr-only">First Name</label>
+          
+            <div class="col-sm-14">
+              <label for="cname" class="sr-only">Full Name</label>
               <input
-                name="firstname"
+                name="fullname"
                 type="text"
                 class="form-control"
                 id="cname"
-                value="<%= address.address[i].firstname%>"
+                value="<%= address.address[i].fullname%>"
                 required
               />
             </div>
             <!-- End .col-sm-6 -->
-
-            <div class="col-sm-6">
-              <label for="cemail" class="sr-only">Last Name</label>
-              <input
-                name="lastname"
-                type="text"
-                class="form-control"
-                id="cemail"
-                value="<%= address.address[i].lastname%>"
-                required
-              />
-            </div>
-            <!-- End .col-sm-6 -->
-          </div>
+          
           <!-- End .row -->
 
           <div class="row">
@@ -142,8 +135,44 @@
             />
           </div>
           <!-- End .row -->
+          <div class="col-sm-14">
+            <label for="csubject" class="sr-only">House Name</label>
+            <input
+              name="houseName"
+              type="text"
+              class="form-control"
+              id="csubject"
+              value="<%= address.address[i].houseName%>"
+            />
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <label for="cname" class="sr-only">City</label>
+              <input
+                name="city"
+                type="text"
+                class="form-control"
+                id="cname"
+                value="<%= address.address[i].city%>"
+                required
+              />
+            </div>
+            <!-- End .col-sm-6 -->
 
-          <label for="cmessage" class="sr-only">Address</label>
+            <div class="col-sm-6">
+              <label for="cemail" class="sr-only">State</label>
+              <input
+                name="state"
+                type="text"
+                class="form-control"
+                id="cemail"
+                value="<%= address.address[i].state%>"
+                required
+              />
+            </div>
+            <!-- End .col-sm-6 -->
+          </div>
+          <!-- <label for="cmessage" class="sr-only">Address</label>
           <textarea
             name="address"
             class="form-control"
@@ -151,8 +180,7 @@
             rows="4"
             id="cmessage"
             required
-          ><%= address.address[i].address%></textarea
-          >
+          ><%= address.address[i].address%></textarea> -->
 
           <button
             type="submit"
@@ -169,12 +197,96 @@
 
       <!-- End .col-lg-6 -->
     </div>
+    <% }%>
+    <div class="col-sm-14">
+        <form action="/addBillingAddress" method="post">
+            <h2 class="checkout-title">Add Billing Addresses</h2>
+            <!-- End .checkout-title -->
+            
+            <label>Full Name *</label>
+            <input
+              type="text"
+              class="form-control"
+              name="fullname"
+              placeholder="Full Name"
+              required
+            />
+            <!-- End .row -->
+    
+            <!-- <label>Company Name (Optional)</label>
+                              <input type="text" class="form-control"> -->
+    
+            <!-- <label>Country *</label>
+                              <input type="text" class="form-control" required> -->
+    
+            <label>House Name *</label>
+            <input
+              type="text"
+              class="form-control"
+              name="houseName"
+              placeholder="House Name and Street name"
+              required
+            />
+    
+            <div class="row">
+              <div class="col-sm-6">
+                <label>Town / City *</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="city"
+                  required
+                />
+              </div>
+    
+              <div class="col-sm-6">
+                <label>State / County *</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="state"
+                  required
+                />
+              </div>
+            </div>
+    
+            <div class="row">
+              <div class="col-sm-6">
+                <label>Pincode *</label>
+                <input type="text" class="form-control" name="pin" required />
+              </div>
+              <!-- End .col-sm-6 -->
+    
+              <div class="col-sm-6">
+                <label>Phone *</label>
+                <input
+                  type="tel"
+                  class="form-control"
+                  name="mobile"
+                 required
+                />
+              </div>
+              <!-- End .col-sm-6 -->
+            </div>
+            <!-- End .row -->
+    
+            <label>Email address *</label>
+            <input type="email" class="form-control" name="email" required />
+            <button
+              type="submit"
+              class="btn btn-outline-primary-2 btn-minwidth-sm"
+            >
+              <span>SUBMIT</span>
+              <i class="icon-long-arrow-right"></i>
+            </button>
+          </form>
+    </div>
 
     <!-- End .row -->
   </div>
   <!-- End .container -->
 </div>
-<% }%>
+
 <%}else{%>
 
 <div class="page-content pb-0">
@@ -188,33 +300,20 @@
         <!-- End .title mb-2 -->
 
         <form action="/add_address" class="contact-form mb-3" method="post">
-          <div class="row">
-            <div class="col-sm-6">
-              <label for="cname" class="sr-only">First Name</label>
+          
+            <div class="col-sm-14">
+              <label for="cname" class="sr-only">Full Name</label>
               <input
-                name="firstname"
+                name="fullname"
                 type="text"
                 class="form-control"
                 id="cname"
-                placeholder="First Name"
+                placeholder="Full Name"
                 required
               />
             </div>
             <!-- End .col-sm-6 -->
-
-            <div class="col-sm-6">
-              <label for="cemail" class="sr-only">Last Name</label>
-              <input
-                name="lastname"
-                type="text"
-                class="form-control"
-                id="cemail"
-                placeholder="Last Name"
-                required
-              />
-            </div>
-            <!-- End .col-sm-6 -->
-          </div>
+          
           <!-- End .row -->
 
           <div class="row">
@@ -254,8 +353,41 @@
             />
           </div>
           <!-- End .row -->
+          <div class="col-sm-14">
+            <label for="csubject" class="sr-only">House Name</label>
+            <input
+              name="houseName"
+              type="text"
+              class="form-control"
+              id="csubject"
+              placeholder="House name and street name *"
+            />
+          </div>
+          <div class="row">
+          <div class="col-sm-6">
+            <label for="csubject" class="sr-only">City</label>
+            <input
+              name="city"
+              type="text"
+              class="form-control"
+              id="csubject"
+              placeholder="City *"
+            />
+          </div>
+          <div class="col-sm-6">
+            <label for="csubject" class="sr-only">State</label>
+            <input
+              name="state"
+              type="text"
+              class="form-control"
+              id="csubject"
+              placeholder="State *"
+            />
+          </div>
+        </div>
 
-          <label for="cmessage" class="sr-only">Address</label>
+
+          <!-- <label for="cmessage" class="sr-only">Address</label>
           <textarea
             name="address"
             class="form-control"
@@ -264,7 +396,7 @@
             id="cmessage"
             placeholder="Address"
             required
-          ></textarea>
+          ></textarea> -->
 
           <button
             type="submit"
@@ -282,6 +414,8 @@
     </div>
 
     <!-- End .row -->
+
+    
   </div>
   <!-- End .container -->
 </div>

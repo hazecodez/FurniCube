@@ -94,7 +94,7 @@ const sendVerifyEmail = async (name, email, otp) => {
         name +
         ",  Use this One Time Password </h3> <h1>" +
         otp +
-        "</h1> <h3>  to log in to your BloomStyle Account. </h3>",
+        "</h1> <h3>  to log in to your FurniCube Account. </h3>",
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -375,14 +375,7 @@ const showProfile = async (req, res) => {
   }
 };
 
-//load Chechout
-const loadCheckOut = async(req,res)=> {
-  try {
-    res.render('checkOut',{name:req.session.name})
-  } catch (error) {
-    console.log(error.message);
-  }
-}
+
 
 
 
@@ -400,6 +393,5 @@ module.exports = {
   forgetLoad,
   forgetPassMail,
   loadResetPass,
-  newPass,
-  loadCheckOut
+  newPass
 };

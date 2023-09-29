@@ -1,8 +1,7 @@
 const User = require("../models/userModel");
 const Product = require("../models/productModel");
-const Category = require("../models/categoryModel");
 const Cart = require("../models/cartModel");
-const { render } = require("../routes/userRoute");
+const Address = require("../models/addressModel");
 
 //===================================LOAD CART PAGE=============================================
 
@@ -49,9 +48,11 @@ const showCart = async (req, res) => {
           user: userName,
         });
       } else {
+        res.render("cart", { name: req.session.name });
         console.log("empty cart");
       }
     } else {
+      res.render("cart", { name: req.session.name });
       console.log("no products in cart");
     }
   } catch (error) {
@@ -208,4 +209,70 @@ const quantityUpdation = async (req, res) => {
   }
 };
 
-module.exports = { showCart, addToCart, removeCartItem, quantityUpdation };
+//load Chechout
+const loadCheckOut = async (req, res) => {
+  try {
+    const session = req.session.user_id;
+    const addressData = await Address.findOne({ user: req.session.user_id });
+    const userData = await User.findOne({ _id: req.session.user_id });
+    const cartData = await Cart.findOne({
+      userId: req.session.user_id,
+    }).populate("products.productId");
+    const products = cartData.products;
+
+    const total = await Cart.aggregate([
+      { $match: { userId: req.session.user_id } },
+      { $unwind: "$products" },
+      {
+        $group: {
+          _id: null,
+          total: {
+            $sum: {
+              $multiply: ["$products.productPrice", "$products.count"],
+            },
+          },
+        },
+      },
+    ]);
+
+    if (req.session.user_id) {
+      if (addressData) {
+        if (addressData.address.length > 0) {
+          const address = addressData.address;
+          const Total = total.length > 0 ? total[0].total : 0;
+          const totalamount = Total;
+          const userId = userData._id;
+
+          res.render("checkOut", {
+            name: req.session.name,
+            products: products,
+            Total: Total,
+            userId,
+            session,
+            totalamount,
+            user: userData,
+            address,
+          });
+        } else {
+          res.redirect('/')
+          console.log("first");
+        }
+      } else {
+        res.redirect('/profile')
+        console.log("second");
+      }
+    } else {
+      res.redirect("/loadLogin");
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+module.exports = {
+  showCart,
+  addToCart,
+  removeCartItem,
+  quantityUpdation,
+  loadCheckOut,
+};

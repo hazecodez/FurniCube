@@ -1,181 +1,249 @@
 <%- include('../user/layout/userHeader.ejs')%>
 
 <div id="reloadDiv">
-<main class="main">
-    <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
-        <div class="container">
-            <h1 class="page-title">Shopping Cart<span>Shop</span></h1>
-        </div><!-- End .container -->
-    </div><!-- End .page-header -->
+  <main class="main">
+    <div
+      class="page-header text-center"
+      style="background-image: url('assets/images/page-header-bg.jpg')"
+    >
+      <div class="container">
+        <h1 class="page-title">Shopping Cart<span>Shop</span></h1>
+      </div>
+      <!-- End .container -->
+    </div>
+    <!-- End .page-header -->
     <nav aria-label="breadcrumb" class="breadcrumb-nav">
-        <div class="container">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                <!-- <li class="breadcrumb-item"><a href="#">Shop</a></li> -->
-                <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
-            </ol>
-        </div><!-- End .container --><!-- End .breadcrumb-nav -->
+      <div class="container">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <!-- <li class="breadcrumb-item"><a href="#">Shop</a></li> -->
+          <li class="breadcrumb-item active" aria-current="page">
+            Shopping Cart
+          </li>
+        </ol>
+      </div>
+      <!-- End .container --><!-- End .breadcrumb-nav -->
     </nav>
 
     <div class="page-content">
-        <div class="cart">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <% if( typeof products !="undefined" ){ %>
-                        <table class="table table-cart table-mobile">
-                            <thead>
-                                <tr>
-                                    <th>Product</th>
-                                    <th>Price</th>
-                                    <th>Quantity</th>
-                                    <th>Total</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
+      <div class="cart">
+        <div class="container">
+          <div class="row">
+            <% if( typeof products !="undefined" ){ %>
+            <div class="col-lg-12">
+              <table class="table table-cart table-mobile">
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th></th>
+                  </tr>
+                </thead>
 
-                            <tbody>
-                                <% products.forEach((value,index)=> { %>
-                                <tr>
-                                    <td class="product-col">
-                                        <div class="product">
-                                            
-                                            <figure class="product-media">
-                                                <a href="">
-                                                    <img src="/product/img/<%= value.productId.image[0] %>" alt="Product image">
-                                                </a>
-                                            </figure>
+                <tbody>
+                  <% products.forEach((value,index)=> { %>
+                  <tr>
+                    <td class="product-col">
+                      <div class="product">
+                        <figure class="product-media">
+                          <a href="">
+                            <img
+                              src="/product/img/<%= value.productId.image[0] %>"
+                              alt="Product image"
+                            />
+                          </a>
+                        </figure>
 
-                                            <h3 class="product-title">
-                                                <a href="/productView?id=<%=value.productId._id%>"><%= value.productId.name %></a>
-                                            </h3><!-- End .product-title -->
-                                        </div><!-- End .product -->
-                                    </td>
-                                    <td class="price-col">₹ <%= value.productId.price %>></td>
+                        <h3 class="product-title">
+                          <a href="/productView?id=<%=value.productId._id%>"
+                            ><%= value.productId.name %></a
+                          >
+                        </h3>
+                        <!-- End .product-title -->
+                      </div>
+                      <!-- End .product -->
+                    </td>
+                    <td class="price-col">₹ <%= value.productId.price %>></td>
 
-                                    <td class="quantity-col">
-                                        <input style="width: 5vb;" class="btn-outline-primary btn-rounded" type="button" onclick="changeQuantity('<%=userId%>','<%=value.productId._id%>',-1)" class="btneg " value="-">
-                                        <input style="width: 5vb;" class="btn-outline-primary btn-rounded" type="text"   value="<%= value.count %>">
-                                        <input style="width: 5vb;" class="btn-outline-primary btn-rounded" type="button" onclick="changeQuantity('<%=userId%>','<%=value.productId._id%>',1)" class="btpos " value="+">
-                                    </td>
-                                    <!-- <td class="quantity-col">
+                    <td class="quantity-col">
+                      <input
+                        style="width: 5vb"
+                        class="btn-outline-primary btn-rounded"
+                        type="button"
+                        onclick="changeQuantity('<%=userId%>','<%=value.productId._id%>',-1)"
+                        class="btneg"
+                        value="-"
+                      />
+                      <input
+                        style="width: 5vb"
+                        class="btn-outline-primary btn-rounded"
+                        type="text"
+                        value="<%= value.count %>"
+                      />
+                      <input
+                        style="width: 5vb"
+                        class="btn-outline-primary btn-rounded"
+                        type="button"
+                        onclick="changeQuantity('<%=userId%>','<%=value.productId._id%>',1)"
+                        class="btpos"
+                        value="+"
+                      />
+                    </td>
+                    <!-- <td class="quantity-col">
                                         <div class="cart-product-quantity">
                                             <input type="number" class="form-control" value="<%= value.count %>" min="1" max="10" step="1" data-decimals="0" required>
                                         </div>
                                     </td> -->
-                                    <td class="total-col">₹ <%= value.totalPrice %></td>
-                                    <td onclick="deleteCartItem('<%= value.productId._id %>')" class="remove-col"><button class="btn-remove"><i class="icon-close"></i></button></td>
-                                </tr>
-                                
-                    
-                            </tbody>   
-                                                  
-                            <% } ) %>
-                            
-                            
-                        </table><!-- End .table table-wishlist -->
+                    <td class="total-col">₹ <%= value.totalPrice %></td>
+                    <td
+                      onclick="deleteCartItem('<%= value.productId._id %>')"
+                      class="remove-col"
+                    >
+                      <button class="btn-remove">
+                        <i class="icon-close"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
 
-                        <div class="cart-top">
-                           
+                <% } ) %>
+              </table>
+              <!-- End .table table-wishlist -->
 
-                            <div class="cart-bottom">
-                                
+              <div class="cart-top">
+                <div class="cart-bottom">
+                  <a class="btn btn-outline-dark-2"
+                    >CART TOTAL : <span> ₹ <b> <%= Total %></b></span></a
+                  >
+                  <div class="col-24">
+                    <div class="btn-wrap">
+                      <a href="/checkOut" class="btn btn-primary"
+                        >PROCEED TO CHECKOUT</a
+                      >
+                    </div>
+                    <!-- End .btn-wrap -->
+                  </div>
+                  <!-- End .col-md-4 col-lg-2 -->
+                </div>
+                <!-- End .cart-bottom -->
+              </div>
+              <!-- End .col-lg-9 -->
+            </div>
+            <% }else{ %>
+            
+              
+    
+             
 
-                                <a  class="btn btn-outline-dark-2">CART TOTAL : <span> ₹   <b> <%= Total %></b></span></a>
-                                <div class="col-24">
-                                    <div class="btn-wrap">
-                                        
-                                        <a href="/checkOut" class="btn btn-primary">PROCEED TO CHECKOUT</a>
-                                    </div><!-- End .btn-wrap -->
-                                </div><!-- End .col-md-4 col-lg-2 -->
-                            </div><!-- End .cart-bottom -->
-                    </div><!-- End .col-lg-9 -->
-                    
-                    <% } %>
-                    
-                </div><!-- End .row -->
-            </div><!-- End .container -->
-        </div><!-- End .cart -->
-    </div><!-- End .page-content -->
-</main><!-- End .main -->
+              <div
+                class="error-content text-center">
+                <div class="container">
+                  <h1 class="error-title">Empty Cart</h1>
+                  <!-- End .error-title -->
+                  <p>
+                    Your cart is empty.
+                  </p>
+                  <a
+                    href="/"
+                    class="btn btn-outline-primary-2 btn-minwidth-lg"
+                  >
+                    <span>FILL YOUR CART</span>
+                    <i class="icon-long-arrow-right"></i>
+                  </a>
+                </div>
+                <!-- End .container -->
+              </div>
+              <!-- End .error-content text-center -->
+            
+            <% } %>
+          </div>
+          <!-- End .row -->
+        </div>
+        <!-- End .container -->
+      </div>
+      <!-- End .cart -->
+    </div>
+    <!-- End .page-content -->
+  </main>
+  <!-- End .main -->
 </div>
 
 <script>
-    function deleteCartItem(proId) {
-         console.log(proId);
-         swal
-         .fire({
-             title: "Are You Sure?",
-             Text: " You wont be able to revert this!",
-             icon: "warning",
-             showCancelButton: true,
-             confirmButtonColor: "#3085d6",
-              cancelButtonColor: "#d33",
-              confirmButtonText: "Yes, delete it!",
-             cancelButtonText: "cancel",
-         }).then((result) => {
-            console.log('rand');
-            console.log(result);
-             if (result.isConfirmed) {
-                 $.ajax({
-                     url: "/removeCartItem",
-                     data: {
-                         product: proId,
-                     },
-                     method: "post",
-                     success: (response) => {
-                         if ((response.remove = true)) {
-                             location.reload();
-                             swal
-                             .fire({
-                                 title: 'Deleted!',
-                                 text: 'Your itemhas been deleted.',
-                                 icon: 'Suscces',
-                                 timer: 1500,
-                                 showConfirmButton: false
-                             })
-                         }
-                     }
-                 });
-             }
-         })
+  function deleteCartItem(proId) {
+    console.log(proId);
+    swal
+      .fire({
+        title: "Are You Sure?",
+        Text: " You wont be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "cancel",
+      })
+      .then((result) => {
+        console.log("rand");
+        console.log(result);
+        if (result.isConfirmed) {
+          $.ajax({
+            url: "/removeCartItem",
+            data: {
+              product: proId,
+            },
+            method: "post",
+            success: (response) => {
+              if ((response.remove = true)) {
+                location.reload();
+                swal.fire({
+                  title: "Deleted!",
+                  text: "Your itemhas been deleted.",
+                  icon: "Suscces",
+                  timer: 1500,
+                  showConfirmButton: false,
+                });
+              }
+            },
+          });
+        }
+      });
+  }
 
-
-     }
-
-     function changeQuantity(userId, proId, count) {
-$.ajax({
-    url: '/cartQuantityUpdation',
-    data: {
-    user: userId,
-    product: proId,
-    count: count
-    },
-    method: 'post',
-    success: (response) => {
-    if (response.success) {
-        $('#reloadDiv').load('/cart #reloadDiv');
-    } else if (response.check) {
-        swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Out of stock'
-        });
-    } else {
-        swal.fire({ 
-            position:'center',
-            icon: 'warning',
+  function changeQuantity(userId, proId, count) {
+    $.ajax({
+      url: "/cartQuantityUpdation",
+      data: {
+        user: userId,
+        product: proId,
+        count: count,
+      },
+      method: "post",
+      success: (response) => {
+        if (response.success) {
+          $("#reloadDiv").load("/cart #reloadDiv");
+        } else if (response.check) {
+          swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Out of stock",
+          });
+        } else {
+          swal.fire({
+            position: "center",
+            icon: "warning",
             text: response.message,
             timer: 1500,
             showConfirmButton: false,
-        });
-    }
-    },
-    error: (error) => {
-    console.log(error);
-    }
-});
-}
+          });
+        }
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
 </script>
 
 <%- include('../user/layout/userFooter.ejs')%>

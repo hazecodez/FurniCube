@@ -1,183 +1,262 @@
 <%- include('../user/layout/userHeader.ejs')%>
 
-
-
 <main class="main">
-    <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
-        <div class="container">
-            <h1 class="page-title">Checkout<span>Shop</span></h1>
-        </div><!-- End .container -->
-    </div><!-- End .page-header -->
-    <nav aria-label="breadcrumb" class="breadcrumb-nav">
-        <div class="container">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                <li class="breadcrumb-item"><a href="#">Cart</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Checkout</li>
-            </ol>
-        </div><!-- End .container -->
-    </nav><!-- End .breadcrumb-nav -->
+  <div
+    class="page-header text-center"
+    style="background-image: url('assets/images/page-header-bg.jpg')"
+  >
+    <div class="container">
+      <h1 class="page-title">Checkout<span>Shop</span></h1>
+    </div>
+    <!-- End .container -->
+  </div>
+  <!-- End .page-header -->
+  <nav aria-label="breadcrumb" class="breadcrumb-nav">
+    <div class="container">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="#">Cart</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+      </ol>
+    </div>
+    <!-- End .container -->
+  </nav>
+  <!-- End .breadcrumb-nav -->
 
-    <div class="page-content">
-        <div class="checkout">
-            <div class="container">
-                <div class="checkout-discount">
+  <div class="page-content">
+    <div class="checkout">
+      <div class="container">
+        <!-- <div class="checkout-discount">
                     <form action="#">
                         <input type="text" class="form-control" required id="checkout-discount-input">
                         <label for="checkout-discount-input" class="text-truncate">Have a coupon? <span>Click here to enter your code</span></label>
                     </form>
-                </div><!-- End .checkout-discount -->
-                <form action="#">
-                    <div class="row">
-                        <div class="col-lg-9">
-                            <h2 class="checkout-title">Billing Details</h2><!-- End .checkout-title -->
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <label>First Name *</label>
-                                        <input type="text" class="form-control" required>
-                                    </div><!-- End .col-sm-6 -->
+                </div> -->
 
-                                    <div class="col-sm-6">
-                                        <label>Last Name *</label>
-                                        <input type="text" class="form-control" required>
-                                    </div><!-- End .col-sm-6 -->
-                                </div><!-- End .row -->
+        <form action="#">
+          <div class="row">
+            <div class="col-md-8">
+              <h5>Choose Billing Address</h5>
+              <% if(address.length> 0){ address.forEach((address)=>{ %>
 
-                                <label>Company Name (Optional)</label>
-                                <input type="text" class="form-control">
+              <div class="col-md-10">
+                <div class="tabs-horizontal">
+                  <div class="card card-dashboard">
+                    <div class="card-body">
+                      <input
+                        class="form-check-input pt-5"
+                        required
+                        type="radio"
+                        name="address"
+                        id="flexRadioDefault1"
+                        value="<%= address.fullname %>, <%= address.flastname %> "
+                      />
+                      <ul>
+                        <li>Full Name : <%= address.fullname %></li>
+                        <li>Mobile : <%= address.mobile %></li>
+                        <li>Email Id : <%= address.email %></li>
+                        <li>House Name : <%= address.houseName %></li>
+                        <li>City : <%= address.city %></li>
+                        <li>State : <%= address.state %></li>
+                        <li>Pin Code : <%= address.pin %></li>
+                        <div class="card-body">
+                          <a
+                            href="/editAddress"
+                            class="btn btn-outline-dark btn-rounded"
+                            ><i class="icon-long-arrow-right">Edit </i></a
+                          >
+                          <a
+                            onclick="removeAddress('<%= address._id %>')"
+                            class="btn btn-outline-dark btn-rounded"
+                            ><i class="icon-long-arrow-right">Remove</i></a
+                          >
+                        </div>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <!-- End .tabs-vertical -->
+              </div>
+              <!-- End .col-md-6 -->
+              <% } ) } %>
+            </div>
+            <!-- End .col-md-6 -->
 
-                                <label>Country *</label>
-                                <input type="text" class="form-control" required>
+            <aside class="col-lg-3">
+              <div class="summary">
+                <h3 class="summary-title">Your Order</h3>
+                <!-- End .summary-title -->
 
-                                <label>Street address *</label>
-                                <input type="text" class="form-control" placeholder="House number and Street name" required>
-                                <input type="text" class="form-control" placeholder="Appartments, suite, unit etc ..." required>
+                <table class="table table-summary">
+                  <thead>
+                    <tr>
+                      <th>Product</th>
+                      <th>Total</th>
+                    </tr>
+                  </thead>
+                  <% products.forEach((value,index)=> { %>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <a
+                          ><%= value.productId.name %>(Set: <%= value.count
+                          %>)</a
+                        >
+                      </td>
+                      <td>₹ <%= value.totalPrice %></td>
+                    </tr>
+                    <% }) %>
 
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <label>Town / City *</label>
-                                        <input type="text" class="form-control" required>
-                                    </div><!-- End .col-sm-6 -->
+                    <tr class="summary-subtotal">
+                      <td>Subtotal:</td>
+                      <td>₹ <%= Total %></td>
+                    </tr>
 
-                                    <div class="col-sm-6">
-                                        <label>State / County *</label>
-                                        <input type="text" class="form-control" required>
-                                    </div><!-- End .col-sm-6 -->
-                                </div><!-- End .row -->
+                    <!-- End .summary-subtotal -->
+                    <tr>
+                      <td>Shipping:</td>
+                      <td>Free shipping</td>
+                    </tr>
+                    <tr class="summary-total">
+                      <td>Total:</td>
+                      <td>₹ <%= Total %></td>
+                    </tr>
+                    <!-- End .summary-total -->
+                  </tbody>
+                </table>
 
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <label>Postcode / ZIP *</label>
-                                        <input type="text" class="form-control" required>
-                                    </div><!-- End .col-sm-6 -->
+                <!-- End .table table-summary -->
 
-                                    <div class="col-sm-6">
-                                        <label>Phone *</label>
-                                        <input type="tel" class="form-control" required>
-                                    </div><!-- End .col-sm-6 -->
-                                </div><!-- End .row -->
+                <div class="accordion-summary" id="accordion-payment">
+                  <div class="card">
+                    <div class="card-header" id="heading-3">
+                      <h2 class="card-title">
+                        <a
+                          class="collapsed"
+                          role="button"
+                          data-toggle="collapse"
+                          href="#collapse-3"
+                          aria-expanded="false"
+                          aria-controls="collapse-3"
+                        >
+                          Cash on delivery
+                        </a>
+                      </h2>
+                    </div>
+                    <!-- End .card-header -->
+                    <div
+                      id="collapse-3"
+                      class="collapse"
+                      aria-labelledby="heading-3"
+                      data-parent="#accordion-payment"
+                    >
+                      <!-- <div class="card-body">
+                        Quisque volutpat mattis eros. Lorem ipsum dolor sit
+                        amet, consectetuer adipiscing elit. Donec odio. Quisque
+                        volutpat mattis eros.
+                      </div> -->
+                      <!-- End .card-body -->
+                    </div>
+                    <!-- End .collapse -->
+                  </div>
+                  <!-- End .card -->
 
-                                <label>Email address *</label>
-                                <input type="email" class="form-control" required>
+                  <div class="card">
+                    <div class="card-header" id="heading-5">
+                      <h2 class="card-title">
+                        <a
+                          class="collapsed"
+                          role="button"
+                          data-toggle="collapse"
+                          href="#collapse-5"
+                          aria-expanded="false"
+                          aria-controls="collapse-5"
+                        >
+                          Online Payment</a
+                        >
+                      </h2>
+                    </div>
+                    <!-- End .card-header -->
+                    <div
+                      id="collapse-5"
+                      class="collapse"
+                      aria-labelledby="heading-5"
+                      data-parent="#accordion-payment"
+                    >
+                      <!-- <div class="card-body">
+                        Donec nec justo eget felis facilisis fermentum.Lorem
+                        ipsum dolor sit amet, consectetuer adipiscing elit.
+                        Donec odio. Quisque volutpat mattis eros. Lorem ipsum
+                        dolor sit ame.
+                      </div> -->
+                      <!-- End .card-body -->
+                    </div>
+                    <!-- End .collapse -->
+                  </div>
+                  <!-- End .card -->
+                </div>
+                <!-- End .accordion -->
 
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="checkout-create-acc">
-                                    <label class="custom-control-label" for="checkout-create-acc">Create an account?</label>
-                                </div><!-- End .custom-checkbox -->
+                <button
+                  type="submit"
+                  class="btn btn-outline-primary-2 btn-order btn-block"
+                >
+                  <span class="btn-text">Place Order</span>
+                  <span class="btn-hover-text">Proceed to Checkout</span>
+                </button>
+              </div>
 
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="checkout-diff-address">
-                                    <label class="custom-control-label" for="checkout-diff-address">Ship to a different address?</label>
-                                </div><!-- End .custom-checkbox -->
+              <!-- End .summary -->
+            </aside>
 
-                                <label>Order notes (optional)</label>
-                                <textarea class="form-control" cols="30" rows="4" placeholder="Notes about your order, e.g. special notes for delivery"></textarea>
-                        </div><!-- End .col-lg-9 -->
-                        <aside class="col-lg-3">
-                            <div class="summary">
-                                <h3 class="summary-title">Your Order</h3><!-- End .summary-title -->
+            <!-- End .col-lg-3 -->
+          </div>
+        </form>
 
-                                <table class="table table-summary">
-                                    <thead>
-                                        <tr>
-                                            <th>Product</th>
-                                            <th>Total</th>
-                                        </tr>
-                                    </thead>
+        <!-- End .row -->
+      </div>
 
-                                    <tbody>
-                                        <tr>
-                                            <td><a href="#">Beige knitted elastic runner shoes</a></td>
-                                            <td>$84.00</td>
-                                        </tr>
+      <!-- End .container -->
+    </div>
 
-                                        <tr>
-                                            <td><a href="#">Blue utility pinafore denimdress</a></td>
-                                            <td>$76,00</td>
-                                        </tr>
-                                        <tr class="summary-subtotal">
-                                            <td>Subtotal:</td>
-                                            <td>$160.00</td>
-                                        </tr><!-- End .summary-subtotal -->
-                                        <tr>
-                                            <td>Shipping:</td>
-                                            <td>Free shipping</td>
-                                        </tr>
-                                        <tr class="summary-total">
-                                            <td>Total:</td>
-                                            <td>$160.00</td>
-                                        </tr><!-- End .summary-total -->
-                                    </tbody>
-                                </table><!-- End .table table-summary -->
+    <!-- End .checkout -->
+  </div>
 
-                                <div class="accordion-summary" id="accordion-payment">
-                                    
+  <!-- End .page-content -->
+</main>
+<!-- End .main -->
 
-                                    
+<script>
+    function removeAddress(id) {
+        console.log(id);
+              Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "Cancel",
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  $.ajax({
+                    url: "/removeAddress",
+                    data: {
+        
+                      id: id,
+                    },
+                    method: "post",
+                    success: (response) => {
+                      if ((response.remove = true)) {
+                        location.reload();
+                      }
+                    },
+                  });
+                }
+              });
+            }
 
-                                    <div class="card">
-                                        <div class="card-header" id="heading-3">
-                                            <h2 class="card-title">
-                                                <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-3" aria-expanded="false" aria-controls="collapse-3">
-                                                    Cash on delivery
-                                                </a>
-                                            </h2>
-                                        </div><!-- End .card-header -->
-                                        <div id="collapse-3" class="collapse" aria-labelledby="heading-3" data-parent="#accordion-payment">
-                                            <div class="card-body">Quisque volutpat mattis eros. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. 
-                                            </div><!-- End .card-body -->
-                                        </div><!-- End .collapse -->
-                                    </div><!-- End .card -->
-
-                                    
-
-                                    <div class="card">
-                                        <div class="card-header" id="heading-5">
-                                            <h2 class="card-title">
-                                                <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-5" aria-expanded="false" aria-controls="collapse-5">
-                                                    Online Payment</a>
-                                            </h2>
-                                        </div><!-- End .card-header -->
-                                        <div id="collapse-5" class="collapse" aria-labelledby="heading-5" data-parent="#accordion-payment">
-                                            <div class="card-body"> Donec nec justo eget felis facilisis fermentum.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Lorem ipsum dolor sit ame.
-                                            </div><!-- End .card-body -->
-                                        </div><!-- End .collapse -->
-                                    </div><!-- End .card -->
-                                </div><!-- End .accordion -->
-
-                                <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
-                                    <span class="btn-text">Place Order</span>
-                                    <span class="btn-hover-text">Proceed to Checkout</span>
-                                </button>
-                            </div><!-- End .summary -->
-                        </aside><!-- End .col-lg-3 -->
-                    </div><!-- End .row -->
-                </form>
-            </div><!-- End .container -->
-        </div><!-- End .checkout -->
-    </div><!-- End .page-content -->
-</main><!-- End .main -->
-
-
+</script>
 
 <%- include('../user/layout/userFooter.ejs')%>

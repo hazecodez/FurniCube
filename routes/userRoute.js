@@ -67,6 +67,7 @@ userRoute.post('/removeCartItem', cartController.removeCartItem)
 userRoute.post('/cartQuantityUpdation', cartController.quantityUpdation)
 
 //================================CHECKOUT HANDLING============================
-userRoute.get('/checkOut', userController.loadCheckOut)
-
+userRoute.get('/checkOut', cartController.loadCheckOut)
+userRoute.post('/addBillingAddress', addressController.addMultipleAddress)
+userRoute.post('/removeAddress', addressController.removeAddress)
 module.exports = userRoute;

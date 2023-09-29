@@ -8,12 +8,7 @@ const userAddressSchema = new mongoose.Schema({
   },
   address: [
     {
-      firstname: {
-        type: String,
-        required: true,
-        trim: true,
-      },
-      lastname: {
+      fullname: {
         type: String,
         required: true,
         trim: true,
@@ -29,10 +24,20 @@ const userAddressSchema = new mongoose.Schema({
         required: true,
         trim: true,
       },
-      address: {
+      houseName: {
         type: String,
         required: true,
         trim: true,
+      },
+      city: {
+        type: String,
+        required: true,
+        trim: true
+      },
+      state: {
+        type: String,
+        required: true,
+        trim: true
       },
 
       pin: {
