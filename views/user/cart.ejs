@@ -50,7 +50,7 @@
                         <figure class="product-media">
                           <a href="">
                             <img
-                              src="/product/img/<%= value.productId.image[0] %>"
+                              src="/product/img/<%= value.productId.images.image3 %>"
                               alt="Product image"
                             />
                           </a>
@@ -185,8 +185,6 @@
         cancelButtonText: "cancel",
       })
       .then((result) => {
-        console.log("rand");
-        console.log(result);
         if (result.isConfirmed) {
           $.ajax({
             url: "/removeCartItem",

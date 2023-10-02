@@ -1,7 +1,8 @@
 const Address = require("../models/addressModel");
 const User = require("../models/userModel");
 
-//Address Adding
+//===================================ADDRESS ADDING===========================================
+
 const addAddress = async (req, res) => {
   try {
     const user = req.session.user_id;
@@ -51,6 +52,8 @@ const addAddress = async (req, res) => {
   }
 };
 
+//===================================MULTIPLE ADDRESS ADDING=============================
+
 const addMultipleAddress = async (req, res) => {
   try {
     const user = req.session.user_id;
@@ -74,9 +77,9 @@ const addMultipleAddress = async (req, res) => {
         }
       );
       if (updated) {
-        res.redirect("/checkOut");
+        res.redirect("/profile");
       } else {
-        res.redirect("/checkOut");
+        res.redirect("/profile");
         console.log("not added");
       }
     } else {
@@ -89,6 +92,7 @@ const addMultipleAddress = async (req, res) => {
 };
 
 //=========================REMOVE ADDRESS FROM CHECKOUT PAGE==================
+
 const removeAddress = async (req, res) => {
   try {
     const id = req.body.id;
@@ -99,6 +103,50 @@ const removeAddress = async (req, res) => {
     res.json({ remove: true });
   } catch (error) {
     console.log(error.message);
+    res.status(404).render("404");
+  }
+};
+
+//=============================EDIT USER ADDRESS=======================
+
+const loadEditAddress = async (req, res) => {
+  try {
+    const addressId = req.query.id;
+    const session = req.session.user_id;
+    const addressData = await Address.findOne(
+      { user: session, "address._id": addressId },
+      { "address.$": 1 }
+    );
+    const address = addressData.address[0];
+    res.render("editAddress", { name: req.session.name, user: address });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+//=============================EDIT ADDRESS FROM CHECKOUT PAGE====================
+
+const updateAddress = async (req, res) => {
+  try {
+    const addressId = req.query.id;
+    const updated = await Address.updateOne(
+      { user: req.session.user_id, "address._id": addressId },
+      {
+        $set: {
+          "address.$.fullname": req.body.fullname,
+          "address.$.mobile": req.body.mobile,
+          "address.$.email": req.body.email,
+          "address.$.houseName": req.body.houseName,
+          "address.$.city": req.body.city,
+          "address.$.state": req.body.state,
+          "address.$.pin": req.body.pin,
+        },
+      }
+    );
+
+    res.redirect("/checkOut");
+  } catch (error) {
+    console.log(error.message);
   }
 };
 
@@ -106,4 +154,6 @@ module.exports = {
   addAddress,
   addMultipleAddress,
   removeAddress,
+  loadEditAddress,
+  updateAddress,
 };

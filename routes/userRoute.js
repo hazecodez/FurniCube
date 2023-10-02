@@ -8,7 +8,7 @@ const config = require('../config/config')
 const auth = require('../middlewares/userAuth')
 const addressController = require('../controllers/addressController')
 const cartController = require('../controllers/cartController')
-
+const orderController = require('../controllers/orderController')
 
 //===============================SESSION SETTING==============================
 userRoute.use(session({
@@ -17,11 +17,11 @@ userRoute.use(session({
     secret:config.sessionSecret
   }));
 
-//=======================Body Parser
+//==========================BODY PARSER=======================================
 userRoute.use(bodyParser.json());
 userRoute.use(bodyParser.urlencoded({extended:true}))
 
-//==================setting view engine
+//==========================SETTING VIEW ENGINE===============================
 userRoute.set('view engine','ejs');
 userRoute.set('views','./views/user')
 
@@ -59,6 +59,7 @@ userRoute.get('/productView', productController.productView)
 //==============================USER PROFILE===================================
 userRoute.get('/profile', auth.isLogin, userController.showProfile)
 userRoute.post('/add_address', auth.isLogin, addressController.addAddress)
+userRoute.get('/editAddress', auth.isLogin, addressController.loadEditAddress)
 
 //===============================CART HANDLING=================================
 userRoute.get('/cart', cartController.showCart)
@@ -67,7 +68,20 @@ userRoute.post('/removeCartItem', cartController.removeCartItem)
 userRoute.post('/cartQuantityUpdation', cartController.quantityUpdation)
 
 //================================CHECKOUT HANDLING============================
-userRoute.get('/checkOut', cartController.loadCheckOut)
-userRoute.post('/addBillingAddress', addressController.addMultipleAddress)
-userRoute.post('/removeAddress', addressController.removeAddress)
+userRoute.get('/checkOut', auth.isLogin, cartController.loadCheckOut)
+userRoute.post('/addBillingAddress', auth.isLogin, addressController.addMultipleAddress)
+userRoute.post('/removeAddress', auth.isLogin, addressController.removeAddress)
+userRoute.post('/update_address', auth.isLogin, addressController.updateAddress)
+
+//=================================ORDER HANDLING================================
+userRoute.post('/placeOrder',auth.isLogin, orderController.placeOrder)
+userRoute.get("/orderSuccess/:id",auth.isLogin,orderController.successPage);
+userRoute.get('/orders', orderController.userOrders)
+userRoute.get('/viewOrderDetails', orderController.userOderDetails)
+//==================================404 ERROR===================================
+userRoute.get('*',userController.loadError)
+
+
+
+
 module.exports = userRoute;

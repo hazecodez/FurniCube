@@ -18,6 +18,7 @@
                   <th>No.</th>
                   
                   <th>Name</th>
+                  <th>Images</th>
                   <th>Category</th>
                   <th>Stock</th>
                   <th>Price</th>
@@ -34,17 +35,21 @@
                   <td><%= i+1 %></td>
                   
                   <td><%= products[i].name %></td>
+                  <td>
+                    <img src="/products/images/<%= products[i].images.image1 %>" alt="">
+                  </td>
                   <td><%= products[i].category %></td>
                   <td><%= products[i].quantity %></td>
                   <td><%= products[i].price %></td>
                   <%  if(products[i].blocked==0){ %>
                   <td class="text-success">Active</td>
+                  <td><a href="/admin/block-pro?id=<%= products[i]._id %>" class="badge badge-danger" onclick="return confirm('Are you sure? Do you want to Block    <%= products[i].name %>?')">Block</a></td>
                  <% }else{ %>
                   <td class="text-danger">Blocked</td>
-
+                  <td><a href="/admin/block-pro?id=<%= products[i]._id %>" class="badge badge-success" onclick="return confirm('Are you sure you? Do you want to Unblock    <%= products[i].name %>?')">Unblock</a></td>
                 <% } %>
                   <td><a href="/admin/edit-pro-page?id=<%= products[i]._id %>" class="badge badge-warning">Update</a></td>
-                  <td><a href="/admin/delete-pro?id=<%= products[i]._id %>" class="badge badge-danger">Delete</a></td>
+                  
                   <!-- <td><button class="btn-inverse-danger">Delete</button></td> -->
                 </tr>
                 <% } %>

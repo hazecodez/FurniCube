@@ -7,137 +7,179 @@ const fs = require("fs");
 const Cloudinary = require("cloudinary");
 const multer = require("../middlewares/multer");
 const { log } = require("console");
+const path = require("path");
 
-//load product management
+//======================LOAD PRODUCT MANAGEMENT IN ADMIN SIDE===================
+
 const product = async (req, res) => {
   try {
     const productData = await Product.find({});
     res.render("product", { products: productData });
   } catch (error) {
     console.log(error.message);
-    res.status(404).render("404")
-    
+    res.status(404).render("404");
   }
 };
 
-//load addProduct page
+//============================LOAD ADD PRODUCT PAGE=============================
+
 const loadAddProduct = async (req, res) => {
   try {
     const catData = await Category.find({ blocked: 0 });
     res.render("addProduct", { catData });
   } catch (error) {
     console.log(error.message);
-    res.status(404).render("404")
+    res.status(404).render("404");
   }
 };
 
+//=============================ADD PRODUCT WITH FULL DETAILS========================
 
-//product details adding
 const addProduct = async (req, res) => {
-
-  const img = [];
-
   try {
-    for (let i = 0; i < req.files.length; i++) {
-      img.push(req.files[i].filename);
-      await Sharp("public/product/" + req.files[i].filename)
+    let details = req.body;
+    const files = await req.files;
+
+    const img = [
+      files.image1[0].filename,
+      files.image2[0].filename,
+      files.image3[0].filename,
+      files.image4[0].filename,
+    ];
+
+    for (let i = 0; i < img.length; i++) {
+      await Sharp("public/products/images/" + img[i])
         .resize(500, 500)
-        .toFile("public/product/img/" + req.files[i].filename);
+        .toFile("public/products/crop/" + img[i]);
     }
-    const productData = new Product({
-      name: req.body.name,
-      price: req.body.price,
-      quantity: req.body.quantity,
-      category: req.body.category,
-      description: req.body.description,
-      image: img,
+
+    let product = new Product({
+      name: details.name,
+      price: details.price,
+      quantity: details.quantity,
+      category: details.category,
+      description: details.description,
       blocked: 0,
+      "images.image1": files.image1[0].filename,
+      "images.image2": files.image2[0].filename,
+      "images.image3": files.image3[0].filename,
+      "images.image4": files.image4[0].filename,
     });
-    await productData.save();
+
+    let result = await product.save();
+    console.log(result);
     res.redirect("/admin/product");
   } catch (error) {
     console.log(error.message);
-    res.status(404).render("404")
+  }
+};
+
+//============================PRODUCT DETAILS VIEW PAGE IN USER SIDE=====================
+
+const productView = async (req, res) => {
+  try {
+    const viewProduct = await Product.findOne({ _id: req.query.id });
+    if (viewProduct) {
+      const products = await Product.find({ blocked: 0 });
+      res.render("userProduct", {
+        name: req.session.name,
+        products: products,
+        view: viewProduct,
+      });
+    } else {
+      res.status(404).render("404");
+    }
+  } catch (error) {
+    res.status(404).render("404");
+    console.log(error.message);
+  }
+};
+
+//=============================LIST AND UNLIST PRODUCTS ADMIN SIDE======================
+
+const blockProduct = async (req, res) => {
+  try {
+    const blockedPro = await Product.findOne({ _id: req.query.id });
+    if (blockedPro.blocked == 0) {
+      await Product.updateOne({ _id: req.query.id }, { $set: { blocked: 1 } });
+      res.redirect("/admin/product");
+    } else {
+      await Product.updateOne({ _id: req.query.id }, { $set: { blocked: 0 } });
+      res.redirect("/admin/product");
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(404).render("404");
+  }
+};
+
+//============================LOAD UPDATE PRODUCT PAGE ADMIN SIDE=================================
+
+const editProductPage = async (req, res) => {
+  try {
+    const catData = await Category.find({ blocked: 0 });
+    editProducts = await Product.findOne({ _id: req.query.id });
+    res.render("editProduct", { product: editProducts, catData });
+  } catch (error) {
+    console.log(error.message);
+    res.status(404).render("404");
+  }
+};
+
+//===================================UPDATING PRODUCTS ADMIN SIDE=========================
+
+const editedProduct = async (req, res) => {
+  try {
+    let details = req.body;
+    let imagesFiles = req.files;
+    let currentData = await Product.findOne({ _id: req.query.id });
+
+    let img1, img2, img3, img4;
+
+    img1 = imagesFiles.image1
+      ? imagesFiles.image1[0].filename
+      : currentData.images.image1;
+    img2 = imagesFiles.image2
+      ? imagesFiles.image2[0].filename
+      : currentData.images.image2;
+    img3 = imagesFiles.image3
+      ? imagesFiles.image3[0].filename
+      : currentData.images.image3;
+    img4 = imagesFiles.image4
+      ? imagesFiles.image4[0].filename
+      : currentData.images.image4;
+
+    let update = await Product.updateOne(
+      { _id: req.query.id },
+      {
+        $set: {
+          name: details.name,
+          price: details.price,
+          quantity: details.quantity,
+          category: details.category,
+          description: details.description,
+          "images.image1": img1,
+          "images.image2": img2,
+          "images.image3": img3,
+          "images.image4": img4,
+        },
+      }
+    );
+    res.redirect("/admin/product");
+  } catch (error) {
+    console.log(error.message);
   }
 };
 
 
-//product details view page
-const productView = async(req,res)=>{
-  try {
-    const viewProduct = await Product.findOne({_id:req.query.id})
-    if(viewProduct){
-      const products = await Product.find({blocked: 0})
-      res.render('userProduct',{name:req.session.name , products:products, view:viewProduct})
-    }else{
-      res.status(404).render("404")
-    }
-    
-  } catch (error) {
-    res.status(404).render("404")
-    console.log(error.message);
-  }
-}
 
-//delete product
-const deleteProduct = async(req,res)=> {
-  try {
-      const deleted = await Product.deleteOne({_id:req.query.id})
-      if(deleted){
-        res.redirect('/admin/product')
-      }
-      
-
-  } catch (error) {
-      console.log(error.message);
-      res.status(404).render("404")
-  }
-}
-
-//edit product page
-const editProductPage = async(req,res)=> {
-  try {
-    const catData = await Category.find({ blocked: 0 });
-    editProducts = await Product.findOne({_id:req.query.id})
-    res.render('editProduct',{product:editProducts , catData})
-  } catch (error) {
-    console.log(error.message);
-    res.status(404).render("404")
-  }
-}
-
-const editedProduct = async(req,res)=> {
-  try {
-    
-    const proId = req.query.id
-    const editData = {
-      name: req.body.name,
-      price: req.body.price,
-      quantity: req.body.quantity,
-      category: req.body.category,
-      description: req.body.description,
-      blocked: 0,
-    };
-    const updated = await Product.updateOne({_id:proId},{$set:editData})
-    if(updated){
-      console.log(editData);
-      res.redirect("/admin/product");
-    }else{
-      
-    }
-
-  } catch (error) {
-    console.log(error.message);
-    res.status(404).render("404")
-  }
-}
 
 module.exports = {
   loadAddProduct,
   product,
   addProduct,
   productView,
-  deleteProduct,
+  blockProduct,
   editProductPage,
-  editedProduct
+  editedProduct,
 };

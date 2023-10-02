@@ -7,9 +7,9 @@
 <div class="col-12 grid-margin stretch-card">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title">Add Products</h4>
-        <p class="card-description"> Give product details </p>
-        <form class="forms-sample" action="/admin/editProduct?id=<%= product._id %>" method="post" >
+        <h4 class="card-title">Update Product</h4>
+        <p class="card-description"> Details</p>
+        <form class="forms-sample" action="/admin/editProduct?id=<%= product._id %>" method="post" enctype="multipart/form-data">
           <div class="form-group">
             <label for="exampleInputName1">Product Name</label>
             <input type="text" class="form-control" id="exampleInputName1" name="name" value="<%=product.name%>">
@@ -49,6 +49,49 @@
             <label for="exampleTextarea1">Description</label>
             <textarea class="form-control" id="exampleTextarea1" name="description" rows="4"><%= product.description %></textarea>
           </div>
+          <div>
+          <div class="col-lg-3 col-md-6 rounded-image-preview ">
+            <label for="imageInput1" class="image-label ">Image 1
+              <div class="rounded-image-preview">
+                <img id="imagePreview1"
+                src="/products/images/<%= product.images.image1 %>"
+                  alt="Preview" />
+              </div>
+              <input name="image1" type="file" accept="image/*" id="imageInput1" class="imageInput" >
+            </label>
+          </div>
+          <div class="col-lg-3 col-md-6 rounded-image-preview ">
+            <label for="imageInput2" class="image-label ">Image 2
+              <div class="rounded-image-preview">
+                <img id="imagePreview2"
+                src="/products/images/<%= product.images.image2 %>"
+                  alt="Preview" />
+              </div>
+              <input name="image2" type="file" accept="image/*" id="imageInput2" class="imageInput" >
+            </label>
+          </div>
+          <div class="col-lg-3 col-md-6 rounded-image-preview ">
+            <label for="imageInput3" class="image-label ">Image 3
+              <div class="rounded-image-preview">
+                <img id="imagePreview3"
+                src="/products/images/<%= product.images.image3 %>"
+                  alt="Preview" />
+              </div>
+              <input name="image3" type="file" accept="image/*" id="imageInput3" class="imageInput" >
+            </label>
+          </div>
+          <div class="col-lg-3 col-md-6 rounded-image-preview ">
+            <label for="imageInput4" class="image-label ">Image 4
+              <div class="rounded-image-preview">
+                <img id="imagePreview4"
+                src="/products/images/<%= product.images.image4 %>"
+                  alt="Preview" />
+              </div>
+              <input name="image4" type="file" accept="image/*" id="imageInput4" class="imageInput" >
+            </label>
+          </div>
+          
+        </div>
           <button type="submit" class="btn btn-primary mr-2">Submit</button>
           <button class="btn btn-inverse-danger"><a href="/admin/product">Cancel</a></button>
         </form>

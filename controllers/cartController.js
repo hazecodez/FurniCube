@@ -74,6 +74,7 @@ const addToCart = async (req, res) => {
 
     if (userId === undefined) {
       res.json({ login: true, message: "Please login and continue shopping!" });
+      res.redirect('/')
     }
     const cartData = await Cart.findOneAndUpdate(
       { userId: userId },
@@ -209,7 +210,8 @@ const quantityUpdation = async (req, res) => {
   }
 };
 
-//load Chechout
+//=============================LOAD CHECKOUT==================================
+
 const loadCheckOut = async (req, res) => {
   try {
     const session = req.session.user_id;
@@ -268,6 +270,9 @@ const loadCheckOut = async (req, res) => {
     console.log(error.message);
   }
 };
+
+
+
 
 module.exports = {
   showCart,

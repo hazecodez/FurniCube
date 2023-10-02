@@ -12,7 +12,7 @@
         <form action="/admin/editCate?id=<%= cats._id %>" method="post" class="forms-sample">
           <div class="form-group">
             <label for="exampleInputName1">Updated Category Name</label>
-            <input name="catName" type="text" class="form-control" id="exampleInputName1" value="<%= cats.name %>">
+            <input name="catName" type="text" class="form-control" id="exampleInputName1" value="<%= cats.name %>" required>
           </div>
           
           <button type="submit" class="btn btn-primary mr-2">Update Category</button>

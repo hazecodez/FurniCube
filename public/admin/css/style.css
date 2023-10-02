@@ -21132,4 +21132,82 @@ div.tagsinput {
   -webkit-flex-grow: 1;
   flex-grow: 1; }
 
+  
+
+  .rounded-image-preview {
+    overflow: hidden;
+    border-radius: 50%;
+    width: 150px; /* Adjust the width and height as needed */
+    height: 150px;
+    margin: 10px 0;
+    display: inline-block;
+    cursor: pointer; /* Add a pointer cursor to indicate it's clickable */
+  }
+  
+  /* Center the image in the rounded container */
+  .rounded-image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Maintain aspect ratio and cover the container */
+  }
+  
+  /* Style the label as a clickable element */
+  .image-label {
+    display: block;
+    text-align: center;
+    color: #007bff; /* Change the color to match your theme */
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
 /*# sourceMappingURL=maps/style.css.map */
+
+/* image designing in product management */
+/* add product image preview */
+.image-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.image-label {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+}
+
+.imageInput {
+  display: none;
+}
+
+.rounded-image-preview {
+  width: 200px;
+  height: 200px;
+  border-radius: 7px;
+  overflow: hidden;
+  position: relative;
+  /* background-color: #0068a7; */
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-label::before {
+  content: "Click to upload image";
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+}
+
+
+/* product show  */
+.product-img-preview{
+  width: 100px;
+  height: 100px;
+}
