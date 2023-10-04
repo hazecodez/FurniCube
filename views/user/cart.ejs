@@ -50,7 +50,7 @@
                         <figure class="product-media">
                           <a href="">
                             <img
-                              src="/product/img/<%= value.productId.images.image3 %>"
+                              src="/products/crop/<%= value.productId.images.image3 %>"
                               alt="Product image"
                             />
                           </a>
@@ -66,7 +66,7 @@
                       <!-- End .product -->
                     </td>
                     <td class="price-col">₹ <%= value.productId.price %>></td>
-
+                    <span>
                     <td class="quantity-col">
                       <input
                         style="width: 5vb"
@@ -91,6 +91,7 @@
                         value="+"
                       />
                     </td>
+                  </span>
                     <!-- <td class="quantity-col">
                                         <div class="cart-product-quantity">
                                             <input type="number" class="form-control" value="<%= value.count %>" min="1" max="10" step="1" data-decimals="0" required>
@@ -106,6 +107,16 @@
                       </button>
                     </td>
                   </tr>
+                  
+                    
+                      <!-- <% if(typeof message !== 'undefined'){ %>
+                          <span
+                            id="er2"
+                            style="color: rgb(241, 7, 7); text-align: center"
+                            ><%= message%></span>
+                          <% } %> -->
+                  
+                  
                 </tbody>
 
                 <% } ) %>
@@ -123,6 +134,7 @@
                         >PROCEED TO CHECKOUT</a
                       >
                     </div>
+                    
                     <!-- End .btn-wrap -->
                   </div>
                   <!-- End .col-md-4 col-lg-2 -->
@@ -132,12 +144,28 @@
               <!-- End .col-lg-9 -->
             </div>
             <% }else{ %>
-            
-              
-    
-             
-
+                <% if(typeof message !== 'undefined'){ %>
               <div
+                class="error-content text-center">
+                <div class="container">
+                  <h1 class="error-title">Out of stock.</h1>
+                  <!-- End .error-title -->
+                  <p style="color: red;">
+                    <b><%= message %></b>  is out of stock sorry.
+                  </p>
+                  <a
+                    href="/"
+                    class="btn btn-outline-primary-2 btn-minwidth-lg"
+                  >
+                    <span>SHOPPING</span>
+                    <i class="icon-long-arrow-right"></i>
+                  </a>
+                </div>
+                <!-- End .container -->
+              </div>
+              <!-- End .error-content text-center -->
+              <% }else{ %>
+                <div
                 class="error-content text-center">
                 <div class="container">
                   <h1 class="error-title">Empty Cart</h1>
@@ -156,7 +184,8 @@
                 <!-- End .container -->
               </div>
               <!-- End .error-content text-center -->
-            
+
+                <% } %>
             <% } %>
           </div>
           <!-- End .row -->

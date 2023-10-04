@@ -41,7 +41,7 @@ include('../admin/layout/adminHeader.ejs')%>
                   <th>Name</th>
                   <th>Product Price</th>
                   <th>Category</th>
-                  <th>Stock Status</th>
+                  <th>Quantity</th>
                   <th>Order status</th>
 
                   <
@@ -54,14 +54,16 @@ include('../admin/layout/adminHeader.ejs')%>
                 <tr>
                   <td>
                     <img
-                      src="/product/img/<%=data.productId.image[0] %>"
+                      src="/products/images/<%=data.productId.images.image1 %>"
                       alt=""
                     />
                   </td>
                   <td><%= data.productId.name %></td>
                   <td>Rs:<%= data.productId.price %></td>
                   <td><%= data.productId.category %></td>
-                  <td><%= data.productId.quantity %></td>
+                  
+                  <td><%= data.count %></td>
+                  
                   <td><%= data.status %></td>
                   
                 </tr>

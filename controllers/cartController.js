@@ -74,7 +74,7 @@ const addToCart = async (req, res) => {
 
     if (userId === undefined) {
       res.json({ login: true, message: "Please login and continue shopping!" });
-      res.redirect('/')
+      res.redirect("/");
     }
     const cartData = await Cart.findOneAndUpdate(
       { userId: userId },
@@ -237,31 +237,55 @@ const loadCheckOut = async (req, res) => {
       },
     ]);
 
-    if (req.session.user_id) {
-      if (addressData) {
-        if (addressData.address.length > 0) {
-          const address = addressData.address;
-          const Total = total.length > 0 ? total[0].total : 0;
-          const totalamount = Total;
-          const userId = userData._id;
+    let stock = [];
+    let cartCount = [];
 
-          res.render("checkOut", {
-            name: req.session.name,
-            products: products,
-            Total: Total,
-            userId,
-            session,
-            totalamount,
-            user: userData,
-            address,
-          });
+    for (let i = 0; i < products.length; i++) {
+      stock.push(cartData.products[i].productId.quantity);
+      cartCount.push(cartData.products[i].count);
+    }
+    let inStock = true;
+    let proIndex = 0;
+
+    for (let i = 0; i < stock.length; i++) {
+      if (stock[i] > cartCount[i] || stock[i] == cartCount[i]) {
+        inStock = true;
+      } else {
+        inStock = false;
+        proIndex = i;
+        break;
+      }
+    }
+
+    const proName = cartData.products[proIndex].productId.name;
+
+    if (req.session.user_id) {
+      if (inStock === true) {
+        if (addressData) {
+          if (addressData.address.length > 0) {
+            const address = addressData.address;
+            const Total = total.length > 0 ? total[0].total : 0;
+            const totalamount = Total;
+            const userId = userData._id;
+
+            res.render("checkOut", {
+              name: req.session.name,
+              products: products,
+              Total: Total,
+              userId,
+              session,
+              totalamount,
+              user: userData,
+              address,
+            });
+          } else {
+            res.redirect("/");
+          }
         } else {
-          res.redirect('/')
-          console.log("first");
+          res.redirect("/profile");
         }
       } else {
-        res.redirect('/profile')
-        console.log("second");
+        res.render("cart", { message: proName, name: req.session.name });
       }
     } else {
       res.redirect("/loadLogin");
@@ -270,9 +294,6 @@ const loadCheckOut = async (req, res) => {
     console.log(error.message);
   }
 };
-
-
-
 
 module.exports = {
   showCart,

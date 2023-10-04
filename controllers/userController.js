@@ -302,10 +302,10 @@ const forgetPassMail = async (req, res) => {
         passRecoverVerifyMail(user.name, user.email, randomS);
         res.redirect('/loadLogin')
       } else {
-        res.render("forgetPass", { message: "Given mail is not verified" });
+        res.render("forgetPass", { message: "Given mail is not verified", name:req.session.name });
       }
     } else {
-      res.render("forgetPass", { message: "Wrong Email Id" });
+      res.render("forgetPass", { message: "Wrong Email Id", name:req.session.name });
     }
   } catch (error) {
     console.log(error);

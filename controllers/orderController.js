@@ -35,7 +35,6 @@ const placeOrder = async (req, res) => {
 
     const orderid = order._id;
     if (orderData) {
-      
       if (order.status === "placed") {
         await Cart.deleteOne({ userId: req.session.user_id });
         for (let i = 0; i < products.length; i++) {
@@ -49,6 +48,7 @@ const placeOrder = async (req, res) => {
 
         res.json({ codsuccess: true, orderid });
       }
+    } else {
     }
   } catch (error) {
     console.log(error.message);
@@ -69,8 +69,7 @@ const successPage = async (req, res) => {
 
 const showOrder = async (req, res) => {
   try {
-    const ordersData = await Order
-      .find()
+    const ordersData = await Order.find()
       .populate("products.productId")
       .sort({ date: -1 });
     res.render("orderDetails", { orders: ordersData });
@@ -82,42 +81,44 @@ const showOrder = async (req, res) => {
 //====================================VIEW ORDER DETAILS FOR ADMIN=====================
 
 const loadProductdetails = async (req, res) => {
-    try {
-      const id = req.query.id;
-      console.log(id);
-      const orderedProduct = await Order
-        .findOne({ _id: id })
-        .populate("products.productId");
-  
-      res.render("orderFullDetails", { orders: orderedProduct});
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  try {
+    const id = req.query.id;
+    console.log(id);
+    const orderedProduct = await Order.findOne({ _id: id }).populate(
+      "products.productId"
+    );
 
+    res.render("orderFullDetails", { orders: orderedProduct });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 //=========================================SHOW USER ORDERS USER SIDE================================
 
-const userOrders = async(req,res)=> {
-    try {
-        const userId = req.session.user_id;
-        const orderData = await Order.find({userId:userId})
-        res.render('orders',{name:req.session.name, orders:orderData})
-        
-    } catch (error) {
-        console.log(error.message);
-    }
-}
+const userOrders = async (req, res) => {
+  try {
+    const userId = req.session.user_id;
+    const orderData = await Order.find({ userId: userId });
+    res.render("orders", { name: req.session.name, orders: orderData });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
 //========================================FULL DETAILS OF EACH ORDERS IN USER SIDE=====================
 
-const userOderDetails = async(req,res)=> {
-    try {
-        res.render('orderedProduct',{name:req.session.name})
-    } catch (error) {
-        console.log(error.message);
-    }
-}
+const userOderDetails = async (req, res) => {
+  try {
+    const id = req.query.id;
+    const orderedProduct = await Order.findOne({ _id: id }).populate(
+      "products.productId"
+    );
+    res.render("orderedProduct", { name: req.session.name, orders: orderedProduct });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
 module.exports = {
   placeOrder,
@@ -125,5 +126,5 @@ module.exports = {
   showOrder,
   loadProductdetails,
   userOrders,
-  userOderDetails
+  userOderDetails,
 };
