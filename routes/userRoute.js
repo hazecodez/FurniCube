@@ -9,6 +9,8 @@ const auth = require('../middlewares/userAuth')
 const addressController = require('../controllers/addressController')
 const cartController = require('../controllers/cartController')
 const orderController = require('../controllers/orderController')
+const couponController = require('../controllers/couponController')
+const wishlistController = require('../controllers/wishlistController')
 
 //===============================SESSION SETTING==============================
 userRoute.use(session({
@@ -78,7 +80,22 @@ userRoute.post('/placeOrder',auth.isLogin, orderController.placeOrder)
 userRoute.get("/orderSuccess/:id",auth.isLogin,orderController.successPage);
 userRoute.get('/orders', orderController.userOrders)
 userRoute.get('/viewOrderDetails', orderController.userOderDetails)
-//==================================404 ERROR===================================
+userRoute.post('/verify-payment', orderController.verifyPayment)
+userRoute.post('/orderCancel', auth.isLogin, orderController.orderCancel)
+userRoute.post('/productReturn', auth.isLogin, orderController.productReturn)
+
+//================================WISHLIST HANDLING==============================
+userRoute.get('/wishlist', wishlistController.showWishlist)
+userRoute.post('/addToWishlist', wishlistController.addToWishlist)
+userRoute.post('/removeWish', wishlistController.removeWishItem)
+
+//=====================================SHOP======================================
+userRoute.get('/shop', userController.loadShop)
+
+//==================================COUPON HANDLING==============================
+userRoute.post('/applyCoupon', auth.isLogin, couponController.applyCoupon)
+
+//==================================404 ERROR====================================
 userRoute.get('*',userController.loadError)
 
 

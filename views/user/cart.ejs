@@ -65,33 +65,36 @@
                       </div>
                       <!-- End .product -->
                     </td>
-                    <td class="price-col">₹ <%= value.productId.price %>></td>
+                    <td class="price-col">₹ <%= value.productId.price %></td>
                     <span>
-                    <td class="quantity-col">
-                      <input
-                        style="width: 5vb"
-                        class="btn-outline-primary btn-rounded"
-                        type="button"
-                        onclick="changeQuantity('<%=userId%>','<%=value.productId._id%>',-1)"
-                        class="btneg"
-                        value="-"
-                      />
-                      <input
-                        style="width: 5vb"
-                        class="btn-outline-primary btn-rounded"
-                        type="text"
-                        value="<%= value.count %>"
-                      />
-                      <input
-                        style="width: 5vb"
-                        class="btn-outline-primary btn-rounded"
-                        type="button"
-                        onclick="changeQuantity('<%=userId%>','<%=value.productId._id%>',1)"
-                        class="btpos"
-                        value="+"
-                      />
-                    </td>
-                  </span>
+                      <td class="quantity-col">
+                        <input
+                          style="width: 5vb"
+                          class="btn-outline-primary btn-rounded"
+                          type="button"
+                          onclick="changeQuantity('<%=userId%>','<%=value.productId._id%>',-1)"
+                          class="btneg"
+                          value="-"
+                        />
+                        <input
+                          style="width: 5vb"
+                          class="btn-outline-primary btn-rounded"
+                          type="text"
+                          value="<%= value.count %>"
+                        />
+                        <input
+                          style="width: 5vb"
+                          class="btn-outline-primary btn-rounded"
+                          type="button"
+                          onclick="changeQuantity('<%=userId%>','<%=value.productId._id%>',1)"
+                          class="btpos"
+                          value="+"
+                        />
+                        <% if(value.productId.quantity == 0 ){ %>
+                        <p style="color: red"><b>Out of Stock !</b></p>
+                        <% } %>
+                      </td>
+                    </span>
                     <!-- <td class="quantity-col">
                                         <div class="cart-product-quantity">
                                             <input type="number" class="form-control" value="<%= value.count %>" min="1" max="10" step="1" data-decimals="0" required>
@@ -107,26 +110,26 @@
                       </button>
                     </td>
                   </tr>
-                  
-                    
-                      <!-- <% if(typeof message !== 'undefined'){ %>
+
+                  <!-- <% if(typeof message !== 'undefined'){ %>
                           <span
                             id="er2"
                             style="color: rgb(241, 7, 7); text-align: center"
                             ><%= message%></span>
                           <% } %> -->
-                  
-                  
                 </tbody>
 
                 <% } ) %>
               </table>
+
               <!-- End .table table-wishlist -->
 
               <div class="cart-top">
                 <div class="cart-bottom">
+                  
+                  <!-- End .cart-discount -->
                   <a class="btn btn-outline-dark-2"
-                    >CART TOTAL : <span> ₹ <b> <%= Total %></b></span></a
+                    >CART TOTAL : &nbsp;<span> ₹&nbsp <b> <%= Total %></b></span></a
                   >
                   <div class="col-24">
                     <div class="btn-wrap">
@@ -134,59 +137,52 @@
                         >PROCEED TO CHECKOUT</a
                       >
                     </div>
-                    
+
                     <!-- End .btn-wrap -->
                   </div>
                   <!-- End .col-md-4 col-lg-2 -->
                 </div>
                 <!-- End .cart-bottom -->
               </div>
+              <div class="cart-bottom"></div>
+              <!-- End .cart-bottom -->
               <!-- End .col-lg-9 -->
             </div>
+            <% }else{ %> <% if(typeof message !== 'undefined'){ %>
+            <div class="error-content text-center">
+              <div class="container">
+                <h1 class="error-title">Out of stock.</h1>
+                <!-- End .error-title -->
+                <p style="color: red">
+                  <b><%= message %></b> is out of stock sorry.
+                </p>
+                <a href="/" class="btn btn-outline-primary-2 btn-minwidth-lg">
+                  <span>SHOPPING</span>
+                  <i class="icon-long-arrow-right"></i>
+                </a>
+              </div>
+              <!-- End .container -->
+            </div>
+            <!-- End .error-content text-center -->
             <% }else{ %>
-                <% if(typeof message !== 'undefined'){ %>
-              <div
-                class="error-content text-center">
-                <div class="container">
-                  <h1 class="error-title">Out of stock.</h1>
-                  <!-- End .error-title -->
-                  <p style="color: red;">
-                    <b><%= message %></b>  is out of stock sorry.
-                  </p>
-                  <a
-                    href="/"
-                    class="btn btn-outline-primary-2 btn-minwidth-lg"
-                  >
-                    <span>SHOPPING</span>
-                    <i class="icon-long-arrow-right"></i>
-                  </a>
-                </div>
-                <!-- End .container -->
+            <div class="error-content text-center">
+              <div class="container">
+                <h1 class="error-title">Empty Cart</h1>
+                <!-- End .error-title -->
+                <p>Your cart is empty.</p>
+                <a
+                  href="/shop"
+                  class="btn btn-outline-primary-2 btn-minwidth-lg"
+                >
+                  <span>FILL YOUR CART</span>
+                  <i class="icon-long-arrow-right"></i>
+                </a>
               </div>
-              <!-- End .error-content text-center -->
-              <% }else{ %>
-                <div
-                class="error-content text-center">
-                <div class="container">
-                  <h1 class="error-title">Empty Cart</h1>
-                  <!-- End .error-title -->
-                  <p>
-                    Your cart is empty.
-                  </p>
-                  <a
-                    href="/"
-                    class="btn btn-outline-primary-2 btn-minwidth-lg"
-                  >
-                    <span>FILL YOUR CART</span>
-                    <i class="icon-long-arrow-right"></i>
-                  </a>
-                </div>
-                <!-- End .container -->
-              </div>
-              <!-- End .error-content text-center -->
+              <!-- End .container -->
+            </div>
+            <!-- End .error-content text-center -->
 
-                <% } %>
-            <% } %>
+            <% } %> <% } %>
           </div>
           <!-- End .row -->
         </div>
@@ -272,5 +268,6 @@
     });
   }
 </script>
+
 
 <%- include('../user/layout/userFooter.ejs')%>

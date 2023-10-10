@@ -90,7 +90,7 @@
                                     
                                 </li>
                                 <li>
-                                    <a href="">Shop</a>
+                                    <a href="/shop">Shop</a>
 
                                     
                                 </li>
@@ -101,6 +101,8 @@
 
                                     
                                 </li>
+                                <% if(name){ %>
+                                    
                                 <li>
                                     <a href="" class="sf-with-ul">Pages</a>
 
@@ -112,24 +114,46 @@
                                         <li><a href="">Shop</a></li>
                                         <!-- <li><a href="">Product</a></li> -->
                                         
-                                        <li><a href="/cart">Cart</a></li>
-                                        <li><a href="">Wishlist</a></li>
+                                        <li><a href="/cart">Cart&nbsp;&nbsp;
+                                            
+                                            <span
+                                            style="
+                                              border-radius: 50%;
+                                              font-weight: 100;
+                                              background-color: #c96;
+                                              padding: 3px 6px;
+                                            "
+                                            class="badge"
+                                            ><%= cartCount %></span>
+                                        
+                                        </a></li>
+                                        <li><a href="/wishlist">Wishlist &nbsp;&nbsp;
+                                            
+                                            <span
+                                            style="
+                                              border-radius: 50%;
+                                              font-weight: 100;
+                                              background-color: #c96;
+                                              padding: 3px 6px;
+                                            "
+                                            class="badge"
+                                            ><%= wishCount %></span>
+                                            
+                                        
+                                        </a></li>
                                         <li><a href="">Blogs</a></li>
                                         <li><a href="/orders">Orders</a></li>
+                                        
                                     </ul>
                                 </li>
-                                <li>
-                                    <a href="">Wishlist</a>
+                                <% } %>
 
-                                    
-                                </li>
-                                <li>
-                                    <a href="/cart">Cart</a>
-                                    
-                                </li>
+                                
+                                
                                 
                             </ul><!-- End .menu -->
                         </nav><!-- End .main-nav -->
+                        
                         
                         <div class="header-search">
                             <a href="" class="search-toggle" role="button"><i class="icon-search"></i></a>
@@ -140,11 +164,29 @@
                                 </div><!-- End .header-search-wrapper -->
                             </form>
                         </div><!-- End .header-search -->
+                        <% if(name){ %>
+                        <div class="dropdown cart-dropdown">
+                            <a href="/cart" class="dropdown-toggle" role="button"  aria-haspopup="true">
+                            <i class="icon-shopping-cart mr-1" ></i>
+                            
+                            <span class="cart-count mr-2"><%= cartCount %></span>
+                            
+                        </a>
+                        </div><!-- End .cart-dropdown -->
+                        <a href="/wishlist" class="wishlist-link">
+                            <i class="icon-heart-o"></i>
+                            
+                                <span class="wishlist-count"><%= wishCount %></span>
+                               
+
+                        </a>
+                        
                         
                         <!-- <a href="" class="wishlist-link">
                             <i class="icon-heart-o"></i>
                                 <span class="wishlist-count">3</span>
                         </a>  -->
+                        <% } %>
                         <div>
                             <ul class="menu sf-arrows">
                                 <li>

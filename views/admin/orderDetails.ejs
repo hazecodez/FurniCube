@@ -33,7 +33,7 @@ include('../admin/layout/adminHeader.ejs')%>
                     '-') %>
                   </td>
                   <td><%= orders.totalAmount%></td>
-                  <td><%= orders.paymentMethod %></td>
+                  <td><%= orders.status %></td>
                   <td>
                     <div class="card-title">
                       <a href="/admin/orderFullDetails?id=<%= orders._id %>">

@@ -1,0 +1,59 @@
+<%- include('../admin/layout/adminSidebar.ejs')%>
+
+<%- include('../admin/layout/adminHeader.ejs')%>
+
+
+<div class="main-panel">
+<div class="col-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Add Coupons</h4>
+        <p class="card-description"> Give Coupon details </p>
+        <form class="forms-sample" action="/admin/addCoupon" method="post" >
+          <div class="form-group">
+            <label for="exampleInputName1">Coupon Name</label>
+            <input type="text" class="form-control" id="exampleInputName1" name="name" placeholder="Name">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail3">Coupon Code</label>
+            <input type="text" class="form-control" id="exampleInputEmail3" name="code" placeholder="Code">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail3">Discount Amount</label>
+            <input type="number" class="form-control" id="exampleInputEmail3" name="discount" placeholder="Discount">
+          </div>
+          
+          <div class="form-group">
+            <label for="exampleInputPassword4">Criteria Amount</label>
+            <input type="number" class="form-control" id="exampleInputPassword4" name="criteriaAmount" placeholder="Quantity">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword4">Activation Date</label>
+            <input type="date" class="form-control" id="exampleInputPassword4" name="activeDate" placeholder="Activation Date">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword4">Expiry Date</label>
+            <input type="date" class="form-control" id="exampleInputPassword4" name="expDate" placeholder="Expiry Date">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword4">Users Limit</label>
+            <input type="number" class="form-control" id="exampleInputPassword4" name="userLimit" placeholder="Users Limit">
+          </div>
+          <button type="submit" class="btn btn-primary mr-2">Submit</button>
+          <button class="btn btn-inverse-danger"><a href="/admin/showCoupon">Cancel</a></button>
+          
+        </form>
+        <% if(typeof message !== 'undefined'){ %>
+            <span
+              id="er2"
+              style="color: rgb(241, 7, 7); text-align: center"
+              ><%= message %></span
+            >
+            <% } %>
+      </div>
+    </div>
+    
+  </div>
+
+ 
+<%- include('../admin/layout/adminFooter.ejs')%>

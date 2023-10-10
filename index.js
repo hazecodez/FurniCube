@@ -1,10 +1,9 @@
-const mongoose = require("mongoose");
-mongoose.connect("mongodb://127.0.0.1:27017/BloomStyle");
-//------------------------------------------------------
+const mongoDB = require('./config/mongoAuth')
+mongoDB.mongoDB()
+//------------------------------------------------------------
 const express = require("express");
 const app = express();
 const path = require("path");
-const bodyParser = require("body-parser");
 const userRoute = require("./routes/userRoute");
 const adminRoute = require("./routes/adminRoute");
 const noCache = require("nocache");
@@ -12,9 +11,9 @@ const noCache = require("nocache");
 
 //======================PUBLIC FOLDER SETTING STATIC===========
 app.use(express.static(path.join(__dirname, "public")));
-//=====================BODY PARSER=============================
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+//=====================BODY PARSING=============================
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 //==================SETTING NOCACHE CACHE CLEARING=============
 app.use(noCache());
 

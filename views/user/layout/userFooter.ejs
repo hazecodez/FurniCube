@@ -132,7 +132,97 @@
     </nav><!-- End .mobile-nav -->
 </div><!-- End .mobile-menu-wrapper -->
 </div><!-- End .mobile-menu-container -->
+<script>
+    function addWishlist(productId) {
+        $.ajax({
+        url: "/addToWishlist",
+        method: "post",
+        data: {
+          id: productId,
+        },
+        success: (response) => {
+            if(response.login == true){
+                swal.fire({
+                    icon: "warning",
+                    title: "Please Login",
+                    confirmButtonText: "Login",
+                    showCancelButton: true,
+                    cancelButtonColor: "#d33",
+                    text: response.message,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                  window.location.href = "/loadLogin";
+                }
+                })
+            }else if(response.exist == true){
+                swal.fire({
+                    position: "center",
+                    icon: "warning",
+                    title: "This product already in your wishlist",
+                    showConfirmButton: false,
+                    timer: 1500,
+                })
 
+            }else if(response.success) {
+                swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Product added to your Wishlist",
+                    showConfirmButton: false,
+                    timer: 1500,
+                })
+            }
+        }
+
+    })
+}
+</script>
+
+<script>
+    function addToCart(productId) {
+      
+      $.ajax({
+        url: "/addToCart",
+        method: "post",
+        data: {
+          id: productId,
+        },
+        success: (response) => {
+          if (response.login == true) {
+            swal
+              .fire({
+                icon: "warning",
+                title: "Please Login",
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: "Login",
+                showCancelButton: true,
+                cancelButtonColor: "#d33",
+                text: response.message,
+              })
+              .then((result) => {
+                if (result.isConfirmed) {
+                  window.location.href = "/loadLogin";
+                }
+              });
+          } else if (response.success) {
+            swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Product added to cart",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          } else {
+            swal.fire({
+              icon: "error",
+              title: "Sorry Quantity reached ",
+              text: response.message,
+            });
+          }
+        },
+      });
+    }
+  </script>
 
 <!-- Plugins JS File -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.14.0/dist/sweetalert2.all.min.js"></script>

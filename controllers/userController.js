@@ -6,14 +6,16 @@ const dotenv = require("dotenv");
 dotenv.config();
 const Address = require("../models/addressModel");
 const randomstring = require("randomstring");
-
+const Banner = require('../models/bannerModel')
+const Coupon = require('../models/couponModel')
+const Cart = require('../models/cartModel')
+const Wishlist = require('../models/wishlistModel')
 
 //================SETTING EMAIL PASS AND OTP IN GLOBALLY TO ACCESS IN OTP PAGE============
 
 let otp;
 let email2;
 let nameResend;
-
 
 //=================================PASSWORD BCRYPTION=====================================
 
@@ -30,7 +32,8 @@ const securePassword = async (password) => {
 
 const forgetLoad = async (req, res) => {
   try {
-    res.render("forgetPass",{name:req.session.name});
+    
+    res.render("forgetPass", { name: req.session.name });
   } catch (error) {
     console.log(error.message);
   }
@@ -56,11 +59,11 @@ const passRecoverVerifyMail = async (name, email, token) => {
       to: email,
       subject: "For Recover Password",
       html:
-      "<h2>Dear " +
-      name +
-      ' ,please click here to <a href="https://localhost:5030/reset_password?token=' +
-      token +
-      '">Reset</a> your password </h2>',
+        "<h2>Dear " +
+        name +
+        ' ,please click here to <a href="https://localhost:5030/reset_password?token=' +
+        token +
+        '">Reset</a> your password </h2>',
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -118,7 +121,7 @@ const sendVerifyEmail = async (name, email, otp) => {
 
 const loadRegister = async (req, res) => {
   try {
-    res.render("registration",{name:req.session.name});
+    res.render("registration", { name: req.session.name });
   } catch (error) {
     console.error(error.message);
   }
@@ -128,7 +131,7 @@ const loadRegister = async (req, res) => {
 
 const otpPage = async (req, res) => {
   try {
-    res.render("otp",{name:req.session.name});
+    res.render("otp", { name: req.session.name });
   } catch (error) {
     console.error(error.message);
   }
@@ -138,7 +141,14 @@ const otpPage = async (req, res) => {
 
 const loadLogin = async (req, res) => {
   try {
-    res.render("login",{name: req.session.name});
+    const cart = await Cart.findOne({userId:req.session.user_id})
+    if(cart){
+      const cartCount = cart.products.length
+      res.render("login", { name: req.session.name,cartCount:cartCount });
+    }else{
+      res.render("login", { name: req.session.name,cartCount:0 });
+    }
+
   } catch (error) {
     console.error(error.message);
   }
@@ -148,9 +158,18 @@ const loadLogin = async (req, res) => {
 
 const loadHome = async (req, res) => {
   try {
-    const products = await Product.find({ blocked: 0 });
+    const products = await Product.find({ blocked: 0 }).limit(8);
+    const banners = await Banner.find({status: true})
+    const cart = await Cart.findOne({userId:req.session.user_id})
+    const wish = await Wishlist.findOne({user:req.session.user_id})
+    let cartCount; 
+    let wishCount;
+    if(cart){cartCount = cart.products.length}
+    if(wish){wishCount = wish.products.length}
+
+    res.render("home", { name: req.session.name, products: products, banners:banners, cartCount,wishCount })
+
     
-    res.render("home", { name: req.session.name, products: products });
   } catch (error) {
     console.error(error.message);
   }
@@ -163,7 +182,8 @@ const insertUser = async (req, res) => {
     //check the email which is already exist
     const checkEmail = await User.findOne({ email: req.body.email });
     if (checkEmail) {
-      res.render("registration", {name:req.session.name,
+      res.render("registration", {
+        name: req.session.name,
         message: "Given Email is already exist, please Log In",
       });
     } else {
@@ -187,14 +207,16 @@ const insertUser = async (req, res) => {
 
           email2 = req.body.email;
           nameResend = req.body.name;
-          res.render("otp",{name:req.session.name});
+          res.render("otp", { name: req.session.name });
         } else {
-          res.render("registration", {name:req.session.name,
+          res.render("registration", {
+            name: req.session.name,
             message: "Registration failed, try again.",
           });
         }
       } else {
-        res.render("registration", {name:req.session.name,
+        res.render("registration", {
+          name: req.session.name,
           message: "Confirm the correct password.",
         });
       }
@@ -259,16 +281,26 @@ const loginUser = async (req, res) => {
 
             res.redirect("/home");
           } else {
-            res.render("login", {name:req.session.name, message: "Please verify your Account." });
+            res.render("login", {
+              name: req.session.name,
+              message: "Please verify your Account.",
+            });
           }
         } else {
-          res.render("login", {name:req.session.name, message: "Your account is blocked by Admin." });
+          res.render("login", {
+            name: req.session.name,
+            message: "Your account is blocked by Admin.",
+          });
         }
       } else {
-        res.render("login", {name:req.session.name, message: "Wrong password...!!" });
+        res.render("login", {
+          name: req.session.name,
+          message: "Wrong password...!!",
+        });
       }
     } else {
-      res.render("login", {name:req.session.name,
+      res.render("login", {
+        name: req.session.name,
         message: "This Account not registered, please SignUp.",
       });
     }
@@ -277,9 +309,7 @@ const loginUser = async (req, res) => {
   }
 };
 
-
 //=========================CREATING TOKEN AND CALL PASSWORD RECOVER=============================
-
 
 const forgetPassMail = async (req, res) => {
   try {
@@ -300,12 +330,18 @@ const forgetPassMail = async (req, res) => {
         );
         const user = await User.findOne({ email: email });
         passRecoverVerifyMail(user.name, user.email, randomS);
-        res.redirect('/loadLogin')
+        res.redirect("/loadLogin");
       } else {
-        res.render("forgetPass", { message: "Given mail is not verified", name:req.session.name });
+        res.render("forgetPass", {
+          message: "Given mail is not verified",
+          name: req.session.name,
+        });
       }
     } else {
-      res.render("forgetPass", { message: "Wrong Email Id", name:req.session.name });
+      res.render("forgetPass", {
+        message: "Wrong Email Id",
+        name: req.session.name,
+      });
     }
   } catch (error) {
     console.log(error);
@@ -316,11 +352,13 @@ const forgetPassMail = async (req, res) => {
 
 const loadResetPass = async (req, res) => {
   try {
-    
     const token = req.query.token;
     const userData = await User.findOne({ token: token });
     if (userData) {
-      res.render("recoverPass", {name:req.session.name, email: userData.email });
+      res.render("recoverPass", {
+        name: req.session.name,
+        email: userData.email,
+      });
     } else {
       res.status(404).render("404");
     }
@@ -340,11 +378,11 @@ const newPass = async (req, res) => {
         $set: { password: secPassword, token: "" },
       }
     );
-    if(updatedData){
-      res.redirect('/')
-    }else{
+    if (updatedData) {
+      res.redirect("/");
+    } else {
       res.status(404).render(404);
-      console.log('pass not reset');
+      console.log("pass not reset");
     }
   } catch (error) {
     console.log(error.message);
@@ -355,7 +393,8 @@ const newPass = async (req, res) => {
 
 const userLogout = async (req, res) => {
   try {
-    req.session.destroy();
+    req.session.user_id = false;
+    req.session.name = false;
     res.redirect("/");
   } catch (error) {
     console.log(error.message);
@@ -368,29 +407,85 @@ const showProfile = async (req, res) => {
   try {
     const address = await Address.findOne({ user: req.session.user_id });
     const userData = await User.findOne({ _id: req.session.user_id });
+    const walletAmount = userData.wallet
+    const walletHistory = userData.walletHistory
+    const coupons = await Coupon.find({status:true})
+    const addressData = address.address;
+    const cart = await Cart.findOne({userId:req.session.user_id})
+    const wish = await Wishlist.findOne({user:req.session.user_id})
+    let cartCount; 
+    let wishCount;
+    if(cart){cartCount = cart.products.length}
+    if(wish){wishCount = wish.products.length}
+    
+    
     res.render("profile", {
       name: req.session.name,
       data: userData,
       address,
+      walletHistory:walletHistory,
+      addressData: addressData,
+      walletAmount:walletAmount,
+      coupons:coupons,
+      wishCount,cartCount
+
     });
   } catch (error) {
     console.log(error.message);
   }
 };
 
-//===========================404 ERROR PAGE=====================================
-
-const loadError= async(req,res)=> {
+//======================================LOAD SHOP PAGE===================================
+const loadShop = async (req, res) => {
   try {
-    res.status(404).render('404')
+    var page = 1;
+    var limit = 8;
+    if (req.query.page) {
+      page = req.query.page;
+    }
+
+    const cart = await Cart.findOne({userId:req.session.user_id})
+    const wish = await Wishlist.findOne({user:req.session.user_id})
+    let cartCount; 
+    let wishCount;
+    if(cart){cartCount = cart.products.length}
+    if(wish){wishCount = wish.products.length}
+
+    //---------------setting pagination----------------------
+
+    const products = await Product.find({ blocked: 0 })
+      .limit(limit * 1)
+      .skip((page - 1) * limit);
+    const count = await Product.find({ blocked: 0 }).countDocuments();
+
+    totalPages = Math.ceil(count / limit);
+
+    res.render("shop", {
+      name: req.session.name,
+      products: products,
+      totalPages: totalPages,
+      currentPage: page,
+      previousPage: page - 1,
+      cartCount,wishCount
+    });
   } catch (error) {
     console.log(error.message);
   }
-}
+};
+
+//====================================SHOW WALLET IN USER SIDE==========================
 
 
 
+//===========================404 ERROR PAGE==============================================
 
+const loadError = async (req, res) => {
+  try {
+    res.status(404).render("404");
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
 module.exports = {
   insertUser,
@@ -407,5 +502,7 @@ module.exports = {
   forgetPassMail,
   loadResetPass,
   newPass,
-  loadError
+  loadShop,
+  loadError,
+  
 };

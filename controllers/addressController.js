@@ -1,5 +1,7 @@
 const Address = require("../models/addressModel");
 const User = require("../models/userModel");
+const Wishlist = require('../models/wishlistModel')
+const Cart = require('../models/cartModel')
 
 //===================================ADDRESS ADDING===========================================
 
@@ -113,12 +115,20 @@ const loadEditAddress = async (req, res) => {
   try {
     const addressId = req.query.id;
     const session = req.session.user_id;
+    
+    const cart = await Cart.findOne({userId:req.session.user_id})
+    const wish = await Wishlist.findOne({user:req.session.user_id})
+    let cartCount; 
+    let wishCount;
+    if(cart){cartCount = cart.products.length}
+    if(wish){wishCount = wish.products.length}
+
     const addressData = await Address.findOne(
       { user: session, "address._id": addressId },
       { "address.$": 1 }
     );
     const address = addressData.address[0];
-    res.render("editAddress", { name: req.session.name, user: address });
+    res.render("editAddress", { name: req.session.name, user: address, wishCount,cartCount });
   } catch (error) {
     console.log(error.message);
   }

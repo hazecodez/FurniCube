@@ -37,16 +37,19 @@ const orderSchema = new mongoose.Schema({
       totalPrice: {
         type: Number,
         required: true,
-      },
-      deliveryDate: {
-        type: Date,
-      },
-      status: {
-        type: String,
-        default: "placed",
-      },
+      }
     },
   ],
+  
+  deliveryDate: {
+    type: Date,
+  },
+  cancelReason: {
+    type: String
+  },
+  returnReason: {
+    type: String
+  },
   totalAmount: {
     type: Number,
     required: true,
@@ -62,6 +65,9 @@ const orderSchema = new mongoose.Schema({
   },
   orderId: {
     type: String,
+  },
+  paymentId: {
+    type: String
   }
 });
 

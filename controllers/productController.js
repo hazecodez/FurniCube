@@ -8,6 +8,8 @@ const Cloudinary = require("cloudinary");
 const multer = require("../middlewares/multer");
 const { log } = require("console");
 const path = require("path");
+const Cart = require('../models/cartModel')
+const Wishlist = require('../models/wishlistModel')
 
 //======================LOAD PRODUCT MANAGEMENT IN ADMIN SIDE===================
 
@@ -79,12 +81,20 @@ const addProduct = async (req, res) => {
 const productView = async (req, res) => {
   try {
     const viewProduct = await Product.findOne({ _id: req.query.id });
+    const cart = await Cart.findOne({userId:req.session.user_id})
+    const wish = await Wishlist.findOne({user:req.session.user_id})
+    let cartCount; 
+    let wishCount;
+    if(cart){cartCount = cart.products.length}
+    if(wish){wishCount = wish.products.length}
+
     if (viewProduct) {
       const products = await Product.find({ blocked: 0 });
       res.render("userProduct", {
         name: req.session.name,
         products: products,
         view: viewProduct,
+        cartCount,wishCount
       });
     } else {
       res.status(404).render("404");
@@ -133,6 +143,19 @@ const editedProduct = async (req, res) => {
     let details = req.body;
     let imagesFiles = req.files;
     let currentData = await Product.findOne({ _id: req.query.id });
+
+    const img = [
+      imagesFiles.image1[0].filename,
+      imagesFiles.image2[0].filename,
+      imagesFiles.image3[0].filename,
+      imagesFiles.image4[0].filename,
+    ];
+
+    for (let i = 0; i < img.length; i++) {
+      await Sharp("public/products/images/" + img[i])
+        .resize(500, 500)
+        .toFile("public/products/crop/" + img[i]);
+    }
 
     let img1, img2, img3, img4;
 

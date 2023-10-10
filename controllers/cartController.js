@@ -2,6 +2,7 @@ const User = require("../models/userModel");
 const Product = require("../models/productModel");
 const Cart = require("../models/cartModel");
 const Address = require("../models/addressModel");
+const Wishlist = require('../models/wishlistModel')
 
 //===================================LOAD CART PAGE=============================================
 
@@ -12,6 +13,15 @@ const showCart = async (req, res) => {
     const cartData = await Cart.findOne({
       userId: userId,
     }).populate("products.productId");
+
+    const cart = await Cart.findOne({userId:req.session.user_id})
+    const wish = await Wishlist.findOne({user:req.session.user_id})
+    let cartCount; 
+    let wishCount;
+    if(cart){cartCount = cart.products.length}
+    if(wish){wishCount = wish.products.length}
+    
+
 
     const session = req.session.user_id;
     if (cartData) {
@@ -37,7 +47,7 @@ const showCart = async (req, res) => {
         const totalamount = Total;
         const userId = userName._id;
         const userData = await User.find();
-
+        
         res.render("cart", {
           name: req.session.name,
           products: products,
@@ -46,13 +56,14 @@ const showCart = async (req, res) => {
           session,
           totalamount,
           user: userName,
+          cartCount,wishCount
         });
       } else {
-        res.render("cart", { name: req.session.name });
+        res.render("cart", { name: req.session.name, cartCount,wishCount });
         console.log("empty cart");
       }
     } else {
-      res.render("cart", { name: req.session.name });
+      res.render("cart", { name: req.session.name, cartCount,wishCount });
       console.log("no products in cart");
     }
   } catch (error) {
@@ -222,6 +233,14 @@ const loadCheckOut = async (req, res) => {
     }).populate("products.productId");
     const products = cartData.products;
 
+    const cart = await Cart.findOne({userId:req.session.user_id})
+    const wish = await Wishlist.findOne({user:req.session.user_id})
+    let countCart; 
+    let wishCount;
+    if(cart){countCart = cart.products.length}
+    if(wish){wishCount = wish.products.length} 
+
+
     const total = await Cart.aggregate([
       { $match: { userId: req.session.user_id } },
       { $unwind: "$products" },
@@ -236,6 +255,8 @@ const loadCheckOut = async (req, res) => {
         },
       },
     ]);
+
+  
 
     let stock = [];
     let cartCount = [];
@@ -277,6 +298,7 @@ const loadCheckOut = async (req, res) => {
               totalamount,
               user: userData,
               address,
+              countCart,wishCount
             });
           } else {
             res.redirect("/");
@@ -285,7 +307,7 @@ const loadCheckOut = async (req, res) => {
           res.redirect("/profile");
         }
       } else {
-        res.render("cart", { message: proName, name: req.session.name });
+        res.render("cart", { message: proName, name: req.session.name, cartCount:countCart,wishCount });
       }
     } else {
       res.redirect("/loadLogin");

@@ -1,0 +1,59 @@
+<%- include('../admin/layout/adminSidebar.ejs')%>
+
+<%- include('../admin/layout/adminHeader.ejs')%>
+
+
+<div class="main-panel">
+<div class="col-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Update Coupon</h4>
+        
+        <form class="forms-sample" action="/admin/editCoupon?id=<%= coupon._id %>" method="post" >
+          <div class="form-group">
+            <label for="exampleInputName1">Coupon Name</label>
+            <input type="text" class="form-control" id="exampleInputName1" name="name" value="<%= coupon.couponName %>" >
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail3">Coupon Code</label>
+            <input type="text" class="form-control" id="exampleInputEmail3" name="code" value="<%= coupon.couponCode %>">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail3">Discount</label>
+            <input type="number" class="form-control" id="exampleInputEmail3" name="discount" value="<%= coupon.discountAmount %>">
+          </div>
+          
+          <div class="form-group">
+            <label for="exampleInputPassword4">Criteria Amount</label>
+            <input type="number" class="form-control" id="exampleInputPassword4" name="criteriaAmount" value="<%= coupon.criteriaAmount %>">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword4">Activation Date</label>
+            <input type="date" class="form-control" id="exampleInputPassword4" name="activeDate" value="<%= coupon.activationDate %>">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword4">Expiry Date</label>
+            <input type="date" class="form-control" id="exampleInputPassword4" name="expDate" value="<%= coupon.expiryDate %>">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword4">Users Limit</label>
+            <input type="number" class="form-control" id="exampleInputPassword4" name="userLimit" value="<%= coupon.usersLimit %>">
+          </div>
+          <button type="submit" class="btn btn-primary mr-2">Submit</button>
+          <button class="btn btn-inverse-danger"><a href="/admin/showCoupon">Cancel</a></button>
+          
+        </form>
+        <% if(typeof message !== 'undefined'){ %>
+            <span
+              id="er2"
+              style="color: rgb(241, 7, 7); text-align: center"
+              ><%= message %></span
+            >
+            <% } %>
+      </div>
+    </div>
+    
+  </div>
+
+ 
+<%- include('../admin/layout/adminFooter.ejs')%>

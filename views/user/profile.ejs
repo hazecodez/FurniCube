@@ -1,425 +1,737 @@
 <%- include('../user/layout/userHeader.ejs')%>
 
-<div class="container">
+<main class="main">
   <div
-    class="page-header page-header-big text-center"
-    style="background-image: url('user/images/contact-header-bg.jpg')"
+    class="page-header text-center"
+    style="background-image: url('assets/images/page-header-bg.jpg')"
   >
-    <h1 class="page-title text-white">
-      <%=name?name:"Account"%><span class="text-white">Personal Details</span>
-    </h1>
+    <div class="container">
+      <h1 class="page-title">
+        <%=name?name:"Account"%><span>Personal Details</span>
+      </h1>
+    </div>
+    <!-- End .container -->
   </div>
   <!-- End .page-header -->
-</div>
-<!-- End .container -->
-<% if( address !== null ){%> <% for(let
-    i=0;i<=0;i++){ %>
-<div class="page-content pb-0">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-6 mb-2 mb-lg-0">
-        <h2 class="title mb-1">Contact Information</h2>
-        <!-- End .title mb-2 -->
+  <nav aria-label="breadcrumb" class="breadcrumb-nav mb-3">
+    <div class="container">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
 
+        <li class="breadcrumb-item active" aria-current="page">Profile</li>
+      </ol>
+    </div>
+    <!-- End .container -->
+  </nav>
+  <!-- End .breadcrumb-nav -->
+
+  <div class="page-content">
+    <div class="dashboard">
+      <div class="container">
         <div class="row">
-          <div class="col-sm-7">
-            <div class="contact-info">
-              <ul class="contact-list">
-                <li>
-                  <i class=""></i>
-                  Full Name : <b> <%= address.address[i].fullname%></b>
-                </li>
-                <li>
-                  <i class="icon-phone"></i>
-                  Mobile No :<b><%= address.address[i].mobile%></b>
-                </li>
-                <li>
-                  <i class="icon-envelope"></i>
-                  Email Id :<b><%= address.address[i].email%></b>
-                </li>
-                <li>
-                  <i class="icon-map-marker"></i>
-                  House Name :<b><%= address.address[i].houseName%></b>
-                  <!-- <a href="">info@Molla.com</a> -->
-                </li>
-                <li>
-                    <i class="icon-map-marker"></i>
-                    City :<b><%= address.address[i].city%></b>
-                    <!-- <a href="">info@Molla.com</a> -->
-                  </li>
-                  <li>
-                    <i class="icon-map-marker"></i>
-                    State :<b><%= address.address[i].state%></b>
-                    <!-- <a href="">info@Molla.com</a> -->
-                  </li>
-                <li>
-                  <i class=""></i>
-                  Pin Code :<b><%= address.address[i].pin%></b>
-                </li>
-              </ul>
-              
+          <aside class="col-md-4 col-lg-3">
+            <ul
+              class="nav nav-dashboard flex-column mb-3 mb-md-0"
+              role="tablist"
+            >
+              <li class="nav-item">
+                <a
+                  class="nav-link active"
+                  id="tab-profile-link"
+                  data-toggle="tab"
+                  href="#tab-profile"
+                  role="tab"
+                  aria-controls="tab-profile"
+                  aria-selected="true"
+                  >Profile</a
+                >
+              </li>
 
-              <!-- End .contact-list -->
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  id="tab-downloads-link"
+                  data-toggle="tab"
+                  href="#tab-downloads"
+                  role="tab"
+                  aria-controls="tab-downloads"
+                  aria-selected="false"
+                  >Wallet</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  id="tab-coupons-link"
+                  data-toggle="tab"
+                  href="#tab-coupons"
+                  role="tab"
+                  aria-controls="tab-coupons"
+                  aria-selected="false"
+                  >Coupons</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  id="tab-address-link"
+                  data-toggle="tab"
+                  href="#tab-address"
+                  role="tab"
+                  aria-controls="tab-address"
+                  aria-selected="false"
+                  >Adresses</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  id="tab-wishlist-link"
+                  data-toggle="tab"
+                  href="#tab-wishlist"
+                  role="tab"
+                  aria-controls="tab-wishlist"
+                  aria-selected="false"
+                  >Wishlist</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/logout">Sign Out</a>
+              </li>
+            </ul>
+          </aside>
+          <!-- End .col-lg-3 -->
+
+          <div class="col-md-8 col-lg-9">
+            <div class="tab-content">
+              <div
+                class="tab-pane fade show active"
+                id="tab-profile"
+                role="tabpanel"
+                aria-labelledby="tab-profile-link"
+              >
+                <% if( address !== null ){%> <% for(let i=0;i<=0;i++){ %>
+
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="card card-dashboard">
+                      <div class="card-body">
+                        <h3 class="card-title">Contact Information</h3>
+                        <!-- End .card-title -->
+
+                        <p>
+                          Full Name:&nbsp&nbsp<%=
+                          address.address[i].fullname%><br />
+                          Mobile:&nbsp&nbsp<%= address.address[i].mobile%><br />
+                          Email:&nbsp&nbsp<%= address.address[i].email%><br />
+                          House Name:&nbsp&nbsp<%=
+                          address.address[i].houseName%><br />
+                          City:&nbsp&nbsp<%= address.address[i].city%><br />
+                          State:&nbsp&nbsp<%= address.address[i].state%><br />
+                          PinCode:&nbsp&nbsp<%= address.address[i].pin%><br />
+
+                          <!-- <a href="#">Edit <i class="icon-edit"></i></a></p> -->
+
+                          <a href="/forget">Forgot password ?</a> <br /><a
+                            href="/changePass"
+                            >Change password.</a
+                          >
+                        </p>
+                      </div>
+                      <!-- End .card-body -->
+                    </div>
+                    <!-- End .card-dashboard -->
+                  </div>
+                  <!-- End .col-lg-6 -->
+
+                  <div class="col-lg-6">
+                    <h2 class="title mb-1">Manage Your Details</h2>
+
+                    <form
+                      action="/add_address"
+                      class="contact-form mb-3"
+                      method="post"
+                    >
+                      <div class="col-sm-14">
+                        <label for="cname" class="sr-only">Full Name</label>
+                        <input
+                          name="fullname"
+                          type="text"
+                          class="form-control"
+                          id="cname"
+                          value="<%= address.address[i].fullname%>"
+                          required
+                        />
+                      </div>
+                      <!-- End .col-sm-6 -->
+
+                      <!-- End .row -->
+
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <label for="cphone" class="sr-only">Phone</label>
+                          <input
+                            name="mobile"
+                            type="tel"
+                            class="form-control"
+                            id="cphone"
+                            value="<%= address.address[i].mobile%>"
+                          />
+                        </div>
+                        <!-- End .col-sm-6 -->
+
+                        <div class="col-sm-6">
+                          <label for="cphone" class="sr-only">Pincode</label>
+                          <input
+                            name="pin"
+                            type="tel"
+                            class="form-control"
+                            id="cphone"
+                            value="<%= address.address[i].pin%>"
+                          />
+                        </div>
+
+                        <!-- End .col-sm-6 -->
+                      </div>
+                      <div class="col-sm-14">
+                        <label for="csubject" class="sr-only">Email Id</label>
+                        <input
+                          name="email"
+                          type="email"
+                          class="form-control"
+                          id="csubject"
+                          value="<%= address.address[i].email%>"
+                        />
+                      </div>
+                      <!-- End .row -->
+                      <div class="col-sm-14">
+                        <label for="csubject" class="sr-only">House Name</label>
+                        <input
+                          name="houseName"
+                          type="text"
+                          class="form-control"
+                          id="csubject"
+                          value="<%= address.address[i].houseName%>"
+                        />
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <label for="cname" class="sr-only">City</label>
+                          <input
+                            name="city"
+                            type="text"
+                            class="form-control"
+                            id="cname"
+                            value="<%= address.address[i].city%>"
+                            required
+                          />
+                        </div>
+                        <!-- End .col-sm-6 -->
+
+                        <div class="col-sm-6">
+                          <label for="cemail" class="sr-only">State</label>
+                          <input
+                            name="state"
+                            type="text"
+                            class="form-control"
+                            id="cemail"
+                            value="<%= address.address[i].state%>"
+                            required
+                          />
+                        </div>
+                        <!-- End .col-sm-6 -->
+                      </div>
+
+                      <button
+                        type="submit"
+                        class="btn btn-outline-primary-2 btn-minwidth-sm"
+                      >
+                        <span>SUBMIT</span>
+                        <i class="icon-long-arrow-right"></i>
+                      </button>
+                    </form>
+                    <% }%> <%}else{%>
+                    <form action="/add_address" method="post">
+                      <label>Full Name *</label>
+                      <input
+                        type="text"
+                        name="fullname"
+                        class="form-control"
+                        placeholder="Full Name"
+                        required
+                      />
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <label>Phone *</label>
+                          <input
+                            name="mobile"
+                            type="tel"
+                            class="form-control"
+                            id="cphone"
+                            placeholder="Phone"
+                            required
+                          />
+                        </div>
+                        <!-- End .col-sm-6 -->
+
+                        <div class="col-sm-6">
+                          <label>Pin Code *</label>
+                          <input
+                            name="pin"
+                            type="tel"
+                            class="form-control"
+                            id="cphone"
+                            placeholder="Pincode"
+                            required
+                          />
+                        </div>
+                        <!-- End .col-sm-6 -->
+                      </div>
+                      <!-- End .row -->
+
+                      <label>Email address *</label>
+                      <input
+                        name="email"
+                        type="email"
+                        class="form-control"
+                        id="csubject"
+                        placeholder="Email Id"
+                        required
+                      />
+                      <label>House Name *</label>
+                      <input
+                        name="houseName"
+                        type="text"
+                        class="form-control"
+                        id="csubject"
+                        placeholder="House name and street name *"
+                        required
+                      />
+
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <label>City *</label>
+                          <input
+                            name="city"
+                            type="text"
+                            class="form-control"
+                            id="csubject"
+                            placeholder="City *"
+                            required
+                          />
+                        </div>
+                        <!-- End .col-sm-6 -->
+
+                        <div class="col-sm-6">
+                          <label>State *</label>
+                          <input
+                            name="state"
+                            type="text"
+                            class="form-control"
+                            id="csubject"
+                            placeholder="State *"
+                            required
+                          />
+                        </div>
+                        <!-- End .col-sm-6 -->
+                      </div>
+                      <!-- End .row -->
+
+                      <button type="submit" class="btn btn-outline-primary-2">
+                        <span>SUBMIT</span>
+                        <i class="icon-long-arrow-right"></i>
+                      </button>
+                    </form>
+                    <% }%>
+                  </div>
+                  <!-- End .col-lg-6 -->
+                </div>
+                <!-- End .row -->
+              </div>
+              <!-- .End .tab-pane -->
+
+              <div
+                class="tab-pane fade"
+                id="tab-orders"
+                role="tabpanel"
+                aria-labelledby="tab-orders-link"
+              ></div>
+              <!-- .End .tab-pane -->
+
+              <div
+                class="tab-pane fade"
+                id="tab-downloads"
+                role="tabpanel"
+                aria-labelledby="tab-downloads-link"
+              >
+                <div class="row">
+                  <% if( walletAmount !== undefined ){%>
+                  <div class="col-lg-6">
+                    <div class="card card-dashboard">
+                      <div class="card-body">
+                        <h1 class="card-title">Wallet Amount</h1>
+                        <!-- End .card-title -->
+                        <br />
+
+                        <div class="col-8 col-sm-12 col-xl-8 my-auto">
+                          <div
+                            class="d-flex d-sm-block d-md-flex align-items-center"
+                          >
+                            <h2 class="mb-0">₹ &nbsp <%= walletAmount %></h2>
+                          </div>
+
+                          <br />
+                        </div>
+                        <div
+                          class="col-4 col-sm-12 col-xl-4 text-center text-xl-right"
+                        >
+                          <i
+                            class="icon-lg mdi mdi-wallet-travel text-danger ml-auto"
+                          ></i>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- End .card-body -->
+                  </div>
+                  <!-- End .card-dashboard -->
+                  <% if(walletHistory.length > 0) { %>
+
+                  <div class="col-lg-6 grid-margin stretch-card">
+                    <div class="card">
+                      <div class="card-body">
+                        <br />
+                        <h4 class="card-title">Transaction History</h4>
+
+                        <% walletHistory.forEach((walletHistory)=> { %>
+                        <div
+                          class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3"
+                          style="justify-content: space-between"
+                        >
+                          <div class="text-md-center text-xl-left">
+                            <!-- <h6 class="mb-1">Cancel Refund</h6> -->
+                            <p class="text-muted mb-0">
+                              <%= walletHistory.date.toLocaleDateString('en-US',
+                              { year: 'numeric', month: 'short', day: '2-digit'
+                              }).replace(/\//g, '-') %>
+                            </p>
+                          </div>
+                          <div
+                            class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0"
+                          >
+                            <h6 class="font-weight-bold mb-0">
+                              ₹&nbsp<%= walletHistory.amount %>
+                            </h6>
+                            <p><%= walletHistory.reason %></p>
+                          </div>
+                        </div>
+                        <% }) %>
+                      </div>
+                    </div>
+                  </div>
+                  <% } %>
+
+                  <!-- <div class="col-lg-6">
+                  <div class="card card-dashboard">
+                    <div class="card-body">
+                      <h1 class="card-title">Wallet Amount</h1>
+                      <br>
+  
+                      
+                        <div class="col-8 col-sm-12 col-xl-8 my-auto">
+                          <div class="d-flex d-sm-block d-md-flex align-items-center">
+                            <h2 class="mb-0">$45850</h2>
+                            
+                          </div>
+                          <h6 class="text-muted font-weight-normal"> 9.61% Since last month</h6>
+                          <br>
+                        </div>
+                        <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+                          <i class="icon-lg mdi mdi-wallet-travel text-danger ml-auto"></i>
+                        </div>
+                      </div>
+                    
+                    </div>
+                  </div> -->
+
+                  <%}else{%>
+                  <div class="col-lg-6">
+                    <div class="card card-dashboard">
+                      <div class="card-body">
+                        <h1 class="card-title">Wallet is empty.</h1>
+                        <!-- End .card-title -->
+                        <br />
+
+                        <div class="col-8 col-sm-12 col-xl-8 my-auto">
+                          <div
+                            class="d-flex d-sm-block d-md-flex align-items-center"
+                          >
+                            <h2 class="mb-0">₹ &nbsp 0.00</h2>
+                          </div>
+                        </div>
+                        <div
+                          class="col-4 col-sm-12 col-xl-4 text-center text-xl-right"
+                        >
+                          <i
+                            class="icon-lg mdi mdi-wallet-travel text-danger ml-auto"
+                          ></i>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- End .card-body -->
+                  </div>
+                  <!-- End .card-dashboard -->
+
+                  <%}%>
+                </div>
+                <!-- End row -->
+              </div>
+
+              <div
+                class="tab-pane fade"
+                id="tab-coupons"
+                role="tabpanel"
+                aria-labelledby="tab-coupons-link"
+              >
+                <div class="row">
+                  <% if(coupons.length > 0 ){ %>
+                    <% coupons.forEach((value)=>{ %>
+
+                  <div class="col-lg-6">
+                    <div class="card card-dashboard" style="border-radius: 30px;">
+                      <div class="card-body" >
+                        <h1 class="card-title"><b><%= value.couponName %>&nbsp;!!</b></h1>
+                        <!-- End .card-title -->
+                        
+
+                        <div class="col-8 col-sm-12 col-xl-8 my-auto">
+                          <p>Use Code:</p>
+                          <div
+                            class="d-flex d-sm-block d-md-flex align-items-center"
+                          >
+                          
+                            <h2 class="mb-0" style="
+                            width: 500px;
+                            height: 50px;
+                            border: 2px dotted #000;
+                            padding-left: 10px;
+                          "><%= value.couponCode %></h2>
+                          </div>
+                          
+                          
+                        
+
+                          <br />
+                          <p class="card-title">Starts on:&nbsp;<%= value.activationDate.toLocaleDateString('en-US',
+                            { year: 'numeric', month: 'short', day: '2-digit'
+                            }).replace(/\//g, '-') %></p>
+                          <p class="card-title">Expiry on:&nbsp;<%= value.expiryDate.toLocaleDateString('en-US',
+                            { year: 'numeric', month: 'short', day: '2-digit'
+                            }).replace(/\//g, '-') %></p>
+                            
+                        </div>
+                        <div
+                          class="col-4 col-sm-12 col-xl-4 text-center text-xl-right"
+                        >
+                          
+                        </div>
+                      </div>
+                    </div>
+                    <!-- End .card-body -->
+                  </div>
+                  <% }) %>
+                  <% } %>
+                  <!-- End .card-dashboard -->
+                </div>
+              </div>
+              <!-- .End .tab-pane -->
+
+              <div
+                class="tab-pane fade"
+                id="tab-address"
+                role="tabpanel"
+                aria-labelledby="tab-address-link"
+              >
+                <div class="row">
+                  <% if(addressData.length> 0){
+                  addressData.forEach((addressData)=>{ %>
+
+                  <div class="col-lg-6">
+                    <div class="card card-dashboard">
+                      <div class="card-body">
+                        <h3 class="card-title">Billing Addresses</h3>
+                        <!-- End .card-title -->
+
+                        <p>
+                          Full Name:&nbsp&nbsp<%= addressData.fullname %><br />
+                          Mobile:&nbsp&nbsp<%= addressData.mobile %><br />
+                          Email:&nbsp&nbsp<%= addressData.email %><br />
+                          House Name:&nbsp&nbsp<%= addressData.houseName %><br />
+                          City:&nbsp&nbsp<%= addressData.city %><br />
+                          State:&nbsp&nbsp<%= addressData.state %><br />
+                          PinCode:&nbsp&nbsp<%= addressData.pin %><br />
+                          <a href="/editAddress?id=<%= addressData._id %>"
+                            >Edit <i class="icon-edit"></i
+                          ></a>
+                          <a onclick="removeAddress('<%= addressData._id %>')"
+                            >Remove</a
+                          >
+                        </p>
+                      </div>
+                      <!-- End .card-body -->
+                    </div>
+                    <!-- End .card-dashboard -->
+                  </div>
+                  <!-- End .col-lg-6 -->
+
+                  <% } ) } %>
+
+                  <form action="/addBillingAddress" method="post">
+                    <label>Full Name *</label>
+                    <input
+                      type="text"
+                      name="fullname"
+                      class="form-control"
+                      placeholder="Full Name"
+                      required
+                    />
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <label>Phone *</label>
+                        <input
+                          name="mobile"
+                          type="tel"
+                          class="form-control"
+                          id="cphone"
+                          placeholder="Phone"
+                          required
+                        />
+                      </div>
+                      <!-- End .col-sm-6 -->
+
+                      <div class="col-sm-6">
+                        <label>Pin Code *</label>
+                        <input
+                          name="pin"
+                          type="tel"
+                          class="form-control"
+                          id="cphone"
+                          placeholder="Pincode"
+                          required
+                        />
+                      </div>
+                      <!-- End .col-sm-6 -->
+                    </div>
+                    <!-- End .row -->
+
+                    <label>Email address *</label>
+                    <input
+                      name="email"
+                      type="email"
+                      class="form-control"
+                      id="csubject"
+                      placeholder="Email Id"
+                      required
+                    />
+                    <label>House Name *</label>
+                    <input
+                      name="houseName"
+                      type="text"
+                      class="form-control"
+                      id="csubject"
+                      placeholder="House name and street name *"
+                      required
+                    />
+
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <label>City *</label>
+                        <input
+                          name="city"
+                          type="text"
+                          class="form-control"
+                          id="csubject"
+                          placeholder="City *"
+                          required
+                        />
+                      </div>
+                      <!-- End .col-sm-6 -->
+
+                      <div class="col-sm-6">
+                        <label>State *</label>
+                        <input
+                          name="state"
+                          type="text"
+                          class="form-control"
+                          id="csubject"
+                          placeholder="State *"
+                          required
+                        />
+                      </div>
+                      <!-- End .col-sm-6 -->
+                    </div>
+                    <!-- End .row -->
+
+                    <button type="submit" class="btn btn-outline-primary-2">
+                      <span>SUBMIT</span>
+                      <i class="icon-long-arrow-right"></i>
+                    </button>
+                  </form>
+                </div>
+
+                <!-- End .row -->
+              </div>
+              <!-- .End .tab-pane -->
+
+              <div
+                class="tab-pane fade"
+                id="tab-wishlist"
+                role="tabpanel"
+                aria-labelledby="tab-wishlist-link"
+              ></div>
+              <!-- .End .tab-pane -->
             </div>
-            <!-- End .contact-info -->
           </div>
-          <!-- End .col-sm-7 -->
-          <div>
-            <a href="/forget">Forgot password ?</a> <br><a href="/changePass">Change password.</a>
-          </div>
-          
-          <!-- End .col-sm-5 -->
+          <!-- End .col-lg-9 -->
         </div>
-
-        <!-- <a href=""><b>forget password ?</b></a>
-        <br>
-        <a href=""><b>change password ?</b></a> -->
         <!-- End .row -->
       </div>
-      <!-- End .col-lg-6 -->
-      <div class="col-lg-6">
-        <h2 class="title mb-1">Manage Your Details</h2>
-        <!-- End .title mb-2 -->
-
-        <form action="/add_address" class="contact-form mb-3" method="post">
-          
-            <div class="col-sm-14">
-              <label for="cname" class="sr-only">Full Name</label>
-              <input
-                name="fullname"
-                type="text"
-                class="form-control"
-                id="cname"
-                value="<%= address.address[i].fullname%>"
-                required
-              />
-            </div>
-            <!-- End .col-sm-6 -->
-          
-          <!-- End .row -->
-
-          <div class="row">
-            <div class="col-sm-6">
-              <label for="cphone" class="sr-only">Phone</label>
-              <input
-                name="mobile"
-                type="tel"
-                class="form-control"
-                id="cphone"
-                value="<%= address.address[i].mobile%>"
-              />
-            </div>
-            <!-- End .col-sm-6 -->
-
-            <div class="col-sm-6">
-              <label for="cphone" class="sr-only">Pincode</label>
-              <input
-                name="pin"
-                type="tel"
-                class="form-control"
-                id="cphone"
-                value="<%= address.address[i].pin%>"
-              />
-            </div>
-
-            <!-- End .col-sm-6 -->
-          </div>
-          <div class="col-sm-14">
-            <label for="csubject" class="sr-only">Email Id</label>
-            <input
-              name="email"
-              type="email"
-              class="form-control"
-              id="csubject"
-              value="<%= address.address[i].email%>"
-            />
-          </div>
-          <!-- End .row -->
-          <div class="col-sm-14">
-            <label for="csubject" class="sr-only">House Name</label>
-            <input
-              name="houseName"
-              type="text"
-              class="form-control"
-              id="csubject"
-              value="<%= address.address[i].houseName%>"
-            />
-          </div>
-          <div class="row">
-            <div class="col-sm-6">
-              <label for="cname" class="sr-only">City</label>
-              <input
-                name="city"
-                type="text"
-                class="form-control"
-                id="cname"
-                value="<%= address.address[i].city%>"
-                required
-              />
-            </div>
-            <!-- End .col-sm-6 -->
-
-            <div class="col-sm-6">
-              <label for="cemail" class="sr-only">State</label>
-              <input
-                name="state"
-                type="text"
-                class="form-control"
-                id="cemail"
-                value="<%= address.address[i].state%>"
-                required
-              />
-            </div>
-            <!-- End .col-sm-6 -->
-          </div>
-          <!-- <label for="cmessage" class="sr-only">Address</label>
-          <textarea
-            name="address"
-            class="form-control"
-            cols="30"
-            rows="4"
-            id="cmessage"
-            required
-          ><%= address.address[i].address%></textarea> -->
-
-          <button
-            type="submit"
-            class="btn btn-outline-primary-2 btn-minwidth-sm"
-          >
-            <span>SUBMIT</span>
-            <i class="icon-long-arrow-right"></i>
-          </button>
-          
-        </form>
-
-        <!-- End .contact-form -->
-      </div>
-
-      <!-- End .col-lg-6 -->
+      <!-- End .container -->
     </div>
-    <% }%>
-    <div class="col-sm-14">
-        <form action="/addBillingAddress" method="post">
-            <h2 class="checkout-title">Add Billing Addresses</h2>
-            <!-- End .checkout-title -->
-            
-            <label>Full Name *</label>
-            <input
-              type="text"
-              class="form-control"
-              name="fullname"
-              placeholder="Full Name"
-              required
-            />
-            <!-- End .row -->
-    
-            <!-- <label>Company Name (Optional)</label>
-                              <input type="text" class="form-control"> -->
-    
-            <!-- <label>Country *</label>
-                              <input type="text" class="form-control" required> -->
-    
-            <label>House Name *</label>
-            <input
-              type="text"
-              class="form-control"
-              name="houseName"
-              placeholder="House Name and Street name"
-              required
-            />
-    
-            <div class="row">
-              <div class="col-sm-6">
-                <label>Town / City *</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  name="city"
-                  required
-                />
-              </div>
-    
-              <div class="col-sm-6">
-                <label>State / County *</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  name="state"
-                  required
-                />
-              </div>
-            </div>
-    
-            <div class="row">
-              <div class="col-sm-6">
-                <label>Pincode *</label>
-                <input type="text" class="form-control" name="pin" required />
-              </div>
-              <!-- End .col-sm-6 -->
-    
-              <div class="col-sm-6">
-                <label>Phone *</label>
-                <input
-                  type="tel"
-                  class="form-control"
-                  name="mobile"
-                 required
-                />
-              </div>
-              <!-- End .col-sm-6 -->
-            </div>
-            <!-- End .row -->
-    
-            <label>Email address *</label>
-            <input type="email" class="form-control" name="email" required />
-            <button
-              type="submit"
-              class="btn btn-outline-primary-2 btn-minwidth-sm"
-            >
-              <span>SUBMIT</span>
-              <i class="icon-long-arrow-right"></i>
-            </button>
-          </form>
-    </div>
-
-    <!-- End .row -->
+    <!-- End .dashboard -->
   </div>
-  <!-- End .container -->
-</div>
+  <!-- End .page-content -->
+</main>
+<!-- End .main -->
 
-<%}else{%>
-
-<div class="page-content pb-0">
-  <div class="container">
-    <div class="row">
-
-
-      
-      <div class="col-lg-12">
-        <h2 class="title mb-1">Add Your Details</h2>
-        <!-- End .title mb-2 -->
-
-        <form action="/add_address" class="contact-form mb-3" method="post">
-          
-            <div class="col-sm-14">
-              <label for="cname" class="sr-only">Full Name</label>
-              <input
-                name="fullname"
-                type="text"
-                class="form-control"
-                id="cname"
-                placeholder="Full Name"
-                required
-              />
-            </div>
-            <!-- End .col-sm-6 -->
-          
-          <!-- End .row -->
-
-          <div class="row">
-            <div class="col-sm-6">
-              <label for="cphone" class="sr-only">Phone</label>
-              <input
-                name="mobile"
-                type="tel"
-                class="form-control"
-                id="cphone"
-                placeholder="Phone"
-              />
-            </div>
-            <!-- End .col-sm-6 -->
-
-            <div class="col-sm-6">
-              <label for="cphone" class="sr-only">Pincode</label>
-              <input
-                name="pin"
-                type="tel"
-                class="form-control"
-                id="cphone"
-                placeholder="Pincode"
-              />
-            </div>
-
-            <!-- End .col-sm-6 -->
-          </div>
-          <div class="col-sm-14">
-            <label for="csubject" class="sr-only">Email Id</label>
-            <input
-              name="email"
-              type="email"
-              class="form-control"
-              id="csubject"
-              placeholder="Email Id"
-            />
-          </div>
-          <!-- End .row -->
-          <div class="col-sm-14">
-            <label for="csubject" class="sr-only">House Name</label>
-            <input
-              name="houseName"
-              type="text"
-              class="form-control"
-              id="csubject"
-              placeholder="House name and street name *"
-            />
-          </div>
-          <div class="row">
-          <div class="col-sm-6">
-            <label for="csubject" class="sr-only">City</label>
-            <input
-              name="city"
-              type="text"
-              class="form-control"
-              id="csubject"
-              placeholder="City *"
-            />
-          </div>
-          <div class="col-sm-6">
-            <label for="csubject" class="sr-only">State</label>
-            <input
-              name="state"
-              type="text"
-              class="form-control"
-              id="csubject"
-              placeholder="State *"
-            />
-          </div>
-        </div>
-
-
-          <!-- <label for="cmessage" class="sr-only">Address</label>
-          <textarea
-            name="address"
-            class="form-control"
-            cols="30"
-            rows="4"
-            id="cmessage"
-            placeholder="Address"
-            required
-          ></textarea> -->
-
-          <button
-            type="submit"
-            class="btn btn-outline-primary-2 btn-minwidth-sm" >
-            <span>SUBMIT</span>
-            <i class="icon-long-arrow-right"></i>
-          </button>
-          
-        </form>
-
-        <!-- End .contact-form -->
-      </div>
-
-      <!-- End .col-lg-6 -->
-    </div>
-
-    <!-- End .row -->
-
-    
-  </div>
-  <!-- End .container -->
-</div>
-<%}%>
-<!-- End .page-content -->
+<script>
+  function removeAddress(id) {
+    console.log(id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          url: "/removeAddress",
+          data: {
+            id: id,
+          },
+          method: "post",
+          success: (response) => {
+            if ((response.remove = true)) {
+              location.reload();
+            }
+          },
+        });
+      }
+    });
+  }
+</script>
 
 <%- include('../user/layout/userFooter.ejs')%>

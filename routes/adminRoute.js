@@ -1,6 +1,5 @@
 const express = require('express')
 const adminRoute = express()
-const bodyParser = require('body-parser')
 const adminController = require('../controllers/adminController')
 const productController =require('../controllers/productController')
 const path = require('path')
@@ -9,7 +8,8 @@ const auth = require('../middlewares/adminAuth')
 const config = require('../config/config')
 const multer =  require('../middlewares/multer')
 const orderController = require('../controllers/orderController')
-
+const bannerController = require('../controllers/bannerController')
+const couponController = require('../controllers/couponController')
 
 //===========================SESSION SETTING================================================
 adminRoute.use(session({
@@ -17,9 +17,9 @@ adminRoute.use(session({
     saveUninitialized: true,
     secret:config.sessionSecret
   }));
-
-adminRoute.use(bodyParser.json())
-adminRoute.use(bodyParser.urlencoded({extended:true}))
+//===========================BODY PARSING===================================================
+adminRoute.use(express.json())
+adminRoute.use(express.urlencoded({extended:true}))
 
 //==============================SETTING VIEW ENGINE=========================================
 adminRoute.set('view engine', 'ejs');
@@ -70,6 +70,25 @@ adminRoute.post('/editProduct', auth.isLogin, multer.productImagesUpload, produc
 //====================================ORDER MANAGEMENT=======================================
 adminRoute.get('/showOrder', auth.isLogin, orderController.showOrder)
 adminRoute.get('/orderFullDetails',orderController.loadProductdetails)
+adminRoute.get('/delivered', orderController.delivered)
+
+//---------------------------------------------BANNER CONTROLLING------------------------------------------------------------------------------------
+
+//=================================BANNER MANAGEMENT=========================================
+adminRoute.get('/bannerDetails', bannerController.loadBannerPage)
+adminRoute.get('/loadAddBanner', bannerController.loadAddBanner)
+adminRoute.post('/addBanner', multer.bannerUpload.single('image'), bannerController.addBanner )
+adminRoute.get('/block-banner', bannerController.blockBanner)
+adminRoute.get('/edit-banner-page', bannerController.editBannerPage)
+adminRoute.post('/editBanner', multer.bannerUpload.single('image'), bannerController.editBanner)
+
+//-------------------------------------------COUPON CONTROLLING---------------------------------------------------------------------------------------
+adminRoute.get('/showCoupon', auth.isLogin, couponController.showCoupons)
+adminRoute.get('/addCoupon', auth.isLogin, couponController.addCouponPage)
+adminRoute.post('/addCoupon', auth.isLogin, couponController.addCoupon)
+adminRoute.get('/block-coupons', auth.isLogin, couponController.blockCoupons)
+adminRoute.get('/edit-coupon-page', auth.isLogin, couponController.showEditPage)
+adminRoute.post('/editCoupon', auth.isLogin, couponController.updateCoupon)
 
 //==================================404 ERROR PAGE===========================================
 adminRoute.get('*', adminController.loadError)
