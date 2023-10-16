@@ -1,6 +1,7 @@
 const Coupon = require("../models/couponModel");
+const Order = require('../models/orderModel')
 
-//=======================SHOW COUPONS PAGE======================
+//=======================SHOW COUPONS PAGE ADMIN SIDE======================
 const showCoupons = async (req, res) => {
   try {
     const coupons = await Coupon.find();
@@ -138,6 +139,7 @@ const applyCoupon = async (req, res) => {
                   
                   const disAmount = couponData.discountAmount;
                   const disTotal = Math.round(amount - disAmount);
+                  
                                 
                   return res.json({ amountOkey: true, disAmount, disTotal });
                

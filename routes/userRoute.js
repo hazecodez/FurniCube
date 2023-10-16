@@ -1,6 +1,6 @@
 const express = require('express')
 const userRoute = express()
-const bodyParser = require('body-parser')
+
 const userController = require('../controllers/userController')
 const productController = require('../controllers/productController')
 const session = require('express-session')
@@ -20,8 +20,8 @@ userRoute.use(session({
   }));
 
 //==========================BODY PARSER=======================================
-userRoute.use(bodyParser.json());
-userRoute.use(bodyParser.urlencoded({extended:true}))
+userRoute.use(express.json());
+userRoute.use(express.urlencoded({extended:true}))
 
 //==========================SETTING VIEW ENGINE===============================
 userRoute.set('view engine','ejs');
@@ -33,7 +33,7 @@ userRoute.get('/home', auth.isLogin, userController.loadHome)
 
 //=============================USER REGISTER==================================
 userRoute.get('/register', auth.isLogout, userController.loadRegister)
-userRoute.post('/register', userController.insertUser)
+userRoute.post('/register', auth.isLogout, userController.insertUser)
 
 //============================FORGET PASSWORD=================================
 userRoute.get('/forget',  userController.forgetLoad)
@@ -66,8 +66,8 @@ userRoute.get('/editAddress', auth.isLogin, addressController.loadEditAddress)
 //===============================CART HANDLING=================================
 userRoute.get('/cart', cartController.showCart)
 userRoute.post('/addToCart',  cartController.addToCart)
-userRoute.post('/removeCartItem', cartController.removeCartItem)
-userRoute.post('/cartQuantityUpdation', cartController.quantityUpdation)
+userRoute.post('/removeCartItem', auth.isLogin, cartController.removeCartItem)
+userRoute.post('/cartQuantityUpdation', auth.isLogin, cartController.quantityUpdation)
 
 //================================CHECKOUT HANDLING============================
 userRoute.get('/checkOut', auth.isLogin, cartController.loadCheckOut)
@@ -79,15 +79,16 @@ userRoute.post('/update_address', auth.isLogin, addressController.updateAddress)
 userRoute.post('/placeOrder',auth.isLogin, orderController.placeOrder)
 userRoute.get("/orderSuccess/:id",auth.isLogin,orderController.successPage);
 userRoute.get('/orders', orderController.userOrders)
-userRoute.get('/viewOrderDetails', orderController.userOderDetails)
-userRoute.post('/verify-payment', orderController.verifyPayment)
+userRoute.get('/viewOrderDetails', auth.isLogin, orderController.userOderDetails)
+userRoute.post('/verify-payment', auth.isLogin, orderController.verifyPayment)
 userRoute.post('/orderCancel', auth.isLogin, orderController.orderCancel)
 userRoute.post('/productReturn', auth.isLogin, orderController.productReturn)
+userRoute.get('/invoice/:id', auth.isLogin, orderController.orderInvoice)
 
 //================================WISHLIST HANDLING==============================
-userRoute.get('/wishlist', wishlistController.showWishlist)
-userRoute.post('/addToWishlist', wishlistController.addToWishlist)
-userRoute.post('/removeWish', wishlistController.removeWishItem)
+userRoute.get('/wishlist', auth.isLogin, wishlistController.showWishlist)
+userRoute.post('/addToWishlist', auth.isLogin, wishlistController.addToWishlist)
+userRoute.post('/removeWish', auth.isLogin, wishlistController.removeWishItem)
 
 //=====================================SHOP======================================
 userRoute.get('/shop', userController.loadShop)

@@ -68,6 +68,9 @@ const orderSchema = new mongoose.Schema({
   },
   paymentId: {
     type: String
+  },
+  discount: {
+    type: String
   }
 });
 

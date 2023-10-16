@@ -20,6 +20,8 @@
     <div class="page-content">
         <div class="container">
             <table class="table table-wishlist table-mobile">
+                <% if(products != undefined ){ %>
+                
                 <% if(products.length > 0){ %>
                 <thead>
                     <tr>
@@ -87,25 +89,45 @@
                         <td class="remove-col"><button class="btn-remove"><i class="icon-close"></i></button></td>
                     </tr> -->
                     <% }) %>
-                    <% }else{ %>
-                        <div class="error-content text-center">
-                          <div class="container">
-                            <h1 class="error-title">Empty Wishlist</h1>
-                            <!-- End .error-title -->
-                            <p>Your Wishlist is empty.</p>
-                            <a
-                              href="/shop"
-                              class="btn btn-outline-primary-2 btn-minwidth-lg"
-                            >
-                              <span>COLLECT YOUR WISHES</span>
-                              <i class="icon-long-arrow-right"></i>
-                            </a>
-                          </div>
-                          <!-- End .container -->
-                        </div>
-                        <!-- End .error-content text-center -->
-            
-                        <% } %> 
+                    
+                        <% }else{ %> 
+                            <div class="error-content text-center">
+                                <div class="container">
+                                  <h1 class="error-title">Empty Wishlist</h1>
+                                  <!-- End .error-title -->
+                                  <p>Your Wishlist is empty.</p>
+                                  <a
+                                    href="/shop"
+                                    class="btn btn-outline-primary-2 btn-minwidth-lg"
+                                  >
+                                    <span>COLLECT YOUR WISHES</span>
+                                    <i class="icon-long-arrow-right"></i>
+                                  </a>
+                                </div>
+                                <!-- End .container -->
+                              </div>
+                              <!-- End .error-content text-center -->
+                  
+                              <% } %>
+                              <% }else{ %> 
+                                <div class="error-content text-center">
+                                    <div class="container">
+                                      <h1 class="error-title">Empty Wishlist</h1>
+                                      <!-- End .error-title -->
+                                      <p>Your Wishlist is empty.</p>
+                                      <a
+                                        href="/shop"
+                                        class="btn btn-outline-primary-2 btn-minwidth-lg"
+                                      >
+                                        <span>COLLECT YOUR WISHES</span>
+                                        <i class="icon-long-arrow-right"></i>
+                                      </a>
+                                    </div>
+                                    <!-- End .container -->
+                                  </div>
+                                  <!-- End .error-content text-center -->
+                      
+                                  <% } %>
                 </tbody>
             </table><!-- End .table table-wishlist -->
             <div class="wishlist-share">

@@ -133,6 +133,22 @@
 </div><!-- End .mobile-menu-wrapper -->
 </div><!-- End .mobile-menu-container -->
 <script>
+    function logout(){
+        swal.fire({
+            icon: "warning",
+            title: "Are you sure ?",
+            confirmButtonText: "Logout",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6"
+            }).then((result)=> {
+                if(result.isConfirmed){
+                    window.location.href = "/logout"
+                }
+            })
+    }
+</script>
+<script>
     function addWishlist(productId) {
         $.ajax({
         url: "/addToWishlist",
@@ -215,7 +231,7 @@
           } else {
             swal.fire({
               icon: "error",
-              title: "Sorry Quantity reached ",
+              title: "Sorry ! Out of stock. ",
               text: response.message,
             });
           }

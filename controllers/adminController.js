@@ -3,6 +3,7 @@ const Category = require("../models/categoryModel");
 const Admin = require("../models/adminModel");
 const bcrypt = require("bcrypt");
 const Product = require("../models/productModel");
+const Order = require('../models/orderModel')
 
 //===========================404 ERROR PAGE=====================================
 const loadError = async (req, res) => {
@@ -13,15 +14,144 @@ const loadError = async (req, res) => {
   }
 };
 
-//==================================SHOW ADMIN PAGE==============================
+//=======================SHOW DASHBOARD IN ADMIN SIDE============================
 
-const loadAdmin = async (req, res) => {
+const loadAdmin = async(req,res)=> {
   try {
-    res.render("dashboard");
+    const users = await User.find({is_block:0});
+    const products = await Product.find({blocked: 0});
+    const tot_order = await Order.find();
+    const sales = await Order.countDocuments({ status: 'delivered' })
+    
+    const monthRev = await Order.aggregate([
+      {
+        $match: {
+          status: "delivered" 
+        }
+      },
+      {
+        $project: {
+          year: { $year: '$date' },
+          month: { $month: '$date' },
+          totalAmount: 1
+        }
+      },
+      {
+        $group: {
+          _id: { year: '$year', month: '$month' },
+          totalRevenue: { $sum: '$totalAmount' }
+        }
+      },
+      {
+        $sort: {
+          '_id.year': 1,
+          '_id.month': 1
+        }
+      }
+    ])
+    const monRev = monthRev[0].totalRevenue
+    const totalRev = await Order.aggregate([
+      {
+        $match: {
+          status: "delivered" 
+        }
+      },
+      {
+        $group: {
+          _id: null,
+          totalRevenue: { $sum: '$totalAmount' }
+        }
+      }
+    ])
+    const totalRevenue = totalRev[0].totalRevenue
+    res.render('dashboard',{users,products,tot_order,totalRevenue,monRev,sales})
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+//==========================SALES REPORT IN ADMIN SIDE===============================
+
+const salesReport = async (req, res) => {
+  try {
+    const users = await User.find({is_block:0});
+    
+    
+    const orderData = await Order.aggregate([
+      { $unwind: "$products" },
+      { $match: { status: "delivered" } },
+      { $sort: { date: -1 } },
+      {
+        $lookup: {
+          from: "products",
+          let: { productId: { $toObjectId: "$products.productId" } },
+          pipeline: [{ $match: { $expr: { $eq: ["$_id", "$$productId"] } } }],
+          as: "products.productDetails",
+        },
+      },
+      {
+        $addFields: {
+          "products.productDetails": {
+            $arrayElemAt: ["$products.productDetails", 0],
+          },
+        },
+      },
+    ]);
+
+    
+    
+
+    res.render("salesReport", {
+      order: orderData,users,
+    });
   } catch (error) {
     console.log(error.message);
   }
 };
+
+//=======================SALES REPORT SORTING BY YEAR MONTHLY ETC================
+
+const saleSorting = async(req,res)=> {
+  try {
+      const id = req.params.id;
+      
+      const startDate = 86400000 * id;
+      const currentDate = new Date();
+      const order = await Order.aggregate([
+        { $unwind: "$products" },
+        {
+          $match: {
+            "status": "delivered",
+            $and: [
+              { "deliveryDate": { $gte: new Date(startDate) } },
+              { "deliveryDate": { $lt: new Date(currentDate) } },
+            ],
+          },
+        },
+        { $sort: { "deliveryDate": -1 } },
+        {
+          $lookup: {
+            from: "products",
+            let: { productId: { $toObjectId: "$products.productId" } },
+            pipeline: [{ $match: { $expr: { $eq: ["$_id", "$$productId"] } } }],
+            as: "products.productDetails",
+          },
+        },
+        {
+          $addFields: {
+            "products.productDetails": {
+              $arrayElemAt: ["$products.productDetails", 0],
+            },
+          },
+        },
+      ]);
+      // console.log(order);
+      res.render('salesReport',{order})
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
 //================================SHOW ADMIN LOGIN===============================
 
 const loadLogin = async (req, res) => {
@@ -202,6 +332,8 @@ const updateCate = async (req, res) => {
 
 module.exports = {
   loadAdmin,
+  salesReport,
+  saleSorting,
   loadLogin,
   adminLogin,
   usersList,

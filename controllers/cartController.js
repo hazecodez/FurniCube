@@ -16,8 +16,8 @@ const showCart = async (req, res) => {
 
     const cart = await Cart.findOne({userId:req.session.user_id})
     const wish = await Wishlist.findOne({user:req.session.user_id})
-    let cartCount; 
-    let wishCount;
+    let cartCount=0; 
+    let wishCount=0;
     if(cart){cartCount = cart.products.length}
     if(wish){wishCount = wish.products.length}
     
@@ -235,9 +235,9 @@ const loadCheckOut = async (req, res) => {
 
     const cart = await Cart.findOne({userId:req.session.user_id})
     const wish = await Wishlist.findOne({user:req.session.user_id})
-    let countCart; 
-    let wishCount;
-    if(cart){countCart = cart.products.length}
+    let cartCount=0; 
+    let wishCount=0;
+    if(cart){cartCount = cart.products.length}
     if(wish){wishCount = wish.products.length} 
 
 
@@ -259,17 +259,17 @@ const loadCheckOut = async (req, res) => {
   
 
     let stock = [];
-    let cartCount = [];
+    let countCart = [];
 
     for (let i = 0; i < products.length; i++) {
       stock.push(cartData.products[i].productId.quantity);
-      cartCount.push(cartData.products[i].count);
+      countCart.push(cartData.products[i].count);
     }
     let inStock = true;
     let proIndex = 0;
 
     for (let i = 0; i < stock.length; i++) {
-      if (stock[i] > cartCount[i] || stock[i] == cartCount[i]) {
+      if (stock[i] > countCart[i] || stock[i] == countCart[i]) {
         inStock = true;
       } else {
         inStock = false;
@@ -298,7 +298,7 @@ const loadCheckOut = async (req, res) => {
               totalamount,
               user: userData,
               address,
-              countCart,wishCount
+              cartCount,wishCount
             });
           } else {
             res.redirect("/");
@@ -307,7 +307,7 @@ const loadCheckOut = async (req, res) => {
           res.redirect("/profile");
         }
       } else {
-        res.render("cart", { message: proName, name: req.session.name, cartCount:countCart,wishCount });
+        res.render("cart", { message: proName, name: req.session.name, cartCount,wishCount });
       }
     } else {
       res.redirect("/loadLogin");

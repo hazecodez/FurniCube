@@ -7,7 +7,12 @@ const Razorpay = require("razorpay");
 const crypto = require("crypto");
 const dotenv = require("dotenv");
 dotenv.config();
-const Wishlist = require('../models/wishlistModel')
+const Wishlist = require("../models/wishlistModel");
+const path = require('path')
+const fs = require('fs')
+const puppeteer = require('puppeteer')
+const ejs = require('ejs')
+const Coupon = require('../models/couponModel')
 
 //==========================RAZORPAY INSTANCE================================
 
@@ -60,7 +65,12 @@ const placeOrder = async (req, res) => {
             { $inc: { quantity: -count } }
           );
         }
-
+        if(req.session.code){
+          const coupon = await Coupon.findOne({couponCode:req.session.code});
+          const disAmount = coupon.discountAmount;
+          await Order.updateOne({_id:orderid},{$set:{discount:disAmount}});
+          res.json({ codsuccess: true, orderid });
+        }
         res.json({ codsuccess: true, orderid });
       } else {
         //-------------IF THE ORDER IS NOT COD-----------------//
@@ -80,7 +90,7 @@ const placeOrder = async (req, res) => {
                   walletHistory: {
                     date: new Date(),
                     amount: total,
-                    reason: "Purchaced Amount Debited."
+                    reason: "Purchaced Amount Debited.",
                   },
                 },
               },
@@ -103,6 +113,12 @@ const placeOrder = async (req, res) => {
                 { _id: pro },
                 { $inc: { quantity: -count } }
               );
+            }
+            if(req.session.code){
+              const coupon = await Coupon.findOne({couponCode:req.session.code});
+              const disAmount = coupon.discountAmount;
+              await Order.updateOne({_id:orderid},{$set:{discount:disAmount}});
+              res.json({ codsuccess: true, orderid });
             }
 
             res.json({ codsuccess: true, orderid });
@@ -167,7 +183,16 @@ const verifyPayment = async (req, res) => {
       );
       await Cart.deleteOne({ userId: req.session.user_id });
       const orderid = details.order.receipt;
+
+      //----discount adding orderDB------//
+      if(req.session.code){
+        const coupon = await Coupon.findOne({couponCode:req.session.code});
+        const disAmount = coupon.discountAmount;
+        await Order.updateOne({_id:orderid},{$set:{discount:disAmount}});
+        res.json({ codsuccess: true, orderid });
+      }
       res.json({ codsuccess: true, orderid });
+
     } else {
       await Order.findByIdAndRemove({ _id: details.order.receipt });
       res.json({ success: false });
@@ -181,14 +206,18 @@ const verifyPayment = async (req, res) => {
 
 const successPage = async (req, res) => {
   try {
-    const cart = await Cart.findOne({userId:req.session.user_id})
-    const wish = await Wishlist.findOne({user:req.session.user_id})
-    let cartCount; 
-    let wishCount;
-    if(cart){cartCount = cart.products.length}
-    if(wish){wishCount = wish.products.length}
+    const cart = await Cart.findOne({ userId: req.session.user_id });
+    const wish = await Wishlist.findOne({ user: req.session.user_id });
+    let cartCount=0; 
+    let wishCount=0;
+    if (cart) {
+      cartCount = cart.products.length;
+    }
+    if (wish) {
+      wishCount = wish.products.length;
+    }
 
-    res.render("thankYou", { name: req.session.name, wishCount,cartCount });
+    res.render("thankYou", { name: req.session.name, wishCount, cartCount });
   } catch (error) {
     console.log(error.message);
   }
@@ -198,7 +227,6 @@ const successPage = async (req, res) => {
 
 const orderCancel = async (req, res) => {
   try {
-    
     const orderId = req.body.orderid;
     const Id = req.session.user_id;
     const cancelReason = req.body.reason;
@@ -206,13 +234,11 @@ const orderCancel = async (req, res) => {
     const amount = parseInt(cancelAmount);
     const orderData = await Order.findOne({ _id: orderId });
     const products = orderData.products;
-    
-    if (
-      orderData.paymentMethod != "COD"  && orderData.status != "pending" ) {
-      const refundOption = "" + req.body.refundOption;
-      
 
-      if (refundOption === "Wallet" ) {
+    if (orderData.paymentMethod != "COD" && orderData.status != "pending") {
+      const refundOption = "" + req.body.refundOption;
+
+      if (refundOption === "Wallet") {
         const user = await User.findById(Id);
         const result = await User.findOneAndUpdate(
           { _id: Id },
@@ -222,7 +248,7 @@ const orderCancel = async (req, res) => {
               walletHistory: {
                 date: new Date(),
                 amount: amount,
-                reason:"Cancelled Product Amount Credited"
+                reason: "Cancelled Product Amount Credited",
               },
             },
           },
@@ -262,8 +288,10 @@ const orderCancel = async (req, res) => {
       }
 
       res.redirect("/orders");
-    } else if(orderData.paymentMethod == "COD" || orderData.status == "pending") {
-      
+    } else if (
+      orderData.paymentMethod == "COD" ||
+      orderData.status == "pending"
+    ) {
       // Change the order status
       const updatedData = await Order.updateOne(
         { _id: orderId },
@@ -283,7 +311,6 @@ const orderCancel = async (req, res) => {
 
       if (updatedData) {
         res.redirect("/orders");
-        
       } else {
         console.log("order status not updated");
       }
@@ -325,16 +352,25 @@ const loadProductdetails = async (req, res) => {
 
 const userOrders = async (req, res) => {
   try {
-    const cart = await Cart.findOne({userId:req.session.user_id})
-    const wish = await Wishlist.findOne({user:req.session.user_id})
-    let cartCount; 
-    let wishCount;
-    if(cart){cartCount = cart.products.length}
-    if(wish){wishCount = wish.products.length}
+    const cart = await Cart.findOne({ userId: req.session.user_id });
+    const wish = await Wishlist.findOne({ user: req.session.user_id });
+    let cartCount=0; 
+    let wishCount=0;
+    if (cart) {
+      cartCount = cart.products.length;
+    }
+    if (wish) {
+      wishCount = wish.products.length;
+    }
 
     const userId = req.session.user_id;
-    const orderData = await Order.find({ userId: userId });
-    res.render("orders", { name: req.session.name, orders: orderData, cartCount,wishCount });
+    const orderData = await Order.find({ userId: userId}).sort({date: -1});
+    res.render("orders", {
+      name: req.session.name,
+      orders: orderData,
+      cartCount,
+      wishCount,
+    });
   } catch (error) {
     console.log(error.message);
   }
@@ -353,18 +389,23 @@ const userOderDetails = async (req, res) => {
     const timeDiff = currentDate - deliveryDate;
     const daysDiff = Math.floor(timeDiff / (24 * 60 * 60 * 1000));
 
-    const cart = await Cart.findOne({userId:req.session.user_id})
-    const wish = await Wishlist.findOne({user:req.session.user_id})
-    let cartCount; 
-    let wishCount;
-    if(cart){cartCount = cart.products.length}
-    if(wish){wishCount = wish.products.length}
+    const cart = await Cart.findOne({ userId: req.session.user_id });
+    const wish = await Wishlist.findOne({ user: req.session.user_id });
+    let cartCount=0; 
+    let wishCount=0;
+    if (cart) {
+      cartCount = cart.products.length;
+    }
+    if (wish) {
+      wishCount = wish.products.length;
+    }
 
     res.render("orderedProduct", {
       name: req.session.name,
       orders: orderedProduct,
       daysDiff: daysDiff,
-      wishCount,cartCount
+      wishCount,
+      cartCount,
     });
   } catch (error) {
     console.log(error.message);
@@ -428,13 +469,54 @@ const productReturn = async (req, res) => {
             { $inc: { quantity: count } }
           );
         }
-        res.redirect('/orders')
+        res.redirect("/orders");
       } else {
         console.log("order not updated");
       }
     } else {
       console.log("user not found");
     }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+//========================DOWNLOAD ORDER INVOICE============================
+
+const orderInvoice = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const user = req.session.user_id;
+    const userData = await User.findOne({ _id: user });
+    const orderData = await Order.findOne({ _id: id }).populate(
+      "products.productId"
+    );
+    const date = new Date()
+    
+    data = {
+      order: orderData,
+      user: userData,
+      date
+    };
+
+    const filepathName = path.resolve(__dirname, "../views/user/invoice.ejs");
+
+    const html = fs.readFileSync(filepathName).toString();
+    const ejsData = ejs.render(html, data);
+
+    const browser = await puppeteer.launch({ headless: "new"});
+    const page = await browser.newPage();
+    await page.setContent(ejsData, { waitUntil: "networkidle0"});
+    const pdfBytes = await page.pdf({ format: "letter" });
+    await browser.close();
+
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader(
+      "Content-Disposition",
+      "attachment; filename= order invoice.pdf"
+    );
+    res.send(pdfBytes);
+
   } catch (error) {
     console.log(error.message);
   }
@@ -451,4 +533,5 @@ module.exports = {
   orderCancel,
   delivered,
   productReturn,
+  orderInvoice,
 };

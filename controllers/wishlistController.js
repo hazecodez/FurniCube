@@ -7,15 +7,18 @@ const showWishlist = async(req,res)=> {
     try {
         const cart = await Cart.findOne({userId:req.session.user_id})
         const wish = await Wishlist.findOne({user:req.session.user_id})
-        let cartCount; 
-        let wishCount;
+        let cartCount =0; 
+        let wishCount =0;
         if(cart){cartCount = cart.products.length}
-        if(wish){wishCount = wish.products.length}
-
-        const wishlist = await Wishlist.findOne({user:req.session.user_id}).populate("products.productId")
-        const products = wishlist.products;
-        res.render('wishlist',{name:req.session.name,products:products , wishCount,cartCount})
-
+        if(wish){
+            wishCount = wish.products.length
+            const wishlist = await Wishlist.findOne({user:req.session.user_id}).populate("products.productId")
+            const products = wishlist.products;
+            res.render('wishlist',{name:req.session.name,products:products , wishCount,cartCount}) 
+        }else{
+            
+            res.render('wishlist',{name:req.session.name,cartCount,wishCount,products:undefined})
+        }
     } catch (error) {
         console.log(error.message);
     }

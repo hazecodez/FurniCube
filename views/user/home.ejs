@@ -209,12 +209,13 @@
             <div class="product-item furniture col-6 col-md-4 col-lg-3">
                 <div class="product product-4">
                     <div class="product-media">
-                        
+                        <a href="/productView?id=<%=products[i]._id%>">
                             <img src="/products/crop/<%= products[i].images.image1 %>" alt="Product image" class="product-image">
+                        </a>
                         
 
                         <div class="product-action-vertical">
-                            <a href="" class="btn-product-icon btn-wishlist btn-expandable"><span>Add to wishlist</span></a>
+                            <a onclick="addWishlist('<%=products[i]._id%>')" class="btn-product-icon btn-wishlist btn-expandable"><span>Add to wishlist</span></a>
                         </div><!-- End .product-action -->
 
                         <div class="product-action">
@@ -230,7 +231,7 @@
                         
 
                         <div class="product-action">
-                            <a href="" class="btn-product btn-cart"><span>product details</span><i class="icon-long-arrow-right"></i></a>
+                            <a href="/productView?id=<%=products[i]._id%>" class="btn-product btn-cart"><span>product details</span><i class="icon-long-arrow-right"></i></a>
                         </div><!-- End .product-action -->
                     </div><!-- End .product-body -->
                 </div><!-- End .product -->

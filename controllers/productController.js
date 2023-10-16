@@ -69,7 +69,6 @@ const addProduct = async (req, res) => {
     });
 
     let result = await product.save();
-    console.log(result);
     res.redirect("/admin/product");
   } catch (error) {
     console.log(error.message);
@@ -83,8 +82,8 @@ const productView = async (req, res) => {
     const viewProduct = await Product.findOne({ _id: req.query.id });
     const cart = await Cart.findOne({userId:req.session.user_id})
     const wish = await Wishlist.findOne({user:req.session.user_id})
-    let cartCount; 
-    let wishCount;
+    let cartCount=0; 
+    let wishCount=0;
     if(cart){cartCount = cart.products.length}
     if(wish){wishCount = wish.products.length}
 
@@ -141,14 +140,14 @@ const editProductPage = async (req, res) => {
 const editedProduct = async (req, res) => {
   try {
     let details = req.body;
-    let imagesFiles = req.files;
+    let imagesFiles = await req.files;
     let currentData = await Product.findOne({ _id: req.query.id });
 
     const img = [
-      imagesFiles.image1[0].filename,
-      imagesFiles.image2[0].filename,
-      imagesFiles.image3[0].filename,
-      imagesFiles.image4[0].filename,
+      imagesFiles.image1 ? imagesFiles.image1[0].filename : currentData.images.image1,
+      imagesFiles.image2 ? imagesFiles.image2[0].filename : currentData.images.image2,
+      imagesFiles.image3 ? imagesFiles.image3[0].filename : currentData.images.image3,
+      imagesFiles.image4 ? imagesFiles.image4[0].filename : currentData.images.image4,
     ];
 
     for (let i = 0; i < img.length; i++) {
@@ -159,18 +158,10 @@ const editedProduct = async (req, res) => {
 
     let img1, img2, img3, img4;
 
-    img1 = imagesFiles.image1
-      ? imagesFiles.image1[0].filename
-      : currentData.images.image1;
-    img2 = imagesFiles.image2
-      ? imagesFiles.image2[0].filename
-      : currentData.images.image2;
-    img3 = imagesFiles.image3
-      ? imagesFiles.image3[0].filename
-      : currentData.images.image3;
-    img4 = imagesFiles.image4
-      ? imagesFiles.image4[0].filename
-      : currentData.images.image4;
+    img1 = imagesFiles.image1 ? imagesFiles.image1[0].filename : currentData.images.image1;
+    img2 = imagesFiles.image2 ? imagesFiles.image2[0].filename : currentData.images.image2;
+    img3 = imagesFiles.image3 ? imagesFiles.image3[0].filename : currentData.images.image3;
+    img4 = imagesFiles.image4 ? imagesFiles.image4[0].filename : currentData.images.image4;
 
     let update = await Product.updateOne(
       { _id: req.query.id },

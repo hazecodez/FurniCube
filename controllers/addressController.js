@@ -118,8 +118,8 @@ const loadEditAddress = async (req, res) => {
     
     const cart = await Cart.findOne({userId:req.session.user_id})
     const wish = await Wishlist.findOne({user:req.session.user_id})
-    let cartCount; 
-    let wishCount;
+    let cartCount=0; 
+    let wishCount=0;
     if(cart){cartCount = cart.products.length}
     if(wish){wishCount = wish.products.length}
 

@@ -83,18 +83,7 @@
                   >Adresses</a
                 >
               </li>
-              <li class="nav-item">
-                <a
-                  class="nav-link"
-                  id="tab-wishlist-link"
-                  data-toggle="tab"
-                  href="#tab-wishlist"
-                  role="tab"
-                  aria-controls="tab-wishlist"
-                  aria-selected="false"
-                  >Wishlist</a
-                >
-              </li>
+              
               <li class="nav-item">
                 <a class="nav-link" href="/logout">Sign Out</a>
               </li>
@@ -516,17 +505,19 @@
                             padding-left: 10px;
                           "><%= value.couponCode %></h2>
                           </div>
+                          <br>
+                          <p>If you buy&nbsp;₹ <%= value.criteriaAmount %>&nbsp;worth, You'll get&nbsp;₹ <%= value.discountAmount %>&nbsp;off! </p>
                           
                           
                         
 
                           <br />
-                          <p class="card-title">Starts on:&nbsp;<%= value.activationDate.toLocaleDateString('en-US',
+                          <p class="card-title">Validity:&nbsp;<%= value.activationDate.toLocaleDateString('en-US',
+                            { year: 'numeric', month: 'short', day: '2-digit'
+                            }).replace(/\//g, '-') %>&nbsp; To &nbsp;<%= value.expiryDate.toLocaleDateString('en-US',
                             { year: 'numeric', month: 'short', day: '2-digit'
                             }).replace(/\//g, '-') %></p>
-                          <p class="card-title">Expiry on:&nbsp;<%= value.expiryDate.toLocaleDateString('en-US',
-                            { year: 'numeric', month: 'short', day: '2-digit'
-                            }).replace(/\//g, '-') %></p>
+                          
                             
                         </div>
                         <div
@@ -682,12 +673,7 @@
               </div>
               <!-- .End .tab-pane -->
 
-              <div
-                class="tab-pane fade"
-                id="tab-wishlist"
-                role="tabpanel"
-                aria-labelledby="tab-wishlist-link"
-              ></div>
+             
               <!-- .End .tab-pane -->
             </div>
           </div>

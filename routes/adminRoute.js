@@ -29,8 +29,7 @@ adminRoute.set('views','./views/admin')
 
 adminRoute.get('/', auth.isLogout,adminController.loadLogin)
 adminRoute.get('/home', auth.isLogin,adminController.loadAdmin)
-adminRoute.post('/adminLogin', adminController.adminLogin)
-adminRoute.get('/dashboard', auth.isLogin, adminController.loadAdmin)
+adminRoute.post('/adminLogin', auth.isLogout, adminController.adminLogin)
 
 //=============================ADMIN LOGOUT=================================================
 adminRoute.get('/logout', auth.isLogin , adminController.adminLogout)
@@ -39,24 +38,30 @@ adminRoute.get('/logout', auth.isLogin , adminController.adminLogout)
 adminRoute.get('/userDetails', auth.isLogin, adminController.usersList)
 adminRoute.get('/block-user', auth.isLogin, adminController.blockUser)
 
+//--------------------------------------SALES REPORT AND DASHBOARD--------------------------------------------------------------------------------
+//===============================SALES REPORT WITH YEARLY MONTHLY FILTER====================
+adminRoute.get('/dashboard', auth.isLogin, adminController.loadAdmin)
+adminRoute.get('/salesReport', auth.isLogin, adminController.salesReport)
+adminRoute.get('/saleSortPage/:id', auth.isLogin, adminController.saleSorting)
+
 //--------------------------------------CATEGORY CONTROLLING-------------------------------------------------------------------------------------
 
 //================================CATEGORY MANAGEMENT=======================================
 adminRoute.get('/addCategory', auth.isLogin, adminController.loadAddcategory)
-adminRoute.post('/addCate', adminController.addCate)
+adminRoute.post('/addCate', auth.isLogin, adminController.addCate)
 adminRoute.get('/block-cat', auth.isLogin, adminController.blockCat)
 adminRoute.get('/category', auth.isLogin, adminController.category)
 //=============================LOAD EDIT CATEGORY PAGE======================================
 adminRoute.get('/edit-cat', auth.isLogin, adminController.editCate)
 //=======================UPDATING CATEGORY AND RELOAD THE PAGE==============================
-adminRoute.post('/editCate', adminController.updateCate)
+adminRoute.post('/editCate', auth.isLogin, adminController.updateCate)
 
 //----------------------------------------PRODUCT CONTROLLING-------------------------------------------------------------------------------------
 
 //==========================PRODUCT MANAGEMENT==============================================
 adminRoute.get('/addProduct', auth.isLogin,productController.loadAddProduct)
 adminRoute.get('/product',auth.isLogin,productController.product)
-adminRoute.post('/addProduct', multer.productImagesUpload, productController.addProduct)
+adminRoute.post('/addProduct', auth.isLogin, multer.productImagesUpload, productController.addProduct)
 
 //===========================PRODUCT BLOCK AND UNBLOCK======================================
 adminRoute.get('/block-pro',auth.isLogin , productController.blockProduct)
@@ -69,18 +74,18 @@ adminRoute.post('/editProduct', auth.isLogin, multer.productImagesUpload, produc
 
 //====================================ORDER MANAGEMENT=======================================
 adminRoute.get('/showOrder', auth.isLogin, orderController.showOrder)
-adminRoute.get('/orderFullDetails',orderController.loadProductdetails)
-adminRoute.get('/delivered', orderController.delivered)
+adminRoute.get('/orderFullDetails', auth.isLogin, orderController.loadProductdetails)
+adminRoute.get('/delivered', auth.isLogin, orderController.delivered)
 
 //---------------------------------------------BANNER CONTROLLING------------------------------------------------------------------------------------
 
 //=================================BANNER MANAGEMENT=========================================
-adminRoute.get('/bannerDetails', bannerController.loadBannerPage)
-adminRoute.get('/loadAddBanner', bannerController.loadAddBanner)
-adminRoute.post('/addBanner', multer.bannerUpload.single('image'), bannerController.addBanner )
-adminRoute.get('/block-banner', bannerController.blockBanner)
-adminRoute.get('/edit-banner-page', bannerController.editBannerPage)
-adminRoute.post('/editBanner', multer.bannerUpload.single('image'), bannerController.editBanner)
+adminRoute.get('/bannerDetails', auth.isLogin, bannerController.loadBannerPage)
+adminRoute.get('/loadAddBanner', auth.isLogin, bannerController.loadAddBanner)
+adminRoute.post('/addBanner', auth.isLogin,  multer.bannerUpload.single('image'), bannerController.addBanner )
+adminRoute.get('/block-banner', auth.isLogin, bannerController.blockBanner)
+adminRoute.get('/edit-banner-page', auth.isLogin, bannerController.editBannerPage)
+adminRoute.post('/editBanner', auth.isLogin, multer.bannerUpload.single('image'), bannerController.editBanner)
 
 //-------------------------------------------COUPON CONTROLLING---------------------------------------------------------------------------------------
 adminRoute.get('/showCoupon', auth.isLogin, couponController.showCoupons)
