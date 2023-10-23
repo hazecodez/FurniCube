@@ -63,7 +63,7 @@
     }
     if ($("#transaction-history").length) {
       var areaData = {
-        labels: ["Paypal", "Stripe","Cash"],
+        labels: ["Online", "COD","Wallet"],
         datasets: [{
             data: [55, 25, 20],
             backgroundColor: [

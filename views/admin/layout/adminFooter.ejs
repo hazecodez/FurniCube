@@ -1,7 +1,7 @@
 <footer class="footer">
     <div class="d-sm-flex justify-content-center justify-content-sm-between">
-      <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © bloomstyle.com 2023</span>
-      <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Buy plants from <a href="" target="_blank">BloomStyle</a> Plants-Store</span>
+      <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © furnicube.com 2023</span>
+      <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Buy furni from <a href="" target="_blank">FurniCube</a> Furni-Store</span>
     </div>
   </footer>
 </div>
@@ -10,7 +10,61 @@
 <!-- page-body-wrapper ends -->
 </div>
 <!-- container-scroller -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 
+<script>
+  const xTValues = ["Online", "COD", "Wallet"];
+  const yTValues = [55, 49, 44];
+  const TbarColors = [
+    "#b91d47",
+    "#00aba9",
+    "#2b5797"
+  ];
+  
+  new Chart("transactions", {
+    type: "doughnut",
+    data: {
+      labels: xTValues,
+      datasets: [{
+        backgroundColor: TbarColors,
+        data: yTValues
+      }]
+    },
+    
+  });
+  </script>
+
+
+
+<script>
+  window.onload = function() {
+    const xValues = ["Jan", "Feb", "Mar", "Apr", "May",'Jun','Jul',"Aug","Sep","Oct","Nov","Dec"];
+    const yValues = [0, 49, 0, 24, 15];
+    new Chart("monthChart", {
+      type: "bar",
+      data: {
+        labels: xValues,
+        datasets: [{
+        backgroundColor: "grey",
+        data: yValues
+      }]
+    },
+    options: {
+      legend: {display: false},
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }],
+      }
+    }
+  });
+
+  }
+  
+  </script>
+   
 
     <script src="/admin/vendors/js/vendor.bundle.base.js"></script>
     <!-- endinject -->

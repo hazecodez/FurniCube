@@ -1,14 +1,11 @@
 $(function() {
-  /* ChartJS
-   * -------
-   * Data and config for chartjs
-   */
+  
   'use strict';
   var data = {
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "June",'July','Aug','Sep','Oct','Nov','Dec'],
     datasets: [{
       label: '# of Sales',
-      data: [10, 0, 3, 5, 2, 3,4,5,6,7,8,9],
+      data: [0, 0, 0, 0, 0, 0,0,0,0,9,0,0],
       backgroundColor: [
         
         'rgba(75, 192, 192, 0.2)',

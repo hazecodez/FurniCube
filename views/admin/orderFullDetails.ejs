@@ -45,7 +45,7 @@ include('../admin/layout/adminHeader.ejs')%>
                   <th>Order status</th>
                   <th>Action</th>
 
-                  <
+                  
                 </tr>
               </thead>
               <tbody>
@@ -66,11 +66,22 @@ include('../admin/layout/adminHeader.ejs')%>
                   <td><%= data.count %></td>
                   
                   <td><%= orders.status %></td>
-                  <% if(orders.status == "placed"){ %>
+                  <!-- <% if(orders.status == "placed"){ %>
                   <td><p><a href="/admin/delivered?id=<%= orders._id %>" class="badge badge-success">DELIVERY</a></p></td>
                   <% }else if(orders.status == "delivered") {%>
                     <td><p><a href="" class="badge badge-success">DELIVERED</a></p></td>
-                    <% } %>
+                    <% } %> -->
+                    <td>
+                    <div class="dropdown">
+                      <button class="btn btn-outline-success dropdown-toggle" type="button" id="dropdownMenuOutlineButton5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Actions </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuOutlineButton5">
+                        <a class="dropdown-item" href="#">Pending</a>
+                        <a class="dropdown-item" href="#">Cancel</a>
+                        <a class="dropdown-item" href="#">Shipped</a>
+                        <a class="dropdown-item" href="/admin/delivered?id=<%= orders._id %>">Delivery</a>
+                      </div>
+                    </div>
+                  </td>
                 </tr>
                 <!-- Button trigger modal -->
                 <!-- Button trigger modal -->

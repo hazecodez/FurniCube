@@ -43,6 +43,7 @@ adminRoute.get('/block-user', auth.isLogin, adminController.blockUser)
 adminRoute.get('/dashboard', auth.isLogin, adminController.loadAdmin)
 adminRoute.get('/salesReport', auth.isLogin, adminController.salesReport)
 adminRoute.get('/saleSortPage/:id', auth.isLogin, adminController.saleSorting)
+adminRoute.get('/reportDown/:duration/:format', auth.isLogin, adminController.downloadReport)
 
 //--------------------------------------CATEGORY CONTROLLING-------------------------------------------------------------------------------------
 
