@@ -27,6 +27,24 @@ const loadAdmin = async(req,res)=> {
     const products = await Product.find({blocked: 0});
     const tot_order = await Order.find();
     const sales = await Order.countDocuments({ status: 'delivered' })
+    const codCount = await Order.countDocuments({ status: 'delivered', paymentMethod: 'COD' });
+    const onlinePaymentCount = await Order.countDocuments({ status: 'delivered', paymentMethod: 'onlinePayment' });
+    const walletCount = await Order.countDocuments({ status: 'delivered', paymentMethod: 'wallet' });
+
+    const monthlyOrderCounts = await Order.aggregate([
+      {
+        $match: {
+          status: 'delivered',
+        },
+      },
+      {
+        $group: {
+          _id: { $dateToString: { format: '%m', date: '$deliveryDate' } },
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+   
     
     const monthRev = await Order.aggregate([
       {
@@ -70,7 +88,18 @@ const loadAdmin = async(req,res)=> {
     ])
     const totalRevenue = totalRev[0].totalRevenue
 
-    res.render('dashboard',{users,products,tot_order,totalRevenue,monRev,sales})
+    res.render('dashboard',{
+      users,
+      products,
+      tot_order,
+      totalRevenue,
+      monRev,
+      sales,
+      codCount,
+      walletCount,
+      onlinePaymentCount,
+      monthlyOrderCounts
+    })
   } catch (error) {
     console.log(error.message);
   }

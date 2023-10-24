@@ -13,8 +13,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 
 <script>
+  let Online = document.getElementById("online").value;
+  let Wallet =  document.getElementById('wallet').value;
+  let COD = document.getElementById('cod').value;
+  console.log(Online);
+
   const xTValues = ["Online", "COD", "Wallet"];
-  const yTValues = [55, 49, 44];
+  const yTValues = [Online, Wallet, COD];
   const TbarColors = [
     "#b91d47",
     "#00aba9",
@@ -38,8 +43,21 @@
 
 <script>
   window.onload = function() {
+    let Jan = document.getElementById("jan").value;
+    let Feb = document.getElementById("feb").value;
+    let Mar = document.getElementById("mar").value;
+    let Apr = document.getElementById("apr").value;
+    let May = document.getElementById("may").value;
+    let Jun = document.getElementById("jun").value;
+    let Jul = document.getElementById("jul").value;
+    let Aug = document.getElementById("aug").value;
+    let Sep = document.getElementById("sep").value;
+    let Oct = document.getElementById("oct").value;
+    let Nov = document.getElementById("nov").value;
+    let Dec = document.getElementById("dec").value;
+    
     const xValues = ["Jan", "Feb", "Mar", "Apr", "May",'Jun','Jul',"Aug","Sep","Oct","Nov","Dec"];
-    const yValues = [0, 49, 0, 24, 15];
+    const yValues = [Jan, Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec];
     new Chart("monthChart", {
       type: "bar",
       data: {

@@ -81,7 +81,7 @@
                 <h6 class="mb-1">Cash On Delivery</h6>
               </div>
               <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                <h6 class="font-weight-bold mb-0">$236</h6>
+                <h6 class="font-weight-bold mb-0"><%= codCount %></h6>
               </div>
             </div>
             <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
@@ -89,7 +89,7 @@
                 <h6 class="mb-1">Online Payment</h6>
               </div>
               <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                <h6 class="font-weight-bold mb-0">$593</h6>
+                <h6 class="font-weight-bold mb-0"><%=onlinePaymentCount%></h6>
               </div>
             </div>
             <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
@@ -97,7 +97,7 @@
                 <h6 class="mb-1">Wallet</h6>
               </div>
               <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                <h6 class="font-weight-bold mb-0">$593</h6>
+                <h6 class="font-weight-bold mb-0"><%=walletCount%></h6>
               </div>
             </div>
           </div>
@@ -178,8 +178,25 @@
 
 
 
-    
-    
+    <input type="text" id="cod" value="<%= codCount %>" hidden>
+    <input type="text" id="wallet" value="<%= walletCount %>" hidden>
+    <input type="text" id="online" value="<%= onlinePaymentCount %>" hidden>
+    <% monthlyOrderCounts.forEach((data)=> { %>
+
+    <input type="text" id="jan" value="<%= data._id=='01'?data.count:0 %>" hidden>
+    <input type="text" id="feb" value="<%= data._id=='02'?data.count:0 %>" hidden>
+    <input type="text" id="mar" value="<%= data._id=='03'?data.count:0 %>" hidden>
+    <input type="text" id="apr" value="<%= data._id=='04'?data.count:0 %>" hidden>
+    <input type="text" id="may" value="<%= data._id=='05'?data.count:0 %>" hidden>
+    <input type="text" id="jun" value="<%= data._id=='06'?data.count:0 %>" hidden>
+    <input type="text" id="jul" value="<%= data._id=='07'?data.count:0 %>" hidden>
+    <input type="text" id="aug" value="<%= data._id=='08'?data.count:0 %>" hidden>
+    <input type="text" id="sep" value="<%= data._id=='09'?data.count:0 %>" hidden>
+    <input type="text" id="oct" value="<%= data._id=='10'?data.count:0 %>" hidden>
+    <input type="text" id="nov" value="<%= data._id=='11'?data.count:0 %>" hidden>
+    <input type="text" id="dec" value="<%= data._id=='12'?data.count:0 %>" hidden>
+
+     <% }) %>
     
     
     
