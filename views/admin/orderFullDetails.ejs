@@ -33,6 +33,41 @@ include('../admin/layout/adminHeader.ejs')%>
               <span style="color: darkgrey">Delivery details:</span>
               <%= orders.deliveryDetails %>
             </ul>
+            <% if(orders.status == "shipped" || orders.status == "placed" || orders.status == "delivered"){ %>
+            <div class="progress-track w-100  w-100">
+              <ul id="progressbar" class="d-flex justify-content-center">
+                  <li style="font-size: 12px;" class="step0 active " id="step1">Order placed
+                  </li>
+                  <% if(orders.status == "delivered"){ %>
+                    <li style="font-size: 12px;"
+                      class="step0 text-center active"
+                      id="step2">Shipped</li>
+                    <% }else{ %>
+                  <li style="font-size: 12px;"
+                      class="step0 text-center <%= orders.statusLevel === 2 ? 'active' : '' %>"
+                      id="step2"><p>Shipped</p></li>
+                      <% } %>
+                  <li style="font-size: 12px;"
+                      class="step0  text-right <%= orders.statusLevel === 3 ? 'active' : '' %>"
+                      id="step3">Delivered</li>
+                 
+
+              </ul>
+          </div>
+          <% } %>
+          <% if(orders.status == "shipped" || orders.status == "placed"){ %>
+            <td>
+            <div class="dropdown">
+              <button class="btn btn-outline-success dropdown-toggle" type="button" id="dropdownMenuOutlineButton5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Actions </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuOutlineButton5">
+                <a class="dropdown-item" href="/admin/statusUpdate?id=<%= orders._id %>&status=0">Cancel</a>
+                <a class="dropdown-item" href="/admin/statusUpdate?id=<%= orders._id %>&status=2">Shipped</a>
+                <a class="dropdown-item" href="/admin/statusUpdate?id=<%= orders._id %>&status=3">Delivery</a>
+              </div>
+            </div>
+          </td>
+          <% } %>
+          <br>
 
             <table class="table table-dark">
               <thead>
@@ -43,7 +78,7 @@ include('../admin/layout/adminHeader.ejs')%>
                   <th>Category</th>
                   <th>Quantity</th>
                   <th>Order status</th>
-                  <th>Action</th>
+                  
 
                   
                 </tr>
@@ -71,17 +106,7 @@ include('../admin/layout/adminHeader.ejs')%>
                   <% }else if(orders.status == "delivered") {%>
                     <td><p><a href="" class="badge badge-success">DELIVERED</a></p></td>
                     <% } %> -->
-                    <td>
-                    <div class="dropdown">
-                      <button class="btn btn-outline-success dropdown-toggle" type="button" id="dropdownMenuOutlineButton5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Actions </button>
-                      <div class="dropdown-menu" aria-labelledby="dropdownMenuOutlineButton5">
-                        <a class="dropdown-item" href="#">Pending</a>
-                        <a class="dropdown-item" href="#">Cancel</a>
-                        <a class="dropdown-item" href="#">Shipped</a>
-                        <a class="dropdown-item" href="/admin/delivered?id=<%= orders._id %>">Delivery</a>
-                      </div>
-                    </div>
-                  </td>
+                    
                 </tr>
                 <!-- Button trigger modal -->
                 <!-- Button trigger modal -->

@@ -76,7 +76,7 @@ adminRoute.post('/editProduct', auth.isLogin, multer.productImagesUpload, produc
 //====================================ORDER MANAGEMENT=======================================
 adminRoute.get('/showOrder', auth.isLogin, orderController.showOrder)
 adminRoute.get('/orderFullDetails', auth.isLogin, orderController.loadProductdetails)
-adminRoute.get('/delivered', auth.isLogin, orderController.delivered)
+adminRoute.get('/statusUpdate', auth.isLogin, orderController.statusUpdate)
 
 //---------------------------------------------BANNER CONTROLLING------------------------------------------------------------------------------------
 

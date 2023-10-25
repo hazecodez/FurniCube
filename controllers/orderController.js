@@ -35,6 +35,7 @@ const placeOrder = async (req, res) => {
     const name = userData.name;
     const uniNum = Math.floor(Math.random() * 900000) + 100000;
     const status = paymentMethods === "COD" ? "placed" : "pending";
+    const statusLevel = status === "placed" ? 1: 0;
     const walletBalance = userData.wallet;
 
     const order = new Order({
@@ -47,6 +48,8 @@ const placeOrder = async (req, res) => {
       totalAmount: total,
       date: new Date(),
       status: status,
+      statusLevel: statusLevel
+
     });
 
     const orderData = await order.save();
@@ -97,9 +100,11 @@ const placeOrder = async (req, res) => {
               { new: true }
             );
             await Order.findByIdAndUpdate(
-              { _id: orderid },
-              { $set: { status: "placed" } }
+              orderid,
+              { status: "placed", statusLevel: 1 },
+              { new: true }
             );
+            
             if (result) {
               console.log("amount debited from wallet");
             } else {
@@ -174,7 +179,7 @@ const verifyPayment = async (req, res) => {
       }
       await Order.findByIdAndUpdate(
         { _id: details.order.receipt },
-        { $set: { status: "placed" } }
+        { $set: { status: "placed" , statusLevel: 1 } }
       );
 
       await Order.findByIdAndUpdate(
@@ -263,7 +268,7 @@ const orderCancel = async (req, res) => {
         const updatedData = await Order.updateOne(
           { _id: orderId },
           {
-            $set: { cancelReason: cancelReason, status: "cancelled" },
+            $set: { cancelReason: cancelReason, status: "cancelled" , statusLevel: 0 },
           }
         );
 
@@ -285,6 +290,7 @@ const orderCancel = async (req, res) => {
         res.redirect("/orders");
       } else {
         // Refund to user bank account
+        console.log('refund to bank acc not added');
       }
 
       res.redirect("/orders");
@@ -296,7 +302,7 @@ const orderCancel = async (req, res) => {
       const updatedData = await Order.updateOne(
         { _id: orderId },
         {
-          $set: { cancelReason: cancelReason, status: "cancelled" },
+          $set: { cancelReason: cancelReason, status: "cancelled" , statusLevel: 0},
         }
       );
 
@@ -413,19 +419,58 @@ const userOderDetails = async (req, res) => {
 };
 
 //====================================DELIVER THE PRODUCT ADMIN SIDE===================================
-const delivered = async (req, res) => {
+const statusUpdate = async (req, res) => {
   try {
     const orderId = req.query.id;
-    const order = await Order.updateOne(
-      { _id: orderId },
-      { $set: { status: "delivered", deliveryDate: new Date() } }
-    );
-    if (order) {
-      console.log("delivered");
-      res.redirect("/admin/showOrder");
-    } else {
-      console.log("not delivered");
+    const orderData = await Order.findOne({_id:orderId})
+    const userId = orderData.userId    
+    const statusLevel = req.query.status;
+    const amount = orderData.totalAmount;
+    const products = orderData.products;
+    
+
+    if(statusLevel === '0'){
+      await Order.updateOne(
+        { _id: orderId },
+        { $set: { status: "cancelled", statusLevel: 0 } } );
+      
+        for (let i = 0; i < products.length; i++) {
+          let pro = products[i].productId;
+          let count = products[i].count;
+          await Product.findOneAndUpdate(
+            { _id: pro },
+            { $inc: { quantity: count } }
+          );
+        }
+        if(orderData.paymentMethod == 'onlinePayment' || orderData.paymentMethod == 'wallet'){
+          await User.findOneAndUpdate(
+            { _id: userId },
+            {
+              $inc: { wallet: amount },
+              $push: {
+                walletHistory: {
+                  date: new Date(),
+                  amount: amount,
+                  reason: "Cancelled Product Amount Credited",
+                },
+              },
+            },
+            { new: true }
+          );
+        }
+    }else if(statusLevel === '2'){
+      await Order.updateOne(
+        { _id: orderId },
+        { $set: { status: "shipped", statusLevel: 2 } }
+      )
+    }else if(statusLevel === '3'){
+      await Order.updateOne(
+        { _id: orderId },
+        { $set: { status: "delivered", deliveryDate: new Date() , statusLevel: 3 } }
+      );
     }
+    res.redirect("/admin/showOrder");
+
   } catch (error) {
     console.log(error.message);
   }
@@ -458,7 +503,7 @@ const productReturn = async (req, res) => {
     if (result) {
       const updatedData = await Order.updateOne(
         { _id: orderId },
-        { $set: { returnReason: returnReason, status: "Returned" } }
+        { $set: { returnReason: returnReason, status: "Returned" , statusLevel: 0 } }
       );
       if (updatedData) {
         for (let i = 0; i < products.length; i++) {
@@ -531,7 +576,7 @@ module.exports = {
   userOderDetails,
   verifyPayment,
   orderCancel,
-  delivered,
+  statusUpdate,
   productReturn,
   orderInvoice,
 };

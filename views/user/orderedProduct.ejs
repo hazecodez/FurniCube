@@ -36,6 +36,28 @@
             </div><!-- End .btn-wrap -->
           </div><!-- End .col-md-4 col-lg-2 -->
           <% } %>
+          <% if(orders.status == "shipped" || orders.status == "placed" || orders.status == "delivered"){ %>
+          <div class="progress-track w-100  w-100">
+            <ul id="progressbar" class="d-flex justify-content-center">
+                <li style="font-size: 12px;" class="step0 active " id="step1">Order placed
+                </li>
+                <% if(orders.status == "delivered"){ %>
+                  <li style="font-size: 12px;"
+                    class="step0 text-center active"
+                    id="step2">Shipped</li>
+                  <% }else{ %>
+                <li style="font-size: 12px;"
+                    class="step0 text-center <%= orders.statusLevel === 2 ? 'active' : '' %>"
+                    id="step2">Shipped</li>
+                    <% } %>
+                <li style="font-size: 12px;"
+                    class="step0  text-right <%= orders.statusLevel === 3 ? 'active' : '' %>"
+                    id="step3">Delivered</li>
+               
+
+            </ul>
+        </div>
+        <% } %>
           
           <div class="row">
             <!-- End .col-lg-9 -->
@@ -93,7 +115,7 @@
                       <td>Payment Method:</td>
                       <td><%= orders.paymentMethod %></td>
                     </tr>
-                    <% if(orders.status == "delivered"){ %>
+                    <% if(orders.status == "delivered" && daysDiff < 7 ){ %>
                     
                     <tr>
                       <td>Reurn Policy:</td>

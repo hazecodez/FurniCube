@@ -40,167 +40,116 @@
 
         <span class="slider-loader"></span><!-- End .slider-loader -->
     </div><!-- End .intro-slider-container -->
+    <h2 class="title text-center brands">New Arrivals</h2>
+
+                <div class="owl-carousel mt-3 mb-4 owl-simple" data-toggle="owl" 
+                    data-owl-options='{
+                        "nav": false, 
+                        "dots": true,
+                        "margin": 30,
+                        "loop": false,
+                        "responsive": {
+                            "0": {
+                                "items":2
+                            },
+                            "420": {
+                                "items":3
+                            },
+                            "600": {
+                                "items":4
+                            },
+                            "900": {
+                                "items":5
+                            },
+                            "1024": {
+                                "items":6
+                            },
+                            "1200": {
+                                "items":6,
+                                "nav": true,
+                                "dots": false
+                            }
+                        }
+                    }'>
+                    <a href="#" class="brand">
+                        <img src="/user/images/brands/1.png" alt="Brand Name">
+                    </a>
+
+                    <a href="#" class="brand">
+                        <img src="/user/images/brands/2.png" alt="Brand Name">
+                    </a>
+
+                    <a href="#" class="brand">
+                        <img src="/user/images/brands/3.png" alt="Brand Name">
+                    </a>
+
+                    <a href="#" class="brand">
+                        <img src="/user/images/brands/4.png" alt="Brand Name">
+                    </a>
+
+                    <a href="#" class="brand">
+                        <img src="/user/images/brands/5.png" alt="Brand Name">
+                    </a>
+
+                    <a href="#" class="brand">
+                        <img src="/user/images/brands/6.png" alt="Brand Name">
+                    </a>
+
+                    <a href="#" class="brand">
+                        <img src="/user/images/brands/7.png" alt="Brand Name">
+                    </a>
+                </div><!-- End .owl-carousel -->
 
     <div class="container">
-        <div class="toolbox toolbox-filter">
-            <div class="toolbox-left">
-                <a href="#" class="filter-toggler">Filters</a>
 
-            </div><!-- End .toolbox-left -->
-            <div class="toolbox-right">
-                <ul class="nav-filter product-filter">
-                    <li class="active"><a href="" data-filter="">All</a></li>
-                    <li><a href="#" data-filter="">Sofas</a></li>
-                    <li><a href="#" data-filter="">Dining</a></li>
-                    <li><a href="#" data-filter="">Living</a></li>
-                    <li><a href="#" data-filter="">Office Furniture</a></li>
-                    <li><a href="#" data-filter="">Bedrooms</a></li>
-                </ul>
-            </div><!-- End .toolbox-right -->
-        </div><!-- End .filter-toolbox -->
+        <div class="banner-group">
+            <div class="row">
+                <div class="col-sm-6 col-lg-4">
+                    <div class="banner banner-overlay">
+                        <a href="#">
+                            <img src="/products/crop/<%= products[0].images.image1 %>" alt="Banner">
+                        </a>
 
-        <div class="widget-filter-area" id="product-filter-area">
-            <a href="#" class="widget-filter-clear">Clean All</a>
+                        <div class="banner-content">
+                            <h4 class="banner-subtitle"><a href="#">Final reduction</a></h4><!-- End .banner-subtitle -->
+                            <h3 class="banner-title"><a href="#"><strong><%= products[0].name %></strong></a></h3><!-- End .banner-title -->
+                            <a href="/productView?id=<%=products[0]._id%>" class="btn btn-outline-white banner-link">Shop Now <i class="icon-long-arrow-right"></i></a>
+                        </div><!-- End .banner-content -->
+                    </div><!-- End .banner -->
+                </div><!-- End .col-lg-4 -->
 
-            <div class="filter-area-wrapper">
-                <div class="row">
-                    <div class="col-sm-6 col-lg-3">
-                        <div class="widget">
-                            <h3 class="widget-title">
-                                Category:
-                            </h3><!-- End .widget-title -->
+                <div class="col-sm-6 col-lg-4">
+                    <div class="banner banner-overlay">
+                        <a href="#">
+                            <img src="/products/crop/<%= products[1].images.image1 %>" alt="Banner">
+                        </a>
 
-                            <div class="filter-items filter-items-count">
-                                <div class="filter-item">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="cat-1">
-                                        <label class="custom-control-label" for="cat-1">All</label>
-                                    </div><!-- End .custom-checkbox -->
-                                    <span class="item-count">24</span>
-                                </div><!-- End .filter-item -->
+                        <div class="banner-content">
+                            <h4 class="banner-subtitle"><a href="#">Limited time only.</a></h4><!-- End .banner-subtitle -->
+                            <h3 class="banner-title"><a href="#"><strong><%= products[1].name %></strong></a></h3><!-- End .banner-title -->
+                            <a href="/productView?id=<%=products[1]._id%>" class="btn btn-outline-white banner-link">Shop Now <i class="icon-long-arrow-right"></i></a>
+                        </div><!-- End .banner-content -->
+                    </div><!-- End .banner -->
+                </div><!-- End .col-lg-4 -->
 
-                                <div class="filter-item">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="cat-2">
-                                        <label class="custom-control-label" for="cat-2">Furniture</label>
-                                    </div><!-- End .custom-checkbox -->
-                                    <span class="item-count">3</span>
-                                </div><!-- End .filter-item -->
+                <div class="col-sm-6 col-lg-4 d-none d-lg-block">
+                    <div class="banner banner-overlay">
+                        <a href="#">
+                            <img src="/products/crop/<%= products[2].images.image1 %>" alt="Banner">
+                        </a>
 
-                                <div class="filter-item">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="cat-3">
-                                        <label class="custom-control-label" for="cat-3">Lighting</label>
-                                    </div><!-- End .custom-checkbox -->
-                                    <span class="item-count">2</span>
-                                </div><!-- End .filter-item -->
-
-                                <div class="filter-item">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="cat-4">
-                                        <label class="custom-control-label" for="cat-4">Accessories</label>
-                                    </div><!-- End .custom-checkbox -->
-                                    <span class="item-count">4</span>
-                                </div><!-- End .filter-item -->
-
-                                <div class="filter-item">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="cat-5">
-                                        <label class="custom-control-label" for="cat-5">Sale</label>
-                                    </div><!-- End .custom-checkbox -->
-                                    <span class="item-count">2</span>
-                                </div><!-- End .filter-item -->
-                            </div><!-- End .filter-items -->
-                        </div><!-- End .widget -->
-                    </div><!-- End .col-sm-6 col-lg-3 -->
-
-                    <div class="col-sm-6 col-lg-3">
-                        <div class="widget">
-                            <h3 class="widget-title">
-                                Sort by:
-                            </h3><!-- End .widget-title -->
-
-                            <div class="filter-items">
-                                <div class="filter-item">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="radio" class="custom-control-input" checked id="sort-1" name="sortby">
-                                        <label class="custom-control-label" for="sort-1">Default</label>
-                                    </div><!-- End .custom-checkbox -->
-                                </div><!-- End .filter-item -->
-
-                                <div class="filter-item">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="radio" class="custom-control-input" id="sort-2" name="sortby">
-                                        <label class="custom-control-label" for="sort-2">Popularity</label>
-                                    </div><!-- End .custom-checkbox -->
-                                </div><!-- End .filter-item -->
-
-                                <div class="filter-item">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="radio" class="custom-control-input" id="sort-3" name="sortby">
-                                        <label class="custom-control-label" for="sort-3">Average Rating</label>
-                                    </div><!-- End .custom-checkbox -->
-                                </div><!-- End .filter-item -->
-
-                                <div class="filter-item">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="radio" class="custom-control-input" id="sort-4" name="sortby">
-                                        <label class="custom-control-label" for="sort-4">Newness</label>
-                                    </div><!-- End .custom-checkbox -->
-                                </div><!-- End .filter-item -->
-
-                                <div class="filter-item">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="radio" class="custom-control-input" id="sort-5" name="sortby">
-                                        <label class="custom-control-label" for="sort-5">Price: Low to High</label>
-                                    </div><!-- End .custom-checkbox -->
-                                </div><!-- End .filter-item -->
-
-                                <div class="filter-item">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="radio" class="custom-control-input" id="sort-6" name="sortby">
-                                        <label class="custom-control-label" for="sort-6">Price: High to Low</label>
-                                    </div><!-- End .custom-checkbox -->
-                                </div><!-- End .filter-item -->
-                            </div><!-- End .filter-items -->
-                        </div><!-- End .widget -->
-                    </div><!-- End .col-sm-6 col-lg-3 -->
-
-                    <div class="col-sm-6 col-lg-3">
-                        <div class="widget">
-                            <h3 class="widget-title">
-                                Colour:
-                            </h3><!-- End .widget-title -->
-
-                            <div class="filter-colors filter-colors-vertical">
-                                <a href="#" style="background: #b87145;"><span>Brown</span></a>
-                                <a href="#" style="background: #f0c04a;"><span>Yellow</span></a>
-                                <a href="#" style="background: #333333;"><span>Black</span></a>
-                                <a href="#" class="selected" style="background: #cc3333;"><span>Red</span></a>
-                                <a href="#" style="background: #ebebeb;"><span>White</span></a>
-                            </div><!-- End .filter-colors -->
-                        </div><!-- End .widget -->
-                    </div><!-- End .col-sm-6 col-lg-3 -->
-
-                    <div class="col-sm-6 col-lg-3">
-                        <div class="widget">
-                            <h3 class="widget-title">
-                                Price:
-                            </h3><!-- End .widget-title -->
-
-                            <div class="filter-price">
-                                <div class="filter-price-text">
-                                    Price Range:
-                                    <span id="filter-price-range"></span>
-                                </div><!-- End .filter-price-text -->
-
-                                <div id="price-slider"></div><!-- End #price-slider -->
-                            </div><!-- End .filter-price -->
-                        </div><!-- End .widget -->
-                    </div><!-- End .col-sm-6 col-lg-3 -->
-                </div><!-- End .row -->
-            </div><!-- End .filter-area-wrapper -->
-        </div><!-- End #product-filter-area.widget-filter-area -->
+                        <div class="banner-content">
+                            <h4 class="banner-subtitle"><a href="#">This week we love...</a></h4><!-- End .banner-subtitle -->
+                            <h3 class="banner-title"><a href="#"><strong><%= products[2].name %></strong></a></h3><!-- End .banner-title -->
+                            <a href="/productView?id=<%=products[2]._id%>" class="btn btn-outline-white banner-link">Shop Now <i class="icon-long-arrow-right"></i></a>
+                        </div><!-- End .banner-content -->
+                    </div><!-- End .banner -->
+                </div><!-- End .col-lg-4 -->
+            </div><!-- End .row -->
+        </div><!-- End .banner-group -->
+       
+        <hr class="mt-0 mb-4">
+                <h2 class="title text-center brands">Trendy Products</h2>
         
         <div class="products-container" data-layout="fitRows">
 
@@ -211,7 +160,9 @@
                     <div class="product-media">
                         <a href="/productView?id=<%=products[i]._id%>">
                             <img src="/products/crop/<%= products[i].images.image1 %>" alt="Product image" class="product-image">
+                            <img src="/products/crop/<%= products[i].images.image4 %>" alt="Product image" class="product-image-hover">
                         </a>
+                        
                         
 
                         <div class="product-action-vertical">
@@ -271,6 +222,61 @@
     <div class="more-container text-center mt-0 mb-7">
         <a href="/shop" class="btn btn-outline-dark-3 btn-more"><span>more products</span><i class="la la-refresh"></i></a>
     </div>
+    <div class="container categories pt-6">
+        <h2 class="title-lg text-center mb-4">Shop by Categories</h2><!-- End .title-lg text-center -->
+
+        <div class="row">
+            <div class="col-6 col-lg-4">
+                <div class="banner banner-display banner-link-anim">
+                    <a href="#">
+                        <img src="/user/images/banners/home/banner-1.jpg" alt="Banner">
+                    </a>
+
+                    <div class="banner-content banner-content-center">
+                        <h3 class="banner-title text-white"><a href="#">Outdoor</a></h3><!-- End .banner-title -->
+                        <a href="#" class="btn btn-outline-white banner-link">Shop Now<i class="icon-long-arrow-right"></i></a>
+                    </div><!-- End .banner-content -->
+                </div><!-- End .banner -->
+            </div><!-- End .col-sm-6 col-lg-3 -->
+            <div class="col-6 col-lg-4 order-lg-last">
+                <div class="banner banner-display banner-link-anim">
+                    <a href="#">
+                        <img src="/user/images/banners/home/banner-4.jpg" alt="Banner">
+                    </a>
+
+                    <div class="banner-content banner-content-center">
+                        <h3 class="banner-title text-white"><a href="#">Lighting</a></h3><!-- End .banner-title -->
+                        <a href="#" class="btn btn-outline-white banner-link">Shop Now<i class="icon-long-arrow-right"></i></a>
+                    </div><!-- End .banner-content -->
+                </div><!-- End .banner -->
+            </div><!-- End .col-sm-6 col-lg-3 -->
+            <div class="col-sm-12 col-lg-4 banners-sm">
+                <div class="row">
+                    <div class="banner banner-display banner-link-anim col-lg-12 col-6">
+                        <a href="#">
+                            <img src="/user/images/banners/home/banner-2.jpg" alt="Banner">
+                        </a>
+
+                        <div class="banner-content banner-content-center">
+                            <h3 class="banner-title text-white"><a href="#">Furniture and Design</a></h3><!-- End .banner-title -->
+                            <a href="#" class="btn btn-outline-white banner-link">Shop Now<i class="icon-long-arrow-right"></i></a>
+                        </div><!-- End .banner-content -->
+                    </div><!-- End .banner -->
+
+                    <div class="banner banner-display banner-link-anim col-lg-12 col-6">
+                        <a href="#">
+                            <img src="/user/images/banners/home/banner-3.jpg" alt="Banner">
+                        </a>
+
+                        <div class="banner-content banner-content-center">
+                            <h3 class="banner-title text-white"><a href="#">Kitchen & Utensil</a></h3><!-- End .banner-title -->
+                            <a href="#" class="btn btn-outline-white banner-link">Shop Now<i class="icon-long-arrow-right"></i></a>
+                        </div><!-- End .banner-content -->
+                    </div><!-- End .banner -->
+                </div>
+            </div><!-- End .col-sm-6 col-lg-3 -->
+        </div><!-- End .row -->
+    </div><!-- End .container -->
 </main><!-- End .main -->
 
 
