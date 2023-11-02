@@ -8,6 +8,8 @@ const Wishlist = require('../models/wishlistModel')
 
 const showCart = async (req, res) => {
   try {
+    req.session.outProduct = false;
+    req.session.outStock = false;
     const userId = req.session.user_id;
     const userName = req.session.name;
     const cartData = await Cart.findOne({
@@ -28,30 +30,34 @@ const showCart = async (req, res) => {
       if (cartData.products.length > 0) {
         const products = cartData.products;
 
-        const total = await Cart.aggregate([
-          { $match: { userId: req.session.user_id } },
-          { $unwind: "$products" },
-          {
-            $group: {
-              _id: null,
-              total: {
-                $sum: {
-                  $multiply: ["$products.productPrice", "$products.count"],
-                },
-              },
-            },
-          },
-        ]);
+        // const total = await Cart.aggregate([
+        //   { $match: { userId: req.session.user_id } },
+        //   { $unwind: "$products" },
+        //   {
+        //     $group: {
+        //       _id: null,
+        //       total: {
+        //         $sum: {
+        //           $multiply: ["$products.productPrice", "$products.count"],
+        //         },
+        //       },
+        //     },
+        //   },
+        // ]);
+        let total = 0;
+        for(let i=0;i<products.length;i++){
+          total += products[i].totalPrice
+        }
 
-        const Total = total.length > 0 ? total[0].total : 0;
-        const totalamount = Total;
+        // const Total = total.length > 0 ? total[0].total : 0;
+        const totalamount = total;
         const userId = userName._id;
         const userData = await User.find();
         
         res.render("cart", {
           name: req.session.name,
           products: products,
-          Total: Total,
+          Total: total,
           userId,
           session,
           totalamount,
@@ -225,8 +231,14 @@ const quantityUpdation = async (req, res) => {
 
 const loadCheckOut = async (req, res) => {
   try {
+    const outPro = req.session.outProduct;
+    const outStock = req.session.outStock;
     const session = req.session.user_id;
     const addressData = await Address.findOne({ user: req.session.user_id });
+    let address;
+    if(addressData){
+      address = addressData.address 
+    }
     const userData = await User.findOne({ _id: req.session.user_id });
     const cartData = await Cart.findOne({
       userId: req.session.user_id,
@@ -241,21 +253,24 @@ const loadCheckOut = async (req, res) => {
     if(wish){wishCount = wish.products.length} 
 
 
-    const total = await Cart.aggregate([
-      { $match: { userId: req.session.user_id } },
-      { $unwind: "$products" },
-      {
-        $group: {
-          _id: null,
-          total: {
-            $sum: {
-              $multiply: ["$products.productPrice", "$products.count"],
-            },
-          },
-        },
-      },
-    ]);
-
+    // const total = await Cart.aggregate([
+    //   { $match: { userId: req.session.user_id } },
+    //   { $unwind: "$products" },
+    //   {
+    //     $group: {
+    //       _id: null,
+    //       total: {
+    //         $sum: {
+    //           $multiply: ["$products.productPrice", "$products.count"],
+    //         },
+    //       },
+    //     },
+    //   },
+    // ]);
+    let total = 0;
+        for(let i=0;i<products.length;i++){
+          total += products[i].totalPrice
+        }
   
 
     let stock = [];
@@ -282,11 +297,8 @@ const loadCheckOut = async (req, res) => {
 
     if (req.session.user_id) {
       if (inStock === true) {
-        if (addressData) {
-          if (addressData.address.length > 0) {
-            const address = addressData.address;
-            const Total = total.length > 0 ? total[0].total : 0;
-            const totalamount = Total;
+            const Total = total;
+            const totalamount = total;
             const userId = userData._id;
 
             res.render("checkOut", {
@@ -298,14 +310,8 @@ const loadCheckOut = async (req, res) => {
               totalamount,
               user: userData,
               address,
-              cartCount,wishCount
+              cartCount,wishCount,outPro,outStock
             });
-          } else {
-            res.redirect("/");
-          }
-        } else {
-          res.redirect("/profile");
-        }
       } else {
         res.render("cart", { message: proName, name: req.session.name, cartCount,wishCount });
       }

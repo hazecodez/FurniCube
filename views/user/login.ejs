@@ -1,11 +1,18 @@
 <%- include('../user/layout/userHeader.ejs')%>
-
+<style>
+	.swal2-toast {
+	width: 800px; /* Adjust the width as needed */
+	height: 70px; /* Adjust the height as needed */
+	font-size: 18px;
+	margin-top: 70px;
+  }
+  </style>
 		<div class="wrapper" >
 			<div class="inner">
 				<div class="image-holder">
 					<img src="/login/sofa.png" alt="">
 				</div>
-				<form action="/login" method="post" id="signupForm">
+				<form id="signinForm">
 					<h3>Log In</h3>
 					
 					<!-- <div class="form-wrapper">
@@ -19,35 +26,48 @@
 					</div>
 					
 					<div class="form-wrapper">
-						<input type="password" placeholder="Password" name="password" class="form-control" required>
+						<input type="password" id="password" placeholder="Password" name="password" class="form-control" required>
 						<i class="zmdi zmdi-lock"></i>
 					</div>
 					<!-- <div class="form-wrapper">
 						<input type="password" placeholder="Confirm Password" class="form-control">
 						<i class="zmdi zmdi-lock"></i>
 					</div> -->
-                    <div class="form-wrapper">
-                        <% if(typeof message !== 'undefined'){ %>
-                            <span
-                              id="er2"
-                              style="color: rgb(241, 7, 7); text-align: center"
-                              ><%= message%></span
-                            >
-                            <% } %>
-                    </div>
+                    
 
-					<button type="submit">Log In
+					<button type="submit" id="submitBtn">Log In
 						<i class="zmdi zmdi-arrow-right"></i>
 					</button>
                     <br>
                     <p>Don't have an account ? <a href="/register"><b class="text-dark"> Register.</b></a></p>
-					<!-- <p>If you haven't verify your account ? <a href="/verifyAcc"><b class="text-dark"> Verify.</b></a></p> -->
                     <a href="/forget"><b class="text-dark">Forget Password ?</b></a>
 				</form>
+				<div id="myAlert1" data-aos="fade-down" style="top: 6rem; display: none;"
+									class="alert alert-dark  py-4	 fade show fs-5 fixed-top alt text-center text-white"
+							role="alert">
+							<span class="text-info link-underline-light"></span>
+					</div>
+
+				<% if(regSuccess){ %>
+					<div id="myAlert" data-aos="fade-down" style="top: 6rem; display: none;"
+									class="alert alert-dark  py-4	 fade show fs-5 fixed-top alt text-center text-white"
+							role="alert">
+							<span class="text-info link-underline-light"><strong>Welcome!</strong> You are successfully registered your FurniCube account.
+								</span>
+					</div>
+					<% } %>
                 
 			</div>
 		</div>
-		<script src="/user/signupValidation.js"></script>
+
+		
+
+		
+
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+		<script src="/user/loginValidation.js"></script>
+
 		</body>
 		</html>
 

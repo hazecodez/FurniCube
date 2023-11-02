@@ -6,6 +6,7 @@ const productController = require('../controllers/productController')
 const session = require('express-session')
 const config = require('../config/config')
 const auth = require('../middlewares/userAuth')
+const stock = require('../middlewares/stockCheck')
 const addressController = require('../controllers/addressController')
 const cartController = require('../controllers/cartController')
 const orderController = require('../controllers/orderController')
@@ -60,8 +61,9 @@ userRoute.get('/productView', productController.productView)
 
 //==============================USER PROFILE===================================
 userRoute.get('/profile', auth.isLogin, userController.showProfile)
-userRoute.post('/add_address', auth.isLogin, addressController.addAddress)
+userRoute.post('/editProfile', auth.isLogin, addressController.editProfile)
 userRoute.get('/editAddress', auth.isLogin, addressController.loadEditAddress)
+userRoute.post('/changePassword', auth.isLogin, userController.changePassword)
 
 //===============================CART HANDLING=================================
 userRoute.get('/cart', cartController.showCart)
@@ -76,7 +78,7 @@ userRoute.post('/removeAddress', auth.isLogin, addressController.removeAddress)
 userRoute.post('/update_address', auth.isLogin, addressController.updateAddress)
 
 //=================================ORDER HANDLING================================
-userRoute.post('/placeOrder',auth.isLogin, orderController.placeOrder)
+userRoute.post('/placeOrder',auth.isLogin, stock.inStock, orderController.placeOrder)
 userRoute.get("/orderSuccess/:id",auth.isLogin,orderController.successPage);
 userRoute.get('/orders', orderController.userOrders)
 userRoute.get('/viewOrderDetails', auth.isLogin, orderController.userOderDetails)

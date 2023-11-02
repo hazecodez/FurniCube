@@ -15,6 +15,10 @@ const Wishlist = require('../models/wishlistModel')
 
 const product = async (req, res) => {
   try {
+    req.session.require = false;
+    req.session.proNameAlready = false;
+    req.session.lowPrice = false;
+    req.session.quantity = false;
     const productData = await Product.find({});
     res.render("product", { products: productData });
   } catch (error) {
@@ -27,8 +31,12 @@ const product = async (req, res) => {
 
 const loadAddProduct = async (req, res) => {
   try {
+    let require = req.session.require;
+    let lowPrice = req.session.lowPrice;
+    let nameAlready = req.session.proNameAlready;
+    let lowQuantity = req.session.quantity;
     const catData = await Category.find({ blocked: 0 });
-    res.render("addProduct", { catData });
+    res.render("addProduct", { catData, require,nameAlready,lowPrice,lowQuantity });
   } catch (error) {
     console.log(error.message);
     res.status(404).render("404");
@@ -39,7 +47,24 @@ const loadAddProduct = async (req, res) => {
 
 const addProduct = async (req, res) => {
   try {
-    let details = req.body;
+    const already = await Product.findOne({ name: req.body.name });
+    if(req.body.name.trim() === "" && req.body.price.trim() === "" && req.body.quantity.trim() === "" && req.body.description.trim() === ""){
+      req.session.require = true;
+      res.redirect('/admin/addProduct')
+    }else if(already){
+      req.session.proNameAlready = true;
+      res.redirect('/admin/addProduct')
+    }else if(req.body.price <= 0){
+      req.session.lowPrice = true;
+      res.redirect('/admin/addProduct')
+    }else if(req.body.quantity <= 0){
+      req.session.quantity = true;
+      res.redirect('/admin/addProduct')
+    }
+    
+    
+    else{
+      let details = req.body;
     const files = await req.files;
 
     const img = [
@@ -70,6 +95,8 @@ const addProduct = async (req, res) => {
 
     let result = await product.save();
     res.redirect("/admin/product");
+    }
+    
   } catch (error) {
     console.log(error.message);
   }

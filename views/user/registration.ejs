@@ -5,7 +5,7 @@
 				<div class="image-holder">
 					<img src="/login/sofa.png" alt="">
 				</div>
-				<form action="/register" method="post" id="signupForm">
+				<form id="signupForm">
 					<h3>Register</h3>
 					
 					<div class="form-wrapper">
@@ -16,10 +16,10 @@
 					<div class="form-wrapper">
 						<input type="text" name="email" id="email" placeholder="Email Address" class="form-control" required>
 						<i class="zmdi zmdi-email"></i>
-						<span id="emailError" style="color: red;"></span>
+						<!-- <span id="emailError" style="color: red;"></span> -->
 					</div>
                     <div class="form-wrapper">
-						<input type="number" name="number" placeholder="Phone No" id="Number" class="form-control" minlength="10" required>
+						<input type="tel" name="number" placeholder="Phone No" id="Number" class="form-control"  required>
 						<i class="zmdi zmdi-phone"></i>
 					</div>
 					<div class="form-wrapper">
@@ -30,21 +30,24 @@
 						<input type="password" placeholder="Confirm Password" minlength="4" id="con_password" name="con_password" class="form-control" required>
 						<i class="zmdi zmdi-lock"></i>
 					</div>
+
+					
 					<!-- <div class="form-wrapper">
 						<input type="password" placeholder="Confirm Password" class="form-control">
 						<i class="zmdi zmdi-lock"></i>
 					</div> -->
-                    <div class="form-wrapper">
-                        <% if(typeof message !== 'undefined'){ %>
-                            <span
-                              id="er2"
-                              style="color: rgb(241, 7, 7); text-align: center"
-                              ><%= message%></span
-                            >
-                            <% } %>
-                    </div>
+                    
 
-					<button type="submit">Register Account
+					
+						
+						<div id="error-message" data-aos="fade-down" style="top: 6rem; display: none;"
+										class="alert alert-dark  py-4	 fade show fs-5 fixed-top alt text-center text-white"
+								role="alert">
+								<span class="text-info link-underline-light"></span>
+						</div>
+						
+
+					<button id="regSubmit">Register Account
 						<i class="zmdi zmdi-arrow-right"></i>
 					</button>
                     <br>
@@ -56,6 +59,8 @@
 			</div>
 		</div>
 		<script src="/user/signupValidation.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
 		</body>
 		</html>
 

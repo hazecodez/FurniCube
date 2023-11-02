@@ -22,12 +22,29 @@ const addCouponPage = async (req, res) => {
 //==========================ADD COUPON TO DB ADMIN SIDE==========
 const addCoupon = async (req, res) => {
   try {
-    const already = await Coupon.findOne({ couponCode: req.body.code });
-
-    if (already) {
-      res.render("addCoupon", { message: "Given Coupon Already Exist !" });
-    } else {
-      const data = new Coupon({
+    const regexName = new RegExp(req.body.name, 'i');
+    const already = await Coupon.findOne({ couponName: { $regex: regexName } });
+    const regexCode = new RegExp(req.body.code, 'i');
+    const Codealready = await Coupon.findOne({ couponCode: { $regex: regexCode } });
+    const TodayDate = new Date()
+    const Today = TodayDate.toISOString().split('T')[0];
+    const active = req.body.activeDate;
+    if(req.body.name.trim() === "" && req.body.code.trim() === "" && req.body.discount.trim() === "" && req.body.activeDate.trim() === "" && req.body.expDate.trim() === "" && req.body.criteriaAmount.trim() === "" && req.body.userLimit.trim() === ""){
+      res.json({require:true})
+    }else if(already){
+      res.json({nameAlready:true})
+    }else if(Codealready){
+      res.json({codeAlready:true})
+    }else if(req.body.discount <= 0){
+      res.json({disMinus:true})
+    }else if(req.body.criteriaAmount <= 0){
+      res.json({amountMinus:true})
+    }else if(active > req.body.expDate && req.body.expDate < Today){
+      res.json({expDate:true})
+    }else if(req.body.userLimit <= 0){
+      res.json({limit:true})
+    }else{
+        const data = new Coupon({
         couponName: req.body.name,
         couponCode: req.body.code,
         discountAmount: req.body.discount,
@@ -36,8 +53,8 @@ const addCoupon = async (req, res) => {
         criteriaAmount: req.body.criteriaAmount,
         usersLimit: req.body.userLimit,
       });
-      const saved = await data.save();
-      res.redirect("/admin/showCoupon");
+      await data.save();
+      res.json({success:true})
     }
   } catch (error) {
     console.log(error.message);
@@ -76,24 +93,39 @@ const showEditPage = async (req, res) => {
 
 const updateCoupon = async (req, res) => {
   try {
-    const updated = await Coupon.updateOne(
-      { _id: req.query.id },
-      {
-        $set: {
-          couponName: req.body.name,
-          couponCode: req.body.code,
-          discountAmount: req.body.discount,
-          activationDate: req.body.activeDate,
-          expiryDate: req.body.expDate,
-          criteriaAmount: req.body.criteriaAmount,
-          usersLimit: req.body.userLimit,
-        },
-      }
-    );
-    if(updated){
-        res.redirect('/admin/showCoupon')
+    const TodayDate = new Date()
+    const Today = TodayDate.toISOString().split('T')[0];
+    const active = req.body.activeDate;
+    if(req.body.name.trim() === "" && req.body.code.trim() === "" && req.body.discount.trim() === "" && req.body.activeDate.trim() === "" && req.body.expDate.trim() === "" && req.body.criteriaAmount.trim() === "" && req.body.userLimit.trim() === ""){
+      res.json({require:true})
+    }else if(req.body.discount <= 0){
+      res.json({disMinus:true})
+    }else if(req.body.criteriaAmount <= 0){
+      res.json({amountMinus:true})
+    }else if(active > req.body.expDate && req.body.expDate < Today){
+      res.json({expDate:true})
+    }else if(req.body.userLimit <= 0){
+      res.json({limit:true})
     }else{
-        console.log('not updated');
+      const updated = await Coupon.updateOne(
+        { _id: req.query.id },
+        {
+          $set: {
+            couponName: req.body.name,
+            couponCode: req.body.code,
+            discountAmount: req.body.discount,
+            activationDate: req.body.activeDate,
+            expiryDate: req.body.expDate,
+            criteriaAmount: req.body.criteriaAmount,
+            usersLimit: req.body.userLimit,
+          },
+        }
+      );
+      if(updated){
+          res.json({success:true})
+      }else{
+          res.json({failed:true})
+      }
     }
   } catch (error) {
     console.log(error.message);

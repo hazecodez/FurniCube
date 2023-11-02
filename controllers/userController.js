@@ -14,8 +14,8 @@ const Wishlist = require('../models/wishlistModel')
 //================SETTING EMAIL PASS AND OTP IN GLOBALLY TO ACCESS IN OTP PAGE============
 
 let otp;
-let email2;
-let nameResend;
+// let email2;
+// let nameResend;
 
 //=================================PASSWORD BCRYPTION=====================================
 
@@ -32,8 +32,13 @@ const securePassword = async (password) => {
 
 const forgetLoad = async (req, res) => {
   try {
-    
-    res.render("forgetPass", { name: req.session.name });
+    const cart = await Cart.findOne({userId:req.session.user_id})
+    const wish = await Wishlist.findOne({user:req.session.user_id})
+    let cartCount=0; 
+    let wishCount=0;
+    if(cart){cartCount = cart.products.length}
+    if(wish){wishCount = wish.products.length}
+    res.render("forgetPass", { name: req.session.name, wishCount,cartCount });
   } catch (error) {
     console.log(error.message);
   }
@@ -102,7 +107,7 @@ const sendVerifyEmail = async (name, email, otp) => {
         name +
         ",  Use this One Time Password </h3> <h1>" +
         otp +
-        "</h1> <h3>  to log in to your FurniCube Account. </h3>",
+        "</h1> <h3>  to verify your FurniCube Account. </h3>",
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -131,7 +136,9 @@ const loadRegister = async (req, res) => {
 
 const otpPage = async (req, res) => {
   try {
-    res.render("otp", { name: req.session.name });
+    let verifyErr = req.session.verifyErr;
+    let otpsend = req.session.otpsend
+    res.render("otp", { name: req.session.name, verifyErr,otpsend });
   } catch (error) {
     console.error(error.message);
   }
@@ -141,12 +148,13 @@ const otpPage = async (req, res) => {
 
 const loadLogin = async (req, res) => {
   try {
-    const cart = await Cart.findOne({userId:req.session.user_id})
+    let regSuccess = req.session.regSuccess;
+    const cart = await Cart.findOne({userId:req.session.user_id})    
     if(cart){
       const cartCount = cart.products.length
-      res.render("login", { name: req.session.name,cartCount:cartCount });
+      res.render("login", { name: req.session.name,cartCount:cartCount , regSuccess});
     }else{
-      res.render("login", { name: req.session.name,cartCount:0 });
+      res.render("login", { name: req.session.name,cartCount:0 ,regSuccess});
     }
 
   } catch (error) {
@@ -179,74 +187,81 @@ const loadHome = async (req, res) => {
 
 const insertUser = async (req, res) => {
   try {
-    //check the email which is already exist
-    const checkEmail = await User.findOne({ email: req.body.email });
-    if (checkEmail) {
-      res.render("registration", {
-        name: req.session.name,
-        message: "Given Email is already exist, please Log In",
-      });
-    } else {
-      if (req.body.password == req.body.con_password) {
-        //checking password and confirm password are same
-        const secPassword = await securePassword(req.body.password);
-        const user = new User({
-          name: req.body.name,
-          email: req.body.email,
-          number: req.body.number,
-          password: secPassword,
-        });
-        const userData = await user.save();
-        if (userData) {
-          //otp generation
-          const randomNumber = Math.floor(Math.random() * 9000) + 1000;
-          otp = randomNumber;
-          //calling email verification
-          sendVerifyEmail(req.body.name, req.body.email, otp);
-          // res.render('registration')
-
-          email2 = req.body.email;
-          nameResend = req.body.name;
-          res.render("otp", { name: req.session.name });
-        } else {
-          res.render("registration", {
-            name: req.session.name,
-            message: "Registration failed, try again.",
-          });
+    console.log('hey');
+    const email = req.body.email;
+    const mobile = req.body.number;
+    const password = req.body.password;
+    const name = req.body.name;
+    const conPass = req.body.con_password
+    if(name.length <= 2){
+      res.json({name:true})
+    }else{
+      // Check if the email is empty
+    if (email.trim() === "" && mobile.trim() === "" && password.trim() === "" && name.trim() === "" && conPass.trim() === "" ) {
+      res.json({require:true})
+      }else{
+          // Email validation using a regular expression
+        var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        if (!emailPattern.test(email)) {
+            res.json({emailPatt:true})
+          }else{
+                  // Mobile number validation (assumes a 10-digit number)
+          var mobilePattern = /^\d{10}$/;
+          if (!mobilePattern.test(mobile) || mobile === "0000000000"  ) {
+              res.json({mobile:true})
+            }else{
+                // Password validation (assumes a minimum length of 4 characters)
+                if (password.length < 4) {
+                  res.json({password:true})
+                  }else{
+                    // If all validations pass, you can proceed with the signup process
+                    //check the email which is already exist
+                    const checkEmail = await User.findOne({ email: req.body.email });
+                    if (checkEmail) {
+                      res.json({emailalready:true})
+                      } else {
+                        if (password == conPass) {
+                            //checking password and confirm password are same
+                          const secPassword = await securePassword(req.body.password);
+                          const user = new User({
+                            name: name,
+                            email: email,
+                            number: mobile,
+                            password: secPassword,
+                          });
+                          const userData = await user.save();
+                          if(userData){
+                            //otp generation
+                          const randomNumber = Math.floor(Math.random() * 9000) + 1000;
+                          otp = randomNumber;
+                          req.session.email = req.body.email;
+                          req.session.pass = secPassword;
+                          req.session.userName = req.body.name;
+                          req.session.number = req.body.number;
+                          
+                          //calling email verification
+                          sendVerifyEmail(req.body.name, req.body.email, randomNumber);
+                          setTimeout(() => {
+                            otp = Math.floor(Math.random() * 9000) + 1000;
+                          }, 60000);
+                          req.session.otpsend = true;
+                          res.json({success:true})
+                          }else{
+                            res.json({notsaved:true})
+                              }                        
+                            } else {
+                                  res.json({wrongpass:true})
+                                }
+                          }
+                    }
+              }
+            }
         }
-      } else {
-        res.render("registration", {
-          name: req.session.name,
-          message: "Confirm the correct password.",
-        });
-      }
     }
+      
+
   } catch (error) {
     res.send(error.message);
-  }
-};
-
-//=================================OTP VERIFICATION=====================================
-
-const verifyOtp = async (req, res) => {
-  try {
-    const otpInput = req.body.otp;
-    if (otpInput == otp) {
-      const verified = await User.updateOne(
-        { email: email2 },
-        { $set: { is_verified: 1 } }
-      );
-      if (verified) {
-        res.redirect("/loadLogin");
-      } else {
-        res.redirect("/otpPage");
-        console.log(verified);
-      }
-    } else {
-      res.render("otp", { message: "Enter the valid OTP." });
-    }
-  } catch (error) {
-    console.error(error.message);
   }
 };
 
@@ -254,55 +269,107 @@ const verifyOtp = async (req, res) => {
 
 const resendOtp = async (req, res) => {
   try {
-    const randomNumber = Math.floor(Math.random() * 9000) + 1000;
+    let otpsend =  req.session.otpsend;
+    let verifyErr = req.session.verifyErr
+    let email = req.session.email;
+    let name = 'User'
+    let randomNumber = Math.floor(Math.random() * 9000) + 1000;
     otp = randomNumber;
-    sendVerifyEmail(nameResend, email2, otp);
-    res.redirect("/otpPage");
-  } catch (error) {
+    setTimeout(() => {
+      otp = Math.floor(Math.random() * 9000) + 1000;
+    }, 60000);
+    sendVerifyEmail(name, email, randomNumber);
+    res.render("otp", { name: req.session.name,verifyErr,otpsend, resend: "Resend the otp to your email address." });
+    
+  } catch (error) { 
     console.log(error.message);
   }
 };
+
+//=================================OTP VERIFICATION=====================================
+
+const verifyOtp = async (req, res) => {
+  try {
+    req.session.verifyErr = false;
+    req.session.otpsend = false;
+    const otpInput = parseInt(req.body.otp)
+    const email = req.session.email;
+    if (otpInput === otp) {
+      const verified = await User.updateOne(
+        { email: email },
+        { $set: { is_verified: 1 } }
+      )
+      if (verified) {
+        req.session.regSuccess = true;
+        res.json({success:true})
+      } else {
+        res.json({error:true})
+      }
+    } else {
+      res.json({wrong:true})
+    }
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+
+//===================================CHANGE PASSWORD====================================
+const changePassword = async(req,res)=> {
+  try {
+    const userData = await User.findOne({_id: req.session.user_id})
+    const passwordMatch = await bcrypt.compare(req.body.currPass, userData.password);
+    if(passwordMatch){
+      const secPassword = await securePassword(req.body.newPass);
+      await User.updateOne({_id:req.session.user_id},{$set:{password: secPassword}})
+      res.json({changed:true})
+    }else{
+      console.log('wroong');
+      res.json({wrongpass: true})
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
 
 //=================================LOGIN USER==================================================
 
 const loginUser = async (req, res) => {
   try {
     const email = req.body.email;
+    const name = 'User'
     const password = req.body.password;
     const userData = await User.findOne({ email: email });
     if (userData && userData.is_admin == 0) {
-      const passwordMatch = await bcrypt.compare(password, userData.password);
-      if (passwordMatch) {
-        if (userData.is_block == 0) {
-          if (userData.is_verified == 1) {
+      if(userData.is_verified == 1){
+
+        const passwordMatch = await bcrypt.compare(password, userData.password);
+        if (passwordMatch) {
+          if (userData.is_block == 0) {
             // setting userId to session in userId variable
             req.session.user_id = userData._id;
             req.session.name = userData.name;
-
-            res.redirect("/home");
+            req.session.regSuccess = false;
+            res.json({success:true})
           } else {
-            res.render("login", {
-              name: req.session.name,
-              message: "Please verify your Account.",
-            });
-          }
-        } else {
-          res.render("login", {
-            name: req.session.name,
-            message: "Your account is blocked by Admin.",
-          });
+          res.json({blocked:true})
         }
-      } else {
-        res.render("login", {
-          name: req.session.name,
-          message: "Wrong password...!!",
-        });
+        } else {
+          res.json({wrong:true})
+          }
+      }else{
+        const randomNumber = Math.floor(Math.random() * 9000) + 1000;
+        otp = randomNumber;
+        req.session.email = req.body.email;
+        sendVerifyEmail(name, email, randomNumber);
+        setTimeout(() => {
+          otp = Math.floor(Math.random() * 9000) + 1000;
+        }, 60000);
+        req.session.verifyErr = true;
+        res.json({verify:true})
       }
     } else {
-      res.render("login", {
-        name: req.session.name,
-        message: "This Account not registered, please SignUp.",
-      });
+      res.json({register:true})
     }
   } catch (error) {
     console.error(error.message);
@@ -352,15 +419,24 @@ const forgetPassMail = async (req, res) => {
 
 const loadResetPass = async (req, res) => {
   try {
+    const cart = await Cart.findOne({userId:req.session.user_id})
+    const wish = await Wishlist.findOne({user:req.session.user_id})
+    let cartCount=0; 
+    let wishCount=0;
+    if(cart){cartCount = cart.products.length}
+    if(wish){wishCount = wish.products.length}
     const token = req.query.token;
     const userData = await User.findOne({ token: token });
     if (userData) {
       res.render("recoverPass", {
         name: req.session.name,
         email: userData.email,
+        wishCount,
+        cartCount
       });
     } else {
-      res.status(404).render("404");
+      console.log('no token');
+      res.redirect('/')
     }
   } catch (error) {
     console.log(error.message);
@@ -395,6 +471,11 @@ const userLogout = async (req, res) => {
   try {
     req.session.user_id = false;
     req.session.name = false;
+    req.session.otp = false;
+    req.session.email = false;
+    req.session.pass = false;
+    req.session.userName = false;
+    req.session.number = false;
     res.redirect("/");
   } catch (error) {
     console.log(error.message);
@@ -406,18 +487,29 @@ const userLogout = async (req, res) => {
 const showProfile = async (req, res) => {
   try {
     const address = await Address.findOne({ user: req.session.user_id });
+    let addressData;
+    let user_id = req.session.user_id
+    if(address){
+      addressData = address.address;
+    }
     const userData = await User.findOne({ _id: req.session.user_id });
-    const walletAmount = userData.wallet
-    const walletHistory = userData.walletHistory
-    const coupons = await Coupon.find({status:true})
-    const addressData = address.address;
+    let walletAmount;
+    let walletHistory;
+    if(userData){
+      walletAmount = userData.wallet
+      walletHistory = userData.walletHistory
+    }
+    
+    const coupons = await Coupon.find({
+      status: true,
+      expiryDate: { $gte: new Date() }
+    })
     const cart = await Cart.findOne({userId:req.session.user_id})
     const wish = await Wishlist.findOne({user:req.session.user_id})
     let cartCount=0; 
     let wishCount=0;
     if(cart){cartCount = cart.products.length}
     if(wish){wishCount = wish.products.length}
-    
     
     res.render("profile", {
       name: req.session.name,
@@ -427,7 +519,8 @@ const showProfile = async (req, res) => {
       addressData: addressData,
       walletAmount:walletAmount,
       coupons:coupons,
-      wishCount,cartCount
+      wishCount,cartCount,
+      userData
 
     });
   } catch (error) {
@@ -473,10 +566,6 @@ const loadShop = async (req, res) => {
   }
 };
 
-//====================================SHOW WALLET IN USER SIDE==========================
-
-
-
 //===========================404 ERROR PAGE==============================================
 
 const loadError = async (req, res) => {
@@ -486,6 +575,7 @@ const loadError = async (req, res) => {
     console.log(error.message);
   }
 };
+
 
 module.exports = {
   insertUser,
@@ -504,5 +594,6 @@ module.exports = {
   newPass,
   loadShop,
   loadError,
+  changePassword
   
 };

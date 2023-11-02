@@ -5,54 +5,23 @@ const Cart = require('../models/cartModel')
 
 //===================================ADDRESS ADDING===========================================
 
-const addAddress = async (req, res) => {
+const editProfile = async (req, res) => {
   try {
-    const user = req.session.user_id;
-    const userData = await User.findOne({ _id: req.session.user_id });
-
-    const addressData = await Address.findOne({ user: req.session.user_id });
-
-    if (addressData) {
-      const update = await Address.updateOne(
-        { user: user },
-        {
-          $set: {
-            address: {
-              fullname: req.body.fullname,
-              mobile: req.body.mobile,
-              email: req.body.email,
-              houseName: req.body.houseName,
-              city: req.body.city,
-              state: req.body.state,
-              pin: req.body.pin,
-            },
-          },
-        }
-      );
-      res.redirect("/profile");
-    } else {
-      const data = new Address({
-        user: userData._id,
-        address: [
-          {
-            fullname: req.body.fullname,
-            mobile: req.body.mobile,
-            email: req.body.email,
-            houseName: req.body.houseName,
-            city: req.body.city,
-            state: req.body.state,
-            pin: req.body.pin,
-          },
-        ],
-      });
-      await data.save();
-      res.redirect("/profile");
+    const update = await User.updateOne({_id: req.session.user_id},
+      {$set:{
+      name: req.body.name,
+      email: req.body.email,
+      number: req.body.number
+    }})
+    if(update){
+      res.json({success: true})
     }
   } catch (error) {
-    console.log(error);
-    res.status(404).render("404");
+    console.log(error.message);
   }
 };
+
+
 
 //===================================MULTIPLE ADDRESS ADDING=============================
 
@@ -78,18 +47,33 @@ const addMultipleAddress = async (req, res) => {
           },
         }
       );
-      if (updated) {
-        res.redirect("/profile");
-      } else {
-        res.redirect("/profile");
-        console.log("not added");
-      }
+
+      if (updated) res.json({success:true})
+      else res.json({failed:true})
+      
     } else {
-      res.redirect("/profile");
+      const data = new Address({
+        user: user,
+        address: [
+          {
+            fullname: req.body.fullname,
+            mobile: req.body.mobile,
+            email: req.body.email,
+            houseName: req.body.houseName,
+            city: req.body.city,
+            state: req.body.state,
+            pin: req.body.pin,
+          },
+        ],
+      });
+      const saved = await data.save();
+
+      if(saved) res.json({success:true})
+      else res.json({failed:true})
+
     }
   } catch (error) {
     console.log(error.message);
-    res.status(404).render("404");
   }
 };
 
@@ -161,9 +145,10 @@ const updateAddress = async (req, res) => {
 };
 
 module.exports = {
-  addAddress,
+  editProfile,
   addMultipleAddress,
   removeAddress,
   loadEditAddress,
   updateAddress,
+  
 };

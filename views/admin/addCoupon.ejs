@@ -10,37 +10,44 @@
       <div class="card-body">
         <h4 class="card-title">Add Coupons</h4>
         <p class="card-description"> Give Coupon details </p>
-        <form class="forms-sample" action="/admin/addCoupon" method="post" >
+        <form class="forms-sample" >
           <div class="form-group">
             <label for="exampleInputName1">Coupon Name</label>
-            <input type="text" class="form-control" id="exampleInputName1" name="name" placeholder="Name">
+            <input type="text" class="form-control" id="name" name="name" placeholder="Name">
+            <div id="nameError" style="display: none; color: red;"></div>
           </div>
           <div class="form-group">
             <label for="exampleInputEmail3">Coupon Code</label>
-            <input type="text" class="form-control" id="exampleInputEmail3" name="code" placeholder="Code">
+            <input type="text" class="form-control" id="code" name="code" placeholder="Code">
+            <div id="codeError" style="display: none; color: red;"></div>
           </div>
           <div class="form-group">
             <label for="exampleInputEmail3">Discount Amount</label>
-            <input type="number" class="form-control" id="exampleInputEmail3" name="discount" placeholder="Discount">
+            <input type="number" class="form-control" id="discount" name="discount" placeholder="Discount">
+            <div id="disError" style="display: none; color: red;"></div>
           </div>
           
           <div class="form-group">
             <label for="exampleInputPassword4">Criteria Amount</label>
-            <input type="number" class="form-control" id="exampleInputPassword4" name="criteriaAmount" placeholder="Quantity">
+            <input type="number" class="form-control" id="amount" name="criteriaAmount" placeholder="Criteria Amount">
+            <div id="amountError" style="display: none; color: red;"></div>
           </div>
           <div class="form-group">
             <label for="exampleInputPassword4">Activation Date</label>
-            <input type="date" class="form-control" id="exampleInputPassword4" name="activeDate" placeholder="Activation Date">
+            <input type="date" class="form-control" id="active" name="activeDate" placeholder="Activation Date">
+            <div id="activeError" style="display: none; color: red;"></div>
           </div>
           <div class="form-group">
             <label for="exampleInputPassword4">Expiry Date</label>
-            <input type="date" class="form-control" id="exampleInputPassword4" name="expDate" placeholder="Expiry Date">
+            <input type="date" class="form-control" id="expiry" name="expDate" placeholder="Expiry Date">
+            <div id="expError" style="display: none; color: red;"></div>
           </div>
           <div class="form-group">
             <label for="exampleInputPassword4">Users Limit</label>
-            <input type="number" class="form-control" id="exampleInputPassword4" name="userLimit" placeholder="Users Limit">
+            <input type="number" class="form-control" id="limit" name="userLimit" placeholder="Users Limit">
+            <div id="limitError" style="display: none; color: red;"></div>
           </div>
-          <button type="submit" class="btn btn-primary mr-2">Submit</button>
+          <button id="submitBtn" class="btn btn-primary mr-2">Submit</button>
           <button class="btn btn-inverse-danger"><a href="/admin/showCoupon">Cancel</a></button>
           
         </form>
@@ -56,6 +63,6 @@
     
   </div>
   </div>
-
+<script src="/admin/couponValidation.js"></script>
  
 <%- include('../admin/layout/adminFooter.ejs')%>
