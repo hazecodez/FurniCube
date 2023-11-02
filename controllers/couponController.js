@@ -1,5 +1,6 @@
 const Coupon = require("../models/couponModel");
 const Order = require('../models/orderModel')
+const Cart = require('../models/cartModel')
 
 //=======================SHOW COUPONS PAGE ADMIN SIDE======================
 const showCoupons = async (req, res) => {
@@ -131,6 +132,24 @@ const updateCoupon = async (req, res) => {
     console.log(error.message);
   }
 };
+//==============================DELETE APPLIED COUPON============================
+
+const deleteAppliedCoupon = async(req,res)=> {
+  try {
+
+    const code = req.body.code;
+    const couponData = await Coupon.findOne({ couponCode: code });
+    const amount = Number(req.body.amount);
+    const disAmount = couponData.discountAmount;
+    const disTotal = Math.round(amount + disAmount);
+    const deleteApplied = await Cart.updateOne({userId:req.session.user_id},{$set:{applied:"not"}})
+    if(deleteApplied){
+      res.json({success:true, disTotal})
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+}
 
 //================================APPLY COUPON====================================
 
@@ -165,13 +184,13 @@ const applyCoupon = async (req, res) => {
                 res.json({ cartAmount: true });
               } else {
                 //user limit decreasing
-                await Coupon.updateOne({couponCode:code},{$inc:{usersLimit: -1 }})
+                // await Coupon.updateOne({couponCode:code},{$inc:{usersLimit: -1 }})
                 //user name adding
-                await Coupon.updateOne({couponCode:code},{$push:{usedUsers:req.session.user_id}})
+                // await Coupon.updateOne({couponCode:code},{$push:{usedUsers:req.session.user_id}})
                   
                   const disAmount = couponData.discountAmount;
                   const disTotal = Math.round(amount - disAmount);
-                  
+                  await Cart.updateOne({userId:req.session.user_id},{$set:{applied:"applied"}})
                                 
                   return res.json({ amountOkey: true, disAmount, disTotal });
                
@@ -196,5 +215,6 @@ module.exports = {
   blockCoupons,
   showEditPage,
   updateCoupon,
-  applyCoupon
+  applyCoupon,
+  deleteAppliedCoupon
 };

@@ -16,8 +16,8 @@
     <div class="container">
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="/">Home</a></li>
-        <li class="breadcrumb-item"><a href="/cart">Cart</a></li>
-        <li class="breadcrumb-item"><a href="/checkOut">Checkout</a></li>
+        <li class="breadcrumb-item"><a>Profile</a></li>
+        
         <li class="breadcrumb-item active" aria-current="page">Edit Address</li>
       </ol>
     </div>
@@ -32,9 +32,10 @@
             <div class="col-lg-12">
               <h2 class="title mb-1">Edit Your Address</h2>
               <!-- End .title mb-2 -->
+              
       
-              <form class="contact-form mb-3" >
-                <input type="text" id="addressId" value="<%= user._id %>" hidden>
+              <form  class="contact-form mb-3" >
+                <input id="userId" type="text" value="<%= user._id %>" hidden>
                 
                   <div class="col-sm-14">
                     <label for="cname" class="sr-only">Full Name</label>
@@ -126,7 +127,6 @@
                   />
                 </div>
                 <div id="stateError" style="display: none; color: red;"></div>
-                
               </div>
       
       
@@ -142,7 +142,7 @@
                 ></textarea> -->
       
                 <button
-                  id="editAddressCheck"
+                  id="editAddress"
                   class="btn btn-outline-primary-2 btn-minwidth-sm" >
                   <span>SAVE CHANGES</span>
                   <i class="icon-long-arrow-right"></i>
@@ -164,6 +164,6 @@
       </div>
 </main>
 
-<script src="/user/editAddressCheckout.js"></script>
+<script src="/user/editAddress.js"></script>
 
 <%- include('../user/layout/userFooter.ejs')%>

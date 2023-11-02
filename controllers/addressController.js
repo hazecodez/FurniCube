@@ -21,7 +21,53 @@ const editProfile = async (req, res) => {
   }
 };
 
+//================================SHOW EDIT ADDRESS=====================================
+const editAddressProfile = async(req,res)=> {
+  try {
+    const addressId = req.query.id;
+    const session = req.session.user_id;
+    
+    const cart = await Cart.findOne({userId:req.session.user_id})
+    const wish = await Wishlist.findOne({user:req.session.user_id})
+    let cartCount=0; 
+    let wishCount=0;
+    if(cart){cartCount = cart.products.length}
+    if(wish){wishCount = wish.products.length}
 
+    const addressData = await Address.findOne(
+      { user: session, "address._id": addressId },
+      { "address.$": 1 }
+    );
+    const address = addressData.address[0];
+    res.render("editAddressProfile", { name: req.session.name, user: address, wishCount,cartCount });
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+//=====================================EDIT BILLING ADDRESS PROFILE=====================
+const editBillingAddress = async(req,res)=> {
+  try {
+    const addressId = req.body.id;
+    const updated = await Address.updateOne(
+      { user: req.session.user_id, "address._id": addressId },
+      {
+        $set: {
+          "address.$.fullname": req.body.fullname,
+          "address.$.mobile": req.body.mobile,
+          "address.$.email": req.body.email,
+          "address.$.houseName": req.body.houseName,
+          "address.$.city": req.body.city,
+          "address.$.state": req.body.state,
+          "address.$.pin": req.body.pin,
+        },
+      }
+    );
+
+    res.json({success:true})
+  } catch (error) {
+    console.log(error.message);
+  }
+}
 
 //===================================MULTIPLE ADDRESS ADDING=============================
 
@@ -122,7 +168,7 @@ const loadEditAddress = async (req, res) => {
 
 const updateAddress = async (req, res) => {
   try {
-    const addressId = req.query.id;
+    const addressId = req.body.id;
     const updated = await Address.updateOne(
       { user: req.session.user_id, "address._id": addressId },
       {
@@ -138,7 +184,7 @@ const updateAddress = async (req, res) => {
       }
     );
 
-    res.redirect("/checkOut");
+    res.json({success:true})
   } catch (error) {
     console.log(error.message);
   }
@@ -150,5 +196,7 @@ module.exports = {
   removeAddress,
   loadEditAddress,
   updateAddress,
+  editAddressProfile,
+  editBillingAddress
   
 };

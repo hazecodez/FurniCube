@@ -1,4 +1,6 @@
 <%- include('../user/layout/userHeader.ejs')%>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
 <style>
   .swal2-toast {
   width: 800px; /* Adjust the width as needed */
@@ -463,7 +465,6 @@
                       <div class="card-body">
                         <h3 class="card-title">Billing Addresses</h3>
                         <!-- End .card-title -->
-
                         <p>
                           Full Name:&nbsp&nbsp<%= addressData.fullname %><br />
                           Mobile:&nbsp&nbsp<%= addressData.mobile %><br />
@@ -472,11 +473,12 @@
                           City:&nbsp&nbsp<%= addressData.city %><br />
                           State:&nbsp&nbsp<%= addressData.state %><br />
                           PinCode:&nbsp&nbsp<%= addressData.pin %><br />
-                          <a href="/editAddress?id=<%= addressData._id %>"
+                          <a href="/editAddressProfile?id=<%= addressData._id %>" style="color: #c96;"
                             >Edit <i class="icon-edit"></i
                           ></a>
-                          <a onclick="removeAddress('<%= addressData._id %>')"
-                            >Remove</a
+                          <a style="color: red;"  onclick="removeAddress('<%= addressData._id %>')"
+                            >Remove<i class="fas fa-trash"></i
+                              ></a
                           >
                         </p>
                       </div>
@@ -485,8 +487,10 @@
                     <!-- End .card-dashboard -->
                   </div>
                   <!-- End .col-lg-6 -->
+                  
 
                   <% } ) } %>
+                  
 
                   <form>
                     <label>Full Name *</label>

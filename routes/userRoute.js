@@ -64,6 +64,8 @@ userRoute.get('/profile', auth.isLogin, userController.showProfile)
 userRoute.post('/editProfile', auth.isLogin, addressController.editProfile)
 userRoute.get('/editAddress', auth.isLogin, addressController.loadEditAddress)
 userRoute.post('/changePassword', auth.isLogin, userController.changePassword)
+userRoute.get('/editAddressProfile', auth.isLogin, addressController.editAddressProfile)
+userRoute.post('/editBillingAddress', auth.isLogin, addressController.editBillingAddress)
 
 //===============================CART HANDLING=================================
 userRoute.get('/cart', cartController.showCart)
@@ -97,6 +99,7 @@ userRoute.get('/shop', userController.loadShop)
 
 //==================================COUPON HANDLING==============================
 userRoute.post('/applyCoupon', auth.isLogin, couponController.applyCoupon)
+userRoute.post('/deleteAppliedCoupon', auth.isLogin, couponController.deleteAppliedCoupon)
 
 //==================================404 ERROR====================================
 userRoute.get('*',userController.loadError)

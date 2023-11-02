@@ -37,6 +37,11 @@ const placeOrder = async (req, res) => {
     const status = paymentMethods === "COD" ? "placed" : "pending";
     const statusLevel = status === "placed" ? 1: 0;
     const walletBalance = userData.wallet;
+    const code = req.body.code;
+    //user limit decreasing
+    await Coupon.updateOne({couponCode:code},{$inc:{usersLimit: -1 }})
+    //user name adding
+    await Coupon.updateOne({couponCode:code},{$push:{usedUsers:req.session.user_id}})
 
     const order = new Order({
       deliveryDetails: address,

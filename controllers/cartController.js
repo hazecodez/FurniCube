@@ -244,7 +244,7 @@ const loadCheckOut = async (req, res) => {
       userId: req.session.user_id,
     }).populate("products.productId");
     const products = cartData.products;
-
+    const applied = cartData.applied;
     const cart = await Cart.findOne({userId:req.session.user_id})
     const wish = await Wishlist.findOne({user:req.session.user_id})
     let cartCount=0; 
@@ -310,7 +310,7 @@ const loadCheckOut = async (req, res) => {
               totalamount,
               user: userData,
               address,
-              cartCount,wishCount,outPro,outStock
+              cartCount,wishCount,outPro,outStock,applied
             });
       } else {
         res.render("cart", { message: proName, name: req.session.name, cartCount,wishCount });
