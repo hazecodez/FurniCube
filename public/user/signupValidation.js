@@ -8,7 +8,6 @@ document.getElementById('regSubmit').addEventListener('click', function(e){
     const number = document.getElementById('Number').value;
     const con_password = document.getElementById('con_password').value;
     const message = document.getElementById('error-message')
-    console.log('heyy');
 
     $.ajax({
         url: "/register",
@@ -21,7 +20,7 @@ document.getElementById('regSubmit').addEventListener('click', function(e){
         },
         method: "post",
         success: (response) => {
-          if ((response.require)) {
+          if (response.require) {
             message.style.display = "block";
             message.textContent = "Must fillout all the fields."
           }else if(response.emailPatt){

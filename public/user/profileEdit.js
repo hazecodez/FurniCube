@@ -293,3 +293,21 @@ document.getElementById('multiAddress').addEventListener('click', function (e) {
       });
   }
 });
+
+
+//==========================COPYING COUPON CODE===========
+document.addEventListener('DOMContentLoaded', function() {
+  const copyButtons = document.querySelectorAll('.copy-button');
+
+  copyButtons.forEach((button, index) => {
+    button.addEventListener('click', function () {
+      const couponCode = document.querySelectorAll('.coupon-code h2')[index];
+      const textArea = document.createElement('textarea');
+      textArea.value = couponCode.innerText;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+    });
+  });
+});

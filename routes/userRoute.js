@@ -31,6 +31,8 @@ userRoute.set('views','./views/user')
 //=============================LOAD HOME=====================================
 userRoute.get('/', auth.isLogout, userController.loadHome)
 userRoute.get('/home', auth.isLogin, userController.loadHome)
+userRoute.get('/aboutUs', userController.showAbout)
+userRoute.get('/contactUs', userController.showContact)
 
 //=============================USER REGISTER==================================
 userRoute.get('/register', auth.isLogout, userController.loadRegister)

@@ -1,9 +1,6 @@
 <%- include('../user/layout/userHeader.ejs')%>
 
 
-
-
-
 <main class="main">
     <div class="intro-slider-container mb-4">
         <div class="intro-slider owl-carousel owl-simple owl-nav-inside" data-toggle="owl" data-owl-options='{
@@ -20,9 +17,12 @@
                 <% banners.forEach((banners)=>{ %>
             <div class="intro-slide" style="background-image: url('/banner/<%= banners.image %>');">
                 <div class="container intro-content">
-                    <h3 class="intro-subtitle text-primary"><%= banners.title %></h3><!-- End .h3 intro-subtitle -->
-                    <h1 class="intro-title "><%= banners.description %></h1><!-- End .intro-title -->
-
+                    <h3 class="intro-subtitle text-danger"><%= banners.title %></h3><!-- End .h3 intro-subtitle -->
+                    <div  class="row">
+                        <div  class="col-lg-6">
+                    <h1 class="intro-title" id="banner-title"><%= banners.description %></h1><!-- End .intro-title -->
+                </div>
+                </div>
                     <a href="/shop" class="btn btn-outline-primary-2">
                         <span>DISCOVER MORE</span>
                         <i class="icon-long-arrow-right"></i>

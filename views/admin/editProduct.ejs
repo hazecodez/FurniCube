@@ -10,14 +10,16 @@
       <div class="card-body">
         <h4 class="card-title">Update Product</h4>
         <p class="card-description"> Details</p>
-        <form class="forms-sample" action="/admin/editProduct?id=<%= product._id %>" method="post" enctype="multipart/form-data">
+        <form class="forms-sample" id="editPro" action="/admin/editProduct?id=<%= product._id %>" method="post" enctype="multipart/form-data">
           <div class="form-group">
             <label for="exampleInputName1">Product Name</label>
-            <input type="text" class="form-control" id="exampleInputName1" name="name" value="<%=product.name%>">
+            <input type="text" class="form-control" id="name" name="name" value="<%=product.name%>">
+            <p id="nameError" style="color: red; display: none;"></p>
           </div>
           <div class="form-group">
             <label for="exampleInputEmail3">Product Price</label>
-            <input type="number" class="form-control" id="exampleInputEmail3" name="price" value="<%=product.price%>" >
+            <input type="number" class="form-control" id="price" name="price" value="<%=product.price%>" >
+            <p id="priceError" style="color: red; display: none;"></p>
           </div>
           <div class="form-group">
             <label for="Catagory">Category</label>
@@ -44,11 +46,14 @@
           </div>
           <div class="form-group">
             <label for="exampleInputPassword4">Quantity</label>
-            <input type="text" class="form-control" id="exampleInputPassword4" value="<%= product.quantity %>" name="quantity" >
+            <input type="text" class="form-control" id="quantity" value="<%= product.quantity %>" name="quantity" >
+            <p id="quanError" style="color: red; display: none;"></p>
           </div>          
           <div class="form-group">
             <label for="exampleTextarea1">Description</label>
-            <textarea class="form-control" id="exampleTextarea1" name="description" rows="4"><%= product.description %></textarea>
+            <input type="text" class="form-control" id="description" name="description" value="<%= product.description %>" placeholder="Description">
+            
+            <p id="descError" style="color: red; display: none;"></p>
           </div>
 
 
@@ -164,5 +169,6 @@
     </div>
   </div>
 </div>
+<script src="/admin/editPro.js"></script>
  
 <%- include('../admin/layout/adminFooter.ejs')%>

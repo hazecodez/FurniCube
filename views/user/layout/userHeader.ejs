@@ -42,6 +42,12 @@
 
     <link rel="stylesheet" href="/user/stylesheets/bootstrap.min.css"/>
 
+    <!-- //font-awesome test links -->
+    <link rel="stylesheet" href="/user/v6.4.2/css/sharp-solid.css">
+    <link rel="stylesheet" href="/user/v6.4.2/css/sharp-regular.css">
+    <link rel="stylesheet" href="/user/v6.4.2/css/sharp-light.css">
+    <link rel="stylesheet" href="/user/v6.4.2/css/all.css">
+
     <!-- Sweet alert library -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -100,52 +106,12 @@
                                 
                                 <% if(name){ %>
                                     
-                                <li>
-                                    <a href="" class="sf-with-ul">Pages</a>
-
-                                    <ul>
-                                        <li>
-                                            <a href="">Home</a>
-
-                                        </li>
-                                        <li><a href="">Shop</a></li>
-                                        <!-- <li><a href="">Product</a></li> -->
-                                        
-                                        <li><a href="/cart">Cart&nbsp;&nbsp;
-                                            
-                                            <span
-                                            style="
-                                              border-radius: 50%;
-                                              font-weight: 100;
-                                              background-color: #c96;
-                                              padding: 3px 6px;
-                                            "
-                                            class="badge"
-                                            ><%= cartCount %></span>
-                                        
-                                        </a></li>
-                                        <li><a href="/wishlist">Wishlist &nbsp;&nbsp;
-                                            
-                                            <span
-                                            style="
-                                              border-radius: 50%;
-                                              font-weight: 100;
-                                              background-color: #c96;
-                                              padding: 3px 6px;
-                                            "
-                                            class="badge"
-                                            ><%= wishCount %></span>
-                                            
-                                        
-                                        </a></li>
-                                        
-                                        <li><a href="/orders">Orders</a></li>
-                                        
-                                    </ul>
-                                </li>
+                                <li><a href="/orders">Orders</a></li>
+                                     
                                 <% } %>
 
-                                
+                                <li><a href="/aboutUs">About</a></li>
+                                <li><a href="/contactUs">Contact</a></li>
                                 
                                 
                             </ul><!-- End .menu -->
@@ -193,13 +159,13 @@
                                         <%
                                   if(name){
                                     %>
-                                    <li><a href="/profile">Profile</a></li>
-                                    <li><a onclick="logout()">Logout</a></li>
+                                    <li><a href="/profile"><i class="fa-duotone fa-user"></i>&nbsp;&nbsp;&nbsp;&nbsp;Profile </a> </li>
+                                    <li><a onclick="logout()"><i class="fa-duotone fa-right-from-bracket"></i>&nbsp;&nbsp;&nbsp;Logout</a></li>
                                     <%
                                   }else{
                                     %>
-                                    <li><a href="/loadLogin">LogIn</a></li>
-                                    <li><a href="/register">Register</a></li>
+                                    <li><a href="/loadLogin"><i class="fa-duotone fa-right-to-bracket"></i>&nbsp;&nbsp;&nbsp;LogIn </a></li>
+                                    <li><a href="/register"><i class="fa-duotone fa-user-plus"></i>&nbsp;&nbsp;&nbsp;Register </a></li>
                                     <%
                                   }
                                   %>

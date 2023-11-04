@@ -8,7 +8,8 @@ const puppeteer = require('puppeteer')
 const ExcelJS = require('exceljs')
 const path = require('path')
 const fs = require('fs')
-const ejs = require('ejs')
+const ejs = require('ejs');
+const { product } = require("./productController");
 
 //===========================404 ERROR PAGE=====================================
 const loadError = async (req, res) => {
@@ -23,83 +24,110 @@ const loadError = async (req, res) => {
 
 const loadAdmin = async(req,res)=> {
   try {
-    const users = await User.find({is_block:0});
+    const users = await User.find({is_block:0, is_admin:0})
+    const totalUser = users.length;
     const products = await Product.find({blocked: 0});
     const tot_order = await Order.find();
     const sales = await Order.countDocuments({ status: 'delivered' })
     const codCount = await Order.countDocuments({ status: 'delivered', paymentMethod: 'COD' });
     const onlinePaymentCount = await Order.countDocuments({ status: 'delivered', paymentMethod: 'onlinePayment' });
     const walletCount = await Order.countDocuments({ status: 'delivered', paymentMethod: 'wallet' });
-
-    const monthlyOrderCounts = await Order.aggregate([
-      {
-        $match: {
-          status: 'delivered',
-        },
-      },
-      {
-        $group: {
-          _id: { $dateToString: { format: '%m', date: '$deliveryDate' } },
-          count: { $sum: 1 },
-        },
-      },
-    ]);
-   
     
-    const monthRev = await Order.aggregate([
-      {
-        $match: {
-          status: "delivered" 
-        }
-      },
-      {
-        $project: {
-          year: { $year: '$date' },
-          month: { $month: '$date' },
-          totalAmount: 1
-        }
-      },
-      {
-        $group: {
-          _id: { year: '$year', month: '$month' },
-          totalRevenue: { $sum: '$totalAmount' }
-        }
-      },
-      {
-        $sort: {
-          '_id.year': 1,
-          '_id.month': 1
-        }
-      }
-    ])
-    const monRev = monthRev[0].totalRevenue
-    const totalRev = await Order.aggregate([
-      {
-        $match: {
-          status: "delivered" 
-        }
-      },
-      {
-        $group: {
-          _id: null,
-          totalRevenue: { $sum: '$totalAmount' }
+      const monthlyOrderCounts = await Order.aggregate([
+        {
+          $match: {
+            status: 'delivered',
+          },
+        },
+        {
+          $group: {
+            _id: { $dateToString: { format: '%m', date: '$deliveryDate' } },
+            count: { $sum: 1 },
+          },
+        },
+        
+      ]);
+      
+      let data = []
+      if(monthlyOrderCounts.length != 0 ){
+        let ind = 0;
+      if(monthlyOrderCounts.length !=0){
+        for(let i=0;i<12;i++){
+  
+          if(i+1<monthlyOrderCounts[0]._id){
+            data.push(0)
+          }else{
+            if( monthlyOrderCounts[ind]){
+              let count = monthlyOrderCounts[ind].count
+              data.push(count)
+            }else{
+              data.push(0)
+            }
+            ind++
+          }
         }
       }
-    ])
-    const totalRevenue = totalRev[0].totalRevenue
-
-    res.render('dashboard',{
-      users,
-      products,
-      tot_order,
-      totalRevenue,
-      monRev,
-      sales,
-      codCount,
-      walletCount,
-      onlinePaymentCount,
-      monthlyOrderCounts
-    })
+      }else{
+        data = [0,0,0,0,0,0,0,0,0,0,0,0]
+      }
+      
+      
+      const monthRev = await Order.aggregate([
+        {
+          $match: {
+            status: "delivered" 
+          }
+        },
+        {
+          $project: {
+            year: { $year: '$date' },
+            month: { $month: '$date' },
+            totalAmount: 1
+          }
+        },
+        {
+          $group: {
+            _id: { year: '$year', month: '$month' },
+            totalRevenue: { $sum: '$totalAmount' }
+          }
+        },
+        {
+          $sort: {
+            '_id.year': 1,
+            '_id.month': 1
+          }
+        }
+      ])
+      const monRev = monthRev.length !=0 ? monthRev[0].totalRevenue : 0
+      const totalRev = await Order.aggregate([
+        {
+          $match: {
+            status: "delivered" 
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            totalRevenue: { $sum: '$totalAmount' }
+          }
+        }
+      ])
+      const totalRevenue = totalRev.length !=0 ? totalRev[0].totalRevenue : 0
+      
+      res.render('dashboard',{
+        totalUser,
+        products,
+        tot_order,
+        totalRevenue,
+        monRev,
+        sales,
+        codCount,
+        walletCount,
+        onlinePaymentCount,
+        data
+      })
+    
+    
   } catch (error) {
     console.log(error.message);
   }
@@ -193,9 +221,10 @@ const saleSorting = async (req, res) => {
 
 const downloadReport = async (req, res) => {
   try {
-    const { duration, format } = req.params;
+    const format = req.query.format;
+    const duration = parseInt(req.query.duration)
     const currentDate = new Date();
-    const startDate = new Date(currentDate - 1 * 24 * 60 * 60 * 1000);
+    const startDate = new Date(currentDate - duration * 24 * 60 * 60 * 1000);
     const orders = await Order.aggregate([
       {
         $unwind: "$products",
@@ -203,7 +232,7 @@ const downloadReport = async (req, res) => {
       {
         $match: {
           status: "delivered",
-          
+          deliveryDate: { $gte: startDate, $lt: currentDate },
         },
       },
       {
@@ -225,7 +254,6 @@ const downloadReport = async (req, res) => {
         },
       },
     ]);
-    console.log(orders);
     const date = new Date()
     data = {
       orders,
@@ -234,7 +262,6 @@ const downloadReport = async (req, res) => {
 
     if (format === 'pdf') {
       const filepathName = path.resolve(__dirname, "../views/admin/ReportPdf.ejs");
-
       const html = fs.readFileSync(filepathName).toString();
       const ejsData = ejs.render(html, data);
 
@@ -279,7 +306,7 @@ const downloadReport = async (req, res) => {
       });
 
       res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-      res.setHeader('Content-Disposition', `attachment; filename=${duration}_sales_report.xlsx`);
+      res.setHeader('Content-Disposition', `attachment; filename=sales_report.xlsx`);
       const excelBuffer = await workbook.xlsx.writeBuffer();
       res.end(excelBuffer);
     } else {

@@ -572,8 +572,22 @@ const orderInvoice = async (req, res) => {
   }
 };
 
+//================================SHOW ORDERS OF EACH USERS======================
+const eachUserOrder = async(req,res)=> {
+  try {
+    const userId = req.query.id;
+    const orders = await Order.find({userId:userId})
+
+    console.log(orders);
+    res.render('eachUserOrder',{orders})
+  } catch (error) {
+    
+  }
+}
+
 module.exports = {
   placeOrder,
+  eachUserOrder,
   successPage,
   showOrder,
   loadProductdetails,

@@ -33,12 +33,12 @@
           </div>
           <div class="form-group">
             <label for="exampleInputPassword4">Activation Date</label>
-            <input type="date" class="form-control" id="active" name="activeDate" value="<%= coupon.activationDate %>">
+            <input type="date" class="form-control" id="active" name="activeDate" value="<%= coupon.activationDate.toISOString().split('T')[0] %>">
             <div id="activeError" style="display: none; color: red;"></div>
           </div>
           <div class="form-group">
             <label for="exampleInputPassword4">Expiry Date</label>
-            <input type="date" class="form-control" id="expiry" name="expDate" value="<%= coupon.expiryDate %>">
+            <input type="date" class="form-control" id="expiry" name="expDate" value="<%= coupon.expiryDate.toISOString().split('T')[0] %>">
             <div id="expError" style="display: none; color: red;"></div>
           </div>
           <input type="text" id="id" value="<%= coupon._id %>" hidden>

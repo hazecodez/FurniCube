@@ -263,6 +263,17 @@
                       <td>₹ <%= value.totalPrice %></td>
                     </tr>
                     <% }) %>
+                    <tr id="appliedBadge" style="display: none;">
+                      <td>Coupon Applied</td>
+                      <td> <i class="fa-solid fa-badge-check" style="font-size: large;" ></i></td>
+                     
+                    </tr>
+
+                    <tr class="summary-subtotal" id="disCol" style="display: none;">
+                      <td> Discount Amount:</td>
+                      <td id="discount" ></td>
+                    </tr>
+                    
 
                     <tr class="summary-subtotal">
                       <td>Subtotal:</td>
@@ -498,6 +509,8 @@
           document.getElementById('totalAmountt').innerHTML = response.disTotal
           document.getElementById('apply').style.display = "block"
           document.getElementById('unApply').style.display = "none"
+          document.getElementById('disCol').style.display = "none"
+          document.getElementById('appliedBadge').style.display = "none"
           Swal.fire({
             icon: 'warning',
             title: 'Deleted !!',
@@ -538,8 +551,11 @@
          
           document.getElementById('total1').innerHTML = response.disTotal
           document.getElementById('totalAmountt').innerHTML = response.disTotal
+          document.getElementById('discount').innerHTML = "₹ "+response.disAmount
           document.getElementById('apply').style.display = "none"
           document.getElementById('unApply').style.display = "block"
+          document.getElementById('disCol').style.display = ""
+          document.getElementById('appliedBadge').style.display = ""
           Swal.fire({
             position: 'center',
             icon: 'success',

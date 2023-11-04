@@ -10,22 +10,16 @@
       <div class="card-body">
         <h4 class="card-title">Add Products</h4>
         <p class="card-description"> Give product details </p>
-        <form class="forms-sample" action="/admin/addProduct" method="post" enctype="multipart/form-data">
+        <form class="forms-sample" id="addPro" action="/admin/addProduct" method="post" enctype="multipart/form-data">
           <div class="form-group">
             <label for="exampleInputName1">Product Name</label>
-            <input type="text" class="form-control" id="exampleInputName1" name="name" placeholder="Name">
-            <% if(require){ %>
-            <div style="color: red;"> Must fillout all fields.</div>
-            <% }else if(nameAlready) {%>
-              <div style="color: red;"> Product name must be unique.</div>
-              <% } %>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Name">
+            <p id="nameError" style="color: red; display: none;"></p>
           </div>
           <div class="form-group">
             <label for="exampleInputEmail3">Product Price</label>
-            <input type="number" class="form-control" id="exampleInputEmail3" name="price" placeholder="Price">
-            <% if(lowPrice){ %>
-              <div style="color: red;"> Product price must be positive.</div>
-            <% } %>
+            <input type="number" class="form-control" id="price" name="price" placeholder="Price">
+            <p id="priceError" style="color: red; display: none;"></p>
           </div>
           <div class="form-group">
             <label for="Catagory">Category</label>
@@ -48,15 +42,14 @@
           </div>
           <div class="form-group">
             <label for="exampleInputPassword4">Quantity</label>
-            <input type="number" class="form-control" id="exampleInputPassword4" name="quantity" placeholder="Quantity">
-            <% if(lowQuantity){ %>
-              <div style="color: red;"> Product quantity must be positive.</div>
-            <% } %>
+            <input type="number" class="form-control" id="quantity" name="quantity" placeholder="Quantity">
+            <p id="quanError" style="color: red; display: none;"></p>
           </div>
           <div class="form-group">
             <label for="exampleTextarea1">Description</label>
             
-            <input type="text" class="form-control" id="exampleInputEmail3" name="description" placeholder="Description">
+            <input type="text" class="form-control" id="description" name="description" placeholder="Description">
+            <p id="descError" style="color: red; display: none;"></p>
           </div>
 
            <div>
@@ -112,5 +105,5 @@
   </div>
   </div>
 
- 
+ <script src="/admin/addProduct.js"></script>
 <%- include('../admin/layout/adminFooter.ejs')%>

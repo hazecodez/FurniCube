@@ -162,6 +162,36 @@ const loadLogin = async (req, res) => {
   }
 };
 
+//==============================LOAD ABOUT US PAGE=======================================
+const showAbout = async(req,res)=> {
+  try {
+    const cart = await Cart.findOne({userId:req.session.user_id})
+    const wish = await Wishlist.findOne({user:req.session.user_id})
+    let cartCount=0; 
+    let wishCount=0;
+    if(cart){cartCount = cart.products.length}
+    if(wish){wishCount = wish.products.length}
+    res.render('aboutUs',{name: req.session.name,cartCount,wishCount})
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+//===============================LOAD CONTACT US PAGE====================================
+const showContact = async(req,res)=> {
+  try {
+    const cart = await Cart.findOne({userId:req.session.user_id})
+    const wish = await Wishlist.findOne({user:req.session.user_id})
+    let cartCount=0; 
+    let wishCount=0;
+    if(cart){cartCount = cart.products.length}
+    if(wish){wishCount = wish.products.length}
+    res.render('contactUs',{name: req.session.name,cartCount,wishCount})
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
 //===============================LOAD HOME PAGE===========================================
 
 const loadHome = async (req, res) => {
@@ -201,7 +231,7 @@ const insertUser = async (req, res) => {
       res.json({require:true})
       }else{
           // Email validation using a regular expression
-        var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        var emailPattern = /^[a-z0-9._-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
         if (!emailPattern.test(email)) {
             res.json({emailPatt:true})
           }else{
@@ -594,6 +624,8 @@ module.exports = {
   newPass,
   loadShop,
   loadError,
-  changePassword
+  changePassword,
+  showAbout,
+  showContact
   
 };

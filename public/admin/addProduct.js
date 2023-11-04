@@ -1,65 +1,33 @@
 //=============PRODUCT VALIDATION==================
-document.getElementById('submitBtn').addEventListener('click', function(event){
-    event.preventDefault()
-    const name = document.getElementById('name').value;
-    const code = document.getElementById('code').value;
-    const discount = document.getElementById('discount').value;
-    const amount = document.getElementById('amount').value;
-    const active = document.getElementById('active').value;
-    const expiry = document.getElementById('expiry').value;
-    const limit = document.getElementById('limit').value;
-
-    const nameError = document.getElementById('nameError')
-    const codeError = document.getElementById('codeError')
-    const disError = document.getElementById('disError')
-    const amountError = document.getElementById('amountError')
-    const activeError = document.getElementById('activeError')
-    const expError = document.getElementById('expError')
-    const limitError = document.getElementById('limitError')
-
+document.getElementById('addPro').addEventListener('click', function(event){
     
+    const name = document.getElementById('name').value;
+    const price = document.getElementById('price').value;
+    const quantity = document.getElementById('quantity').value;
+    const description = document.getElementById('description').value;
+    
+    const nameError = document.getElementById('nameError')
+    const priceError = document.getElementById('priceError')
+    const quanError = document.getElementById('quanError')
+    const descError = document.getElementById('descError')
 
-    $.ajax({
-        url: "/admin/addProduct",
-        data: {
-          name:name,
-          code:code,
-          discount:discount,
-          activeDate:active,
-          expDate:expiry,
-          criteriaAmount:amount,
-          userLimit:limit
-        },
-        method: "post",
-        success: (response) => {
-          if ((response.require)) {
-            nameError.style.display = "block";
-            nameError.textContent = "Must fillout all fields."
-          }else if(response.nameAlready){
-            nameError.style.display = "block";
-            nameError.textContent = "Give unique name for coupon."
-          }else if(response.codeAlready){
-            codeError.style.display = "block";
-            codeError.textContent = "Give unique Code for coupon."
-          }else if(response.disMinus){
-            disError.style.display = "block";
-            disError.textContent = "Discount not contain negative or zero value."
-          }else if(response.amountMinus){
-            amountError.style.display = "block";
-            amountError.textContent = "Criteria amount not contain negative or zero value."
-          }else if(response.activeDate){
-            activeError.style.display = "block";
-            activeError.textContent = "Activation date not be a past date."
-          }else if(response.expDate){
-            expError.style.display = "block";
-            expError.textContent = "Expiry date must be after activation date."
-          }else if(response.limit){
-            limitError.style.display = "block";
-            limitError.textContent = "Users limit must be positive value."
-          }else{
-            window.location.href = "/admin/showCoupon"
-          }
-        },
-      });
+    if(name.trim() == "" && price.trim() === "" && quantity.trim() == "" && description.trim() == ""){
+      nameError.style.display = ""
+      nameError.textContent = "Must fillout all the fields."
+      event.preventDefault()
+    }else if(price < 1){
+      priceError.style.display = ""
+      priceError.textContent = "Price must be positive value."
+      event.preventDefault()
+    }else if(quantity < 1){
+      quanError.style.display = ""
+      quanError.textContent = "Quantity must be positive value."
+      event.preventDefault()
+    }else if(description.length < 10){
+      descError.style.display = ""
+      descError.textContent = "Description atleast 10 letters."
+    }
+
 })
+
 

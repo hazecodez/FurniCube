@@ -10,6 +10,9 @@
 }
 </style>
 
+
+
+
 <main class="main">
   <div
     class="page-header text-center"
@@ -53,7 +56,7 @@
                   role="tab"
                   aria-controls="tab-profile"
                   aria-selected="true"
-                  >Profile</a
+                  ><i class="fa-duotone fa-user"></i>&nbsp;&nbsp;&nbsp;Profile</a
                 >
               </li>
 
@@ -66,7 +69,7 @@
                   role="tab"
                   aria-controls="tab-downloads"
                   aria-selected="false"
-                  >Wallet</a
+                  ><i class="fa-duotone fa-wallet"></i>&nbsp;&nbsp;&nbsp;Wallet</i></a
                 >
               </li>
               <li class="nav-item">
@@ -78,7 +81,7 @@
                   role="tab"
                   aria-controls="tab-coupons"
                   aria-selected="false"
-                  >Coupons</a
+                  ><i class="fa-duotone fa-gift"></i>&nbsp;&nbsp;&nbsp;Coupons</a
                 >
               </li>
               <li class="nav-item">
@@ -90,12 +93,12 @@
                   role="tab"
                   aria-controls="tab-address"
                   aria-selected="false"
-                  >Adresses</a
+                  ><i class="fa-duotone fa-address-book"></i>&nbsp;&nbsp;&nbsp;Adresses</a
                 >
               </li>
               
               <li class="nav-item">
-                <a class="nav-link" href="/logout">Sign Out</a>
+                <a class="nav-link" href="/logout"><i class="fa-duotone fa-arrow-right-from-bracket"></i>&nbsp;&nbsp;&nbsp;Sign Out</a>
               </li>
             </ul>
           </aside>
@@ -112,7 +115,7 @@
               <div class="row">        
                   
                   <div class="col-lg-6" id="formDiv">
-                    <h2 class="title mb-1">Manage Your Details</h2>
+                    <h2 class="title mb-1">Manage Your Details &nbsp;&nbsp;<i class="fa-duotone fa-address-card"></i></h2>
 
                     <form
                       class="contact-form mb-3"
@@ -178,7 +181,7 @@
                     
                   </div>
                   <div class="col-lg-6" id="changePassDiv">
-                    <h2 class="title mb-1">Change Password</h2>
+                    <h2 class="title mb-1">Change Password &nbsp;&nbsp;<i class="fa-duotone fa-lock"></i></h2>
 
                     <form
                       class="contact-form mb-3"
@@ -268,22 +271,20 @@
                 aria-labelledby="tab-downloads-link"
               >
                 <div class="row">
-                  <% if( walletAmount !== 0 ){%>
+                  <% if( walletAmount !== 0 || walletHistory.length > 0){%>
                   <div class="col-lg-6">
-                    <div class="card card-dashboard">
+                    <div class="card card-dashboard" style="border-radius: 15px; background: radial-gradient(circle, #F1F0E8, #96B6C5); height: 250px; width: 400px;">
                       <div class="card-body">
-                        <h1 class="card-title">Wallet Amount</h1>
+                        <div class="d-flex justify-content-end flex-row" style="width: 100%;">
+                        <h1 class="card-title m-1"><i class="fa-duotone fa-credit-card"></i>&nbsp;<b>FurniCube.</b></h1>
+                      </div>
                         <!-- End .card-title -->
-                        <br />
+                        
 
                         <div class="col-8 col-sm-12 col-xl-8 my-auto">
-                          <div
-                            class="d-flex d-sm-block d-md-flex align-items-center"
-                          >
+                          <div class="d-flex d-sm-block d-md-flex align-items-center">
                             <h2 class="mb-0">₹ &nbsp <%= walletAmount %>.00</h2>
-                          </div>
-
-                          <br />
+                          </div>   
                         </div>
                         <div
                           class="col-4 col-sm-12 col-xl-4 text-center text-xl-right"
@@ -293,6 +294,8 @@
                           ></i>
                         </div>
                       </div>
+                    
+                    
                     </div>
                     <!-- End .card-body -->
                   </div>
@@ -300,7 +303,7 @@
                   <% if(walletHistory.length > 0) { %>
 
                   <div class="col-lg-6 grid-margin stretch-card">
-                    <div class="card">
+                    <div class="card" style="background-color: #F1F0E8;">
                       <div class="card-body">
                         <br />
                         <h4 class="card-title">Transaction History</h4>
@@ -358,7 +361,7 @@
 
                   <%}else{%>
                   <div class="col-lg-6">
-                    <div class="card card-dashboard">
+                    <div class="card card-dashboard" style="border-radius: 15px; background: radial-gradient(circle, #F1F0E8, #96B6C5); height: 250px; width: 400px;">
                       <div class="card-body">
                         <h1 class="card-title">Wallet is empty.</h1>
                         <!-- End .card-title -->
@@ -396,41 +399,47 @@
                 aria-labelledby="tab-coupons-link"
               >
                 <div class="row">
+
+                  
+
                   <% if(coupons.length > 0 ){ %>
                     <% coupons.forEach((value)=>{ %>
 
                   <div class="col-lg-6">
-                    <div class="card card-dashboard" style="border-radius: 30px;">
+                    <div class="card card-dashboard" style="border-radius: 15px; background: radial-gradient(circle, #E5DCC3, #E5DCC3); height: 300px; width: 400px;" >
                       <div class="card-body" >
-                        <h1 class="card-title"><b><%= value.couponName %>&nbsp;!!</b></h1>
-                        <!-- End .card-title -->
-                        
-
-                        <div class="col-8 col-sm-12 col-xl-8 my-auto">
-                          <p>Use Code:</p>
-                          <div
-                            class="d-flex d-sm-block d-md-flex align-items-center"
-                          >
-                          
-                            <h2 class="mb-0" style="
-                            width: 500px;
-                            height: 50px;
-                            border: 2px dotted #000;
-                            padding-left: 10px;
-                          "><%= value.couponCode %></h2>
+                        <div class="coupon-code-container mx-auto col-12">
+                          <div class="coupon-code col-9">
+                              <h2 class="m-0"><%= value.couponCode %></h2>
                           </div>
-                          <br>
-                          <p>If you buy&nbsp;₹ <%= value.criteriaAmount %>&nbsp;worth, You'll get&nbsp;₹ <%= value.discountAmount %>&nbsp;off! </p>
-                          
-                          
+                          <div class="copyBtn col-3">
+                              <button class="copy-button m-0"><i style="font-size: 28px; --fa-primary-color: #44454b; --fa-secondary-color: #222325;" class="fa-duotone fa-gift"></i></button>
+                          </div>
+                      </div>
+                      
+                      
+                      
+                        <!-- <div style="display: flex; justify-content: space-between;">
+                        <h1 class="card-title"><b><%= value.couponName %>&nbsp;!!</b>&nbsp;</h1>
+                        <i class="fa-duotone fa-gift" style="font-size:40px;"></i>
+                      </div> -->
                         
+                        <!-- End .card-title -->
+                       <div class="mt-2 col-12 mx-auto">
+                        <h6><%= value.couponName  %></h6>
+                        <h6 class="mt-1">Redeem Upto:&nbsp;₹&nbsp;<b><%= value.discountAmount %></b></h6>
+                        <p class="mt-1"><b>T&C:&nbsp;</b>Coupon requires a ₹<b><%= value.criteriaAmount %></b> minimum purchace. Use the code at order checkout.
+                        </p>
+                       </div>
 
-                          <br />
-                          <p class="card-title">Validity:&nbsp;<%= value.activationDate.toLocaleDateString('en-US',
-                            { year: 'numeric', month: 'short', day: '2-digit'
-                            }).replace(/\//g, '-') %>&nbsp; To &nbsp;<%= value.expiryDate.toLocaleDateString('en-US',
-                            { year: 'numeric', month: 'short', day: '2-digit'
-                            }).replace(/\//g, '-') %></p>
+                        <div class="col-12 my-auto d-flex align-items-end" >
+                          <div class="d-flex justify-content-end flex-row" style="width: 100%;">
+                            <p class="card-title fs-4">Expire On:</p>
+                            <p style="color: red; font-size: 1.5rem;" class="card-title">&nbsp;<%= value.expiryDate.toLocaleDateString('en-US',
+                              { year: 'numeric', month: 'short', day: '2-digit'
+                              }).replace(/\//g, '-') %></p>
+                          </div>
+                          
                           
                             
                         </div>
@@ -439,6 +448,8 @@
                         >
                           
                         </div>
+                        <div class="circle1"></div>
+                        <div class="circle2"></div>
                       </div>
                     </div>
                     <!-- End .card-body -->
@@ -461,7 +472,7 @@
                   addressData.forEach((addressData)=>{ %>
 
                   <div class="col-lg-6">
-                    <div class="card card-dashboard">
+                    <div class="card card-dashboard" style="background: radial-gradient(circle, #E5DCC3, #E5DCC3); border-radius: 15px;">
                       <div class="card-body">
                         <h3 class="card-title">Billing Addresses</h3>
                         <!-- End .card-title -->
@@ -612,7 +623,6 @@
 </main>
 <!-- End .main -->
 <script src="/user/profileEdit.js"></script>
-
 
 
 <%- include('../user/layout/userFooter.ejs')%>

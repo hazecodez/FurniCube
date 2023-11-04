@@ -20,7 +20,7 @@
                             <th>Name</th>
                             <th>Email</th>
                             <th>Contact</th>
-                            <th>Status</th>
+                            <th>Orders</th>
                             <th>Action</th>
                           </tr>
                         </thead>
@@ -35,17 +35,9 @@
                                 <td><%= users[i].email %></td>
                                 <td><%= users[i].number %></td>
                                 <td>
-                                  <%
-                                  if(users[i].is_verified == 0){
-                                    %>
-                                    <p class="text-danger">Not Verified</p>
-                                    <%
-                                  }else{
-                                    %>
-                                    <p class="text-success">Verified</p>
-                                    <%
-                                  }
-                                  %>
+                                 
+                                    <p><a href="/admin/user-order?id=<%= users[i]._id %>" class="badge badge-primary">Show</a></p>
+                                    
                                 </td>
                                 <td>
                                   <%

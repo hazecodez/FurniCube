@@ -43,7 +43,7 @@ adminRoute.get('/block-user', auth.isLogin, adminController.blockUser)
 adminRoute.get('/dashboard', auth.isLogin, adminController.loadAdmin)
 adminRoute.get('/salesReport', auth.isLogin, adminController.salesReport)
 adminRoute.get('/saleSortPage/:id', auth.isLogin, adminController.saleSorting)
-adminRoute.get('/reportDown/:duration/:format', auth.isLogin, adminController.downloadReport)
+adminRoute.get('/reportDown', auth.isLogin, adminController.downloadReport)
 
 //--------------------------------------CATEGORY CONTROLLING-------------------------------------------------------------------------------------
 
@@ -77,6 +77,7 @@ adminRoute.post('/editProduct', auth.isLogin, multer.productImagesUpload, produc
 adminRoute.get('/showOrder', auth.isLogin, orderController.showOrder)
 adminRoute.get('/orderFullDetails', auth.isLogin, orderController.loadProductdetails)
 adminRoute.get('/statusUpdate', auth.isLogin, orderController.statusUpdate)
+adminRoute.get('/user-order', auth.isLogin, orderController.eachUserOrder)
 
 //---------------------------------------------BANNER CONTROLLING------------------------------------------------------------------------------------
 
