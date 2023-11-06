@@ -576,8 +576,30 @@ const showProfile = async (req, res) => {
 //==================================FILTER PRODUCTS IN SHOP=============================
 const filterProduct = async(req,res)=> {
   try {
-    console.log( req.body.category);
-    console.log( req.body.price);
+    let cate = req.body.category;
+    let priceSort = parseInt(req.body.price);
+    const category = await Category.find({blocked:0})
+    
+    const cart = await Cart.findOne({userId:req.session.user_id})
+    const wish = await Wishlist.findOne({user:req.session.user_id})
+    let cartCount=0; 
+    let wishCount=0;
+    if(cart){cartCount = cart.products.length}
+    if(wish){wishCount = wish.products.length}
+    let filtered;
+    
+    if(req.body.category == "allCate"){
+      filtered = await Product.find({blocked:0}).sort({price:priceSort})
+    }else{
+      filtered = await Product.find({category: cate,blocked:0}).sort({price:priceSort})
+    }    
+    
+    res.render("shop",{
+      name: req.session.name,
+      products: filtered,
+      totalPages:0,
+      cartCount,wishCount,category
+    })
   } catch (error) {
     console.log(error.message);
     res.status(500).json({ error: "Internal server error" })
@@ -589,11 +611,7 @@ const searchPro = async(req,res)=>{
     const category = await Category.find({blocked:0})
     const name = req.query.q
     const regex = new RegExp(`^${name}`, 'i');
-    var page = 1;
-    var limit = 8;
-    if (req.query.page) {
-      page = req.query.page;
-    }
+    
     const cart = await Cart.findOne({userId:req.session.user_id})
     const wish = await Wishlist.findOne({user:req.session.user_id})
     let cartCount=0; 
@@ -602,17 +620,11 @@ const searchPro = async(req,res)=>{
     if(wish){wishCount = wish.products.length}
 
     const products = await Product.find({name: { $regex: regex }, blocked: 0 })
-      .limit(limit * 1)
-      .skip((page - 1) * limit);
-    const count = await Product.find({name: { $regex: regex }, blocked: 0 }).countDocuments();
-    
-    const totalPages = Math.ceil(count / limit);
+
     res.render("shop", {
       name: req.session.name,
       products: products,
-      totalPages: totalPages,
-      currentPage: page,
-      previousPage: page - 1,
+      totalPages: 0,
       cartCount,wishCount,category
     });
   } catch (error) {

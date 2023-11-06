@@ -26,11 +26,7 @@
                     <a href="#" class="sidebar-toggler"><i class="icon-bars"></i>Filters</a>
                 </div><!-- End .toolbox-left -->
 
-                <div class="toolbox-center">
-                    <div class="toolbox-info">
-                        Showing <span>12 of 56</span> Products
-                    </div><!-- End .toolbox-info -->
-                </div><!-- End .toolbox-center -->
+                
 
                 <!-- <div class="toolbox-right">
                     <div class="toolbox-sort">
@@ -98,7 +94,7 @@
                     <% }) %>
 
                 </div><!-- End .row -->
-
+                <% if(totalPages != 0){ %>
                 <nav aria-label="Page navigation example " >
         <ul class="pagination d-flex justify-content-center">
           <li class="page-item">
@@ -116,6 +112,7 @@
           </li>
         </ul>
       </nav>
+      <% } %>
             </div><!-- End .products -->
 
             <div class="container">
@@ -136,11 +133,17 @@
                         <div class="collapse show" id="widget-1">
                           <div class="widget-body">
                             <div class="filter-items filter-items-count">
+                                <div class="filter-item">
+                                    <div class="custom-control custom-checkbox">
+                                      <input type="radio" name="category" checked class="custom-control-input" id="allCate" value="allCate">
+                                      <label class="custom-control-label" for="allCate">All Categories</label>
+                                    </div>
+                                  </div>
                               <% if(category.length != 0) {
                                   category.forEach((data, i) => { %>
                               <div class="filter-item">
                                 <div class="custom-control custom-checkbox">
-                                  <input type="checkbox" name="category" class="custom-control-input" id="<%= 'cat-' + i %>" value="<%= data.name %>">
+                                  <input type="radio" name="category" class="custom-control-input" id="<%= 'cat-' + i %>" value="<%= data.name %>">
                                   <label class="custom-control-label" for="<%= 'cat-' + i %>"><%= data.name %></label>
                                 </div>
                               </div>
@@ -162,19 +165,19 @@
                             <div class="filter-items filter-items-count">
                               <div class="filter-item">
                                 <div class="custom-control custom-checkbox">
-                                  <input type="checkbox" name="price" class="custom-control-input" id="allPrices" value="allPrices">
+                                  <input type="radio" name="price" class="custom-control-input" checked id="allPrices" value="0">
                                   <label class="custom-control-label" for="allPrices">All Prices</label>
                                 </div>
                               </div>
                               <div class="filter-item">
                                 <div class="custom-control custom-checkbox">
-                                  <input type="checkbox" name="price" class="custom-control-input" id="lowToHigh" value="lowToHigh">
+                                  <input type="radio" name="price" class="custom-control-input" id="lowToHigh" value="1">
                                   <label class="custom-control-label" for="lowToHigh">Low to high</label>
                                 </div>
                               </div>
                               <div class="filter-item">
                                 <div class="custom-control custom-checkbox">
-                                  <input type="checkbox" name="price" class="custom-control-input" id="highToLow" value="highToLow">
+                                  <input type="radio" name="price" class="custom-control-input" id="highToLow" value="-1">
                                   <label class="custom-control-label" for="highToLow">High to Low</label>
                                 </div>
                               </div>
@@ -188,6 +191,17 @@
                   </aside>
                 </form>
               </div>
+              <% if(products.length == 0 ){ %>
+              <div class="error-content text-center">
+                <div class="container">
+                  <h1 class="error-title">Empty.</h1>
+                  <!-- End .error-title -->
+                  <p>Sorry, There is no products in FurniCube.</p>
+                </div>
+                <!-- End .container -->
+              </div>
+
+              <% } %>
               
               
               

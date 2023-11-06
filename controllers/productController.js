@@ -15,10 +15,7 @@ const Wishlist = require('../models/wishlistModel')
 
 const product = async (req, res) => {
   try {
-    req.session.require = false;
     req.session.proNameAlready = false;
-    req.session.lowPrice = false;
-    req.session.quantity = false;
     const productData = await Product.find({});
     res.render("product", { products: productData });
   } catch (error) {

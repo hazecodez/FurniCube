@@ -92,7 +92,7 @@ userRoute.post('/productReturn', auth.isLogin, orderController.productReturn)
 userRoute.get('/invoice/:id', auth.isLogin, orderController.orderInvoice)
 
 //================================WISHLIST HANDLING==============================
-userRoute.get('/wishlist', auth.isLogin, wishlistController.showWishlist)
+userRoute.get('/wishlist',  wishlistController.showWishlist)
 userRoute.post('/addToWishlist', auth.isLogin, wishlistController.addToWishlist)
 userRoute.post('/removeWish', auth.isLogin, wishlistController.removeWishItem)
 

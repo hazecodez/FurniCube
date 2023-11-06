@@ -105,6 +105,7 @@
         
        
         <hr class="mt-0 mb-4">
+        <% if(products.length !=0){ %>
                 <h2 class="title text-center brands">Trendy Products</h2>
         
         <div class="products-container" data-layout="fitRows">
@@ -178,7 +179,16 @@
     <div class="more-container text-center mt-0 mb-7">
         <a href="/shop" class="btn btn-outline-dark-3 btn-more"><span>more products</span><i class="la la-refresh"></i></a>
     </div>
-    
+    <% }else{ %>
+        <div class="error-content text-center">
+            <div class="container">
+              <h1 class="error-title">Empty.</h1>
+              <!-- End .error-title -->
+              <p>Sorry, There is no products in FurniCube.</p>
+            </div>
+            <!-- End .container -->
+          </div>
+        <% } %>
 </main><!-- End .main -->
 
 
