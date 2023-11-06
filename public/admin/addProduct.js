@@ -11,9 +11,13 @@ document.getElementById('addPro').addEventListener('click', function(event){
     const quanError = document.getElementById('quanError')
     const descError = document.getElementById('descError')
 
-    if(name.trim() == "" && price.trim() === "" && quantity.trim() == "" && description.trim() == ""){
+    if(price.trim() === "" && quantity.trim() == "" && description.trim() == ""){
       nameError.style.display = ""
       nameError.textContent = "Must fillout all the fields."
+      event.preventDefault()
+    }else if(name.trim() == ""){
+      nameError.style.display = ""
+      nameError.textContent = "Product name is required."
       event.preventDefault()
     }else if(price < 1){
       priceError.style.display = ""

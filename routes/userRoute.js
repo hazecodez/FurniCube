@@ -98,6 +98,8 @@ userRoute.post('/removeWish', auth.isLogin, wishlistController.removeWishItem)
 
 //=====================================SHOP======================================
 userRoute.get('/shop', userController.loadShop)
+userRoute.get('/searchPro',userController.searchPro)
+userRoute.post('/filterProduct', userController.filterProduct)
 
 //==================================COUPON HANDLING==============================
 userRoute.post('/applyCoupon', auth.isLogin, couponController.applyCoupon)

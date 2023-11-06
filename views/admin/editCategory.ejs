@@ -10,27 +10,20 @@
       <div class="card-body">
         <h4 class="card-title">Update Category</h4>
         
-        <form action="/admin/editCate?id=<%= cats._id %>" method="post" class="forms-sample">
+        <form action="/admin/editCate?id=<%= cats._id %>" method="post" id="editCate" class="forms-sample">
           <div class="form-group">
             <label for="exampleInputName1">Updated Category Name</label>
-            <input name="catName" type="text" class="form-control" id="exampleInputName1" value="<%= cats.name %>" required>
+            <input name="catName" type="text" class="form-control" id="name" value="<%= cats.name %>" >
           </div>
           
           <button type="submit" class="btn btn-primary mr-2">Update Category</button>
-          <% if(typeof message !== 'undefined'){ %>
-            <span
-              id="er2"
-              style="color: rgb(241, 7, 7); text-align: center"
-              ><%= message %></span
-            >
-            <% } %>
-          
+          <p style="color: red; display: none;" id="nameError"></p>          
         </form>
       </div>
     </div>
   </div>
 
   </div>
-
+<script src="/admin/editCate.js"></script>
  
 <%- include('../admin/layout/adminFooter.ejs')%>

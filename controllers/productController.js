@@ -23,7 +23,7 @@ const product = async (req, res) => {
     res.render("product", { products: productData });
   } catch (error) {
     console.log(error.message);
-    res.status(404).render("404");
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -31,15 +31,12 @@ const product = async (req, res) => {
 
 const loadAddProduct = async (req, res) => {
   try {
-    let require = req.session.require;
-    let lowPrice = req.session.lowPrice;
     let nameAlready = req.session.proNameAlready;
-    let lowQuantity = req.session.quantity;
     const catData = await Category.find({ blocked: 0 });
-    res.render("addProduct", { catData, require,nameAlready,lowPrice,lowQuantity });
+    res.render("addProduct", { catData, nameAlready });
   } catch (error) {
     console.log(error.message);
-    res.status(404).render("404");
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -48,57 +45,46 @@ const loadAddProduct = async (req, res) => {
 const addProduct = async (req, res) => {
   try {
     const already = await Product.findOne({ name: req.body.name });
-    if(req.body.name.trim() === "" && req.body.price.trim() === "" && req.body.quantity.trim() === "" && req.body.description.trim() === ""){
-      req.session.require = true;
-      res.redirect('/admin/addProduct')
-    }else if(already){
+    if(already){
       req.session.proNameAlready = true;
       res.redirect('/admin/addProduct')
-    }else if(req.body.price <= 0){
-      req.session.lowPrice = true;
-      res.redirect('/admin/addProduct')
-    }else if(req.body.quantity <= 0){
-      req.session.quantity = true;
-      res.redirect('/admin/addProduct')
-    }
-    
-    
-    else{
+    }else{
       let details = req.body;
-    const files = await req.files;
+      const files = await req.files;
 
-    const img = [
-      files.image1[0].filename,
-      files.image2[0].filename,
-      files.image3[0].filename,
-      files.image4[0].filename,
-    ];
+      const img = [
+        files.image1[0].filename,
+        files.image2[0].filename,
+        files.image3[0].filename,
+        files.image4[0].filename,
+      ];
 
-    for (let i = 0; i < img.length; i++) {
-      await Sharp("public/products/images/" + img[i])
-        .resize(500, 500)
-        .toFile("public/products/crop/" + img[i]);
-    }
+      for (let i = 0; i < img.length; i++) {
+        await Sharp("public/products/images/" + img[i])
+          .resize(500, 500)
+          .toFile("public/products/crop/" + img[i]);
+      }
 
-    let product = new Product({
-      name: details.name,
-      price: details.price,
-      quantity: details.quantity,
-      category: details.category,
-      description: details.description,
-      blocked: 0,
-      "images.image1": files.image1[0].filename,
-      "images.image2": files.image2[0].filename,
-      "images.image3": files.image3[0].filename,
-      "images.image4": files.image4[0].filename,
-    });
+      let product = new Product({
+        name: details.name,
+        price: details.price,
+        quantity: details.quantity,
+        category: details.category,
+        description: details.description,
+        blocked: 0,
+        "images.image1": files.image1[0].filename,
+        "images.image2": files.image2[0].filename,
+        "images.image3": files.image3[0].filename,
+        "images.image4": files.image4[0].filename,
+      });
 
-    let result = await product.save();
-    res.redirect("/admin/product");
+      let result = await product.save();
+      res.redirect("/admin/product");
     }
     
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -126,8 +112,8 @@ const productView = async (req, res) => {
       res.status(404).render("404");
     }
   } catch (error) {
-    res.status(404).render("404");
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -145,7 +131,7 @@ const blockProduct = async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
-    res.status(404).render("404");
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -154,11 +140,11 @@ const blockProduct = async (req, res) => {
 const editProductPage = async (req, res) => {
   try {
     const catData = await Category.find({ blocked: 0 });
-    editProducts = await Product.findOne({ _id: req.query.id });
+    const editProducts = await Product.findOne({ _id: req.query.id });
     res.render("editProduct", { product: editProducts, catData });
   } catch (error) {
     console.log(error.message);
-    res.status(404).render("404");
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -209,6 +195,7 @@ const editedProduct = async (req, res) => {
     res.redirect("/admin/product");
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 

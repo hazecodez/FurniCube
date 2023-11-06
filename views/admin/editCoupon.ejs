@@ -47,17 +47,10 @@
             <input type="number" class="form-control" id="limit" name="userLimit" value="<%= coupon.usersLimit %>">
             <div id="limitError" style="display: none; color: red;"></div>
           </div>
-          <button id="submitBtn" class="btn btn-primary mr-2">Submit</button>
+          <button id="editCoupon" class="btn btn-primary mr-2">Submit</button>
           <button class="btn btn-inverse-danger"><a href="/admin/showCoupon">Cancel</a></button>
           
         </form>
-        <% if(typeof message !== 'undefined'){ %>
-            <span
-              id="er2"
-              style="color: rgb(241, 7, 7); text-align: center"
-              ><%= message %></span
-            >
-            <% } %>
       </div>
     </div>
     

@@ -12,8 +12,9 @@
         </div><!-- End .container -->
     </nav><!-- End .breadcrumb-nav -->
     <div class="container">
-        <div class="page-header page-header-big text-center" style="background-image: url('/user/images/contact-header-bg.jpg')">
-            <h1 class="page-title text-white">Contact us<span class="text-white">keep in touch with us</span></h1>
+        <h2 class="title text-center brands m-5">Keep in touch with us</h2>
+
+        <div class="page-header page-header-big text-center" style="background-image: url('/user/images/banners/cart.jpg')">
         </div><!-- End .page-header -->
     </div><!-- End .container -->
 
@@ -120,9 +121,18 @@
             data:$("#submit-form").serialize(),
             method:"post",
             success:function (response){
-                alert("Form submitted successfully")
+                const Toast = Swal.mixin({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 2000,
+            })
+            
+            Toast.fire({
+              icon: 'success',
+              title: 'Welcome to FurniCube.'
+            })
                 window.location.reload()
-                //window.location.href="https://google.com"
             },
             error:function (err){
                 alert("Something Error")

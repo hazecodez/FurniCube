@@ -15,6 +15,9 @@
             <label for="exampleInputName1">Product Name</label>
             <input type="text" class="form-control" id="name" name="name" placeholder="Name">
             <p id="nameError" style="color: red; display: none;"></p>
+            <% if(nameAlready){ %>
+              <p style="color: red;">Product name is already exist.</p>
+            <% } %>
           </div>
           <div class="form-group">
             <label for="exampleInputEmail3">Product Price</label>
@@ -51,43 +54,45 @@
             <input type="text" class="form-control" id="description" name="description" placeholder="Description">
             <p id="descError" style="color: red; display: none;"></p>
           </div>
-
+          <label for="exampleTextarea1">Product Images</label>
            <div>
+           
+
             <div class="col-lg-3 col-md-6 rounded-image-preview ">
-              <label for="imageInput1" class="image-label ">Image 1
+              <label for="imageInput1" class="image-label ">
                 <div class="rounded-image-preview">
                   <img id="imagePreview1"
-                  src=""
+                  src="/admin/images/preview.jpg"
                     alt="Preview" />
                 </div>
                 <input name="image1" type="file" accept="image/*" id="imageInput1" class="imageInput" required>
               </label>
             </div>
             <div class="col-lg-3 col-md-6 rounded-image-preview ">
-              <label for="imageInput2" class="image-label ">Image 2
+              <label for="imageInput2" class="image-label ">
                 <div class="rounded-image-preview">
                   <img id="imagePreview2"
-                  src=""
+                  src="/admin/images/preview.jpg"
                     alt="Preview" />
                 </div>
                 <input name="image2" type="file" accept="image/*" id="imageInput2" class="imageInput" required>
               </label>
             </div>
             <div class="col-lg-3 col-md-6 rounded-image-preview ">
-              <label for="imageInput3" class="image-label ">Image 3
+              <label for="imageInput3" class="image-label ">
                 <div class="rounded-image-preview">
                   <img id="imagePreview3"
-                  src=""
+                  src="/admin/images/preview.jpg"
                     alt="Preview" />
                 </div>
                 <input name="image3" type="file" accept="image/*" id="imageInput3" class="imageInput" required>
               </label>
             </div>
             <div class="col-lg-3 col-md-6 rounded-image-preview ">
-              <label for="imageInput4" class="image-label ">Image 4
+              <label for="imageInput4" class="image-label ">
                 <div class="rounded-image-preview">
                   <img id="imagePreview4"
-                  src=""
+                  src="/admin/images/preview.jpg"
                     alt="Preview" />
                 </div>
                 <input name="image4" type="file" accept="image/*" id="imageInput4" class="imageInput" required>

@@ -10,26 +10,31 @@
       <div class="card-body">
         <h4 class="card-title">Add Banners</h4>
         <p class="card-description"> Give banner details </p>
-        <form class="forms-sample" action="/admin/addBanner" method="post" enctype="multipart/form-data">
-            <div class="col-lg-3 col-md-6 rounded-image-preview ">
-                <label for="imageInput1" class="image-label ">Banner Image
-                  <div class="rounded-image-preview">
-                    <img id="imagePreview1"
-                    src=""
-                      alt="Preview" />
-                  </div>
-                  <input name="image" type="file" accept="image/*" id="imageInput1" class="imageInput" >
-                </label>
-              </div>
+        <form class="forms-sample" action="/admin/addBanner" id="addBanner" method="post" enctype="multipart/form-data">
+            
           <div class="form-group">
             <label for="exampleInputName1">Banner Title</label>
-            <input type="text" class="form-control" id="exampleInputName1" name="title" placeholder="Name">
+            <input type="text" class="form-control" id="title" name="title" placeholder="Name">
+            <p style="color: red; display: none;" id="titleError"></p>
           </div>
           
           <div class="form-group">
             <label for="exampleTextarea1">Description</label>
-            <textarea class="form-control" id="exampleTextarea1" name="description" rows="4"></textarea>
+            <input type="text" class="form-control" id="description" name="description" placeholder="Description">
+            <p style="color: red; display: none;" id="desError"></p>
           </div>
+          <div class="col-lg-3 col-md-6 rounded-image-preview ">
+            <label for="exampleTextarea1">Banner Image</label>
+            <label for="imageInput1" class="image-label ">
+              <div class="rounded-image-preview">
+                <img id="imagePreview1"
+                src="/admin/images/preview.jpg"
+                  alt="Preview" />
+              </div>
+              <input name="image" type="file" accept="image/*" id="imageInput1" class="imageInput" required>
+            </label>
+          </div>
+          <br>
           <button type="submit" class="btn btn-primary mr-2">Submit</button>
           <button class="btn btn-inverse-danger"><a href="/admin/bannerDetails">Cancel</a></button>
         </form>
@@ -38,5 +43,5 @@
   </div>
   </div>
 
- 
+ <script src="/admin/addBanner.js"></script>
 <%- include('../admin/layout/adminFooter.ejs')%>

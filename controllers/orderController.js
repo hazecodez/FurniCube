@@ -154,6 +154,7 @@ const placeOrder = async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -209,6 +210,7 @@ const verifyPayment = async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -230,6 +232,7 @@ const successPage = async (req, res) => {
     res.render("thankYou", { name: req.session.name, wishCount, cartCount });
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -328,6 +331,7 @@ const orderCancel = async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -341,6 +345,7 @@ const showOrder = async (req, res) => {
     res.render("orderDetails", { orders: ordersData });
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -356,6 +361,7 @@ const loadProductdetails = async (req, res) => {
     res.render("orderFullDetails", { orders: orderedProduct });
   } catch (error) {
     console.log(error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -384,6 +390,7 @@ const userOrders = async (req, res) => {
     });
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -420,6 +427,7 @@ const userOderDetails = async (req, res) => {
     });
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -478,6 +486,7 @@ const statusUpdate = async (req, res) => {
 
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -528,6 +537,7 @@ const productReturn = async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -569,6 +579,7 @@ const orderInvoice = async (req, res) => {
 
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -577,11 +588,10 @@ const eachUserOrder = async(req,res)=> {
   try {
     const userId = req.query.id;
     const orders = await Order.find({userId:userId})
-
-    console.log(orders);
     res.render('eachUserOrder',{orders})
   } catch (error) {
-    
+    console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 }
 

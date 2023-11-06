@@ -17,6 +17,7 @@ const loadError = async (req, res) => {
     res.status(404).render("404");
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -130,6 +131,7 @@ const loadAdmin = async(req,res)=> {
     
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 }
 
@@ -169,6 +171,7 @@ const salesReport = async (req, res) => {
     });
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -327,6 +330,7 @@ const loadLogin = async (req, res) => {
     res.render("login");
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 //==========================SHOW USER MANAGEMENT=================================
@@ -337,6 +341,7 @@ const usersList = async (req, res) => {
     res.render("userDetails", { users: usersData });
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -348,6 +353,7 @@ const category = async (req, res) => {
     res.render("category", { cats: categories });
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -359,6 +365,7 @@ const adminLogout = async (req, res) => {
     res.redirect("/admin");
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -391,6 +398,7 @@ const adminLogin = async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -408,6 +416,7 @@ const blockUser = async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -425,6 +434,7 @@ const blockCat = async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -435,6 +445,7 @@ const loadAddcategory = async (req, res) => {
     res.render("addCategory");
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -459,6 +470,7 @@ const addCate = async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -471,6 +483,7 @@ const editCate = async (req, res) => {
     res.render("editCategory", { cats: category });
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -479,19 +492,14 @@ const editCate = async (req, res) => {
 const updateCate = async (req, res) => {
   try {
     const cateId = req.query.id;
-    const updateCate = await Category.updateOne(
+    await Category.updateOne(
       { _id: cateId },
       { $set: { name: req.body.catName } }
     );
-    if (updateCate) {
-      res.redirect("/admin/category");
-    } else {
-      res.render("editCategory", {
-        message: "There is an error occured, try again!",
-      });
-    }
+    res.redirect("/admin/category");
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 

@@ -10,26 +10,26 @@
       <div class="card-body">
         <h4 class="card-title">New Category</h4>
         
-        <form action="/admin/addCate" method="post" class="forms-sample">
+        <form action="/admin/addCate" id="editCate" method="post" class="forms-sample">
           <div class="form-group">
             <label for="exampleInputName1">Category Name</label>
-            <input name="catName" type="text" class="form-control" id="exampleInputName1" placeholder="Category Name" required>
+            <input name="catName" type="text" class="form-control" id="name" placeholder="Category Name">
           </div>
           
           <button type="submit" class="btn btn-primary mr-2">Submit</button>
+          <span style="color: red; display: none;" id="nameError"></span> 
           <% if(typeof message !== 'undefined'){ %>
             <span
               id="er2"
               style="color: rgb(241, 7, 7); text-align: center"
               ><%= message %></span
             >
-            <% } %>
-          
+            <% } %>          
         </form>
       </div>
     </div>
   </div>
   </div>
-
+<script src="/admin/editCate.js"></script>
  
 <%- include('../admin/layout/adminFooter.ejs')%>

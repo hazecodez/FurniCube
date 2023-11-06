@@ -9,6 +9,7 @@ const showCoupons = async (req, res) => {
     res.render("coupons", { coupons: coupons });
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -18,6 +19,7 @@ const addCouponPage = async (req, res) => {
     res.render("addCoupon");
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 //==========================ADD COUPON TO DB ADMIN SIDE==========
@@ -59,6 +61,7 @@ const addCoupon = async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -78,6 +81,7 @@ const blockCoupons = async (req, res) => {
     res.redirect("/admin/showCoupon");
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 //===================================SHOW EDIT COUPON PAGE========================
@@ -87,6 +91,7 @@ const showEditPage = async (req, res) => {
     res.render("editCoupon", { coupon: couponData });
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -97,7 +102,7 @@ const updateCoupon = async (req, res) => {
     const TodayDate = new Date()
     const Today = TodayDate.toISOString().split('T')[0];
     const active = req.body.activeDate;
-    if(req.body.name.trim() === "" && req.body.code.trim() === "" && req.body.discount.trim() === "" && req.body.activeDate.trim() === "" && req.body.expDate.trim() === "" && req.body.criteriaAmount.trim() === "" && req.body.userLimit.trim() === ""){
+    if(req.body.name.trim() === "" || req.body.code.trim() === "" || req.body.discount.trim() === "" || req.body.activeDate.trim() === "" || req.body.expDate.trim() === "" || req.body.criteriaAmount.trim() === "" || req.body.userLimit.trim() === ""){
       res.json({require:true})
     }else if(req.body.discount <= 0){
       res.json({disMinus:true})
@@ -130,6 +135,7 @@ const updateCoupon = async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 //==============================DELETE APPLIED COUPON============================
@@ -148,6 +154,7 @@ const deleteAppliedCoupon = async(req,res)=> {
     }
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 }
 
@@ -204,6 +211,7 @@ const applyCoupon = async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 

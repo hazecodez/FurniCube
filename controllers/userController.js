@@ -10,12 +10,8 @@ const Banner = require('../models/bannerModel')
 const Coupon = require('../models/couponModel')
 const Cart = require('../models/cartModel')
 const Wishlist = require('../models/wishlistModel')
-
-//================SETTING EMAIL PASS AND OTP IN GLOBALLY TO ACCESS IN OTP PAGE============
-
+const Category = require('../models/categoryModel')
 let otp;
-// let email2;
-// let nameResend;
 
 //=================================PASSWORD BCRYPTION=====================================
 
@@ -25,6 +21,7 @@ const securePassword = async (password) => {
     return hashPassword;
   } catch (error) {
     console.error(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -41,6 +38,7 @@ const forgetLoad = async (req, res) => {
     res.render("forgetPass", { name: req.session.name, wishCount,cartCount });
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -80,6 +78,7 @@ const passRecoverVerifyMail = async (name, email, token) => {
     });
   } catch (error) {
     console.error(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -119,6 +118,7 @@ const sendVerifyEmail = async (name, email, otp) => {
     });
   } catch (error) {
     console.error(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -129,6 +129,7 @@ const loadRegister = async (req, res) => {
     res.render("registration", { name: req.session.name });
   } catch (error) {
     console.error(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -141,6 +142,7 @@ const otpPage = async (req, res) => {
     res.render("otp", { name: req.session.name, verifyErr,otpsend });
   } catch (error) {
     console.error(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -159,6 +161,7 @@ const loadLogin = async (req, res) => {
 
   } catch (error) {
     console.error(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -174,6 +177,7 @@ const showAbout = async(req,res)=> {
     res.render('aboutUs',{name: req.session.name,cartCount,wishCount})
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 }
 
@@ -189,6 +193,7 @@ const showContact = async(req,res)=> {
     res.render('contactUs',{name: req.session.name,cartCount,wishCount})
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 }
 
@@ -210,6 +215,7 @@ const loadHome = async (req, res) => {
     
   } catch (error) {
     console.error(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -291,7 +297,8 @@ const insertUser = async (req, res) => {
       
 
   } catch (error) {
-    res.send(error.message);
+    console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -313,6 +320,7 @@ const resendOtp = async (req, res) => {
     
   } catch (error) { 
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -340,6 +348,7 @@ const verifyOtp = async (req, res) => {
     }
   } catch (error) {
     console.error(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -358,6 +367,7 @@ const changePassword = async(req,res)=> {
     }
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 }
 
@@ -403,6 +413,7 @@ const loginUser = async (req, res) => {
     }
   } catch (error) {
     console.error(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -442,6 +453,7 @@ const forgetPassMail = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -470,8 +482,11 @@ const loadResetPass = async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
+
+//============================NEW PASS CREATION=============================
 
 const newPass = async (req, res) => {
   try {
@@ -486,12 +501,10 @@ const newPass = async (req, res) => {
     );
     if (updatedData) {
       res.redirect("/");
-    } else {
-      res.status(404).render(404);
-      console.log("pass not reset");
     }
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -509,6 +522,7 @@ const userLogout = async (req, res) => {
     res.redirect("/");
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -555,12 +569,62 @@ const showProfile = async (req, res) => {
     });
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
+
+//==================================FILTER PRODUCTS IN SHOP=============================
+const filterProduct = async(req,res)=> {
+  try {
+    console.log( req.body.category);
+    console.log( req.body.price);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ error: "Internal server error" })
+  }
+}
+//==================================SEARCH PRODUCT IN SHOP==============================
+const searchPro = async(req,res)=>{
+  try {
+    const category = await Category.find({blocked:0})
+    const name = req.query.q
+    const regex = new RegExp(`^${name}`, 'i');
+    var page = 1;
+    var limit = 8;
+    if (req.query.page) {
+      page = req.query.page;
+    }
+    const cart = await Cart.findOne({userId:req.session.user_id})
+    const wish = await Wishlist.findOne({user:req.session.user_id})
+    let cartCount=0; 
+    let wishCount=0;
+    if(cart){cartCount = cart.products.length}
+    if(wish){wishCount = wish.products.length}
+
+    const products = await Product.find({name: { $regex: regex }, blocked: 0 })
+      .limit(limit * 1)
+      .skip((page - 1) * limit);
+    const count = await Product.find({name: { $regex: regex }, blocked: 0 }).countDocuments();
+    
+    const totalPages = Math.ceil(count / limit);
+    res.render("shop", {
+      name: req.session.name,
+      products: products,
+      totalPages: totalPages,
+      currentPage: page,
+      previousPage: page - 1,
+      cartCount,wishCount,category
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
 
 //======================================LOAD SHOP PAGE===================================
 const loadShop = async (req, res) => {
   try {
+    const category = await Category.find({blocked:0})
     var page = 1;
     var limit = 8;
     if (req.query.page) {
@@ -581,18 +645,19 @@ const loadShop = async (req, res) => {
       .skip((page - 1) * limit);
     const count = await Product.find({ blocked: 0 }).countDocuments();
 
-    totalPages = Math.ceil(count / limit);
-
+    const totalPages = Math.ceil(count / limit);
+    
     res.render("shop", {
       name: req.session.name,
       products: products,
       totalPages: totalPages,
       currentPage: page,
       previousPage: page - 1,
-      cartCount,wishCount
+      cartCount,wishCount,category
     });
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -603,6 +668,7 @@ const loadError = async (req, res) => {
     res.status(404).render("404");
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -623,6 +689,8 @@ module.exports = {
   loadResetPass,
   newPass,
   loadShop,
+  searchPro,
+  filterProduct,
   loadError,
   changePassword,
   showAbout,

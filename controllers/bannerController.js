@@ -9,6 +9,7 @@ const loadAddBanner = async(req,res)=> {
         res.render('addBanners')
     } catch (error) {
         console.log(error.message);
+        res.status(500).json({ error: 'Internal server error' });
     }
 }
 
@@ -35,6 +36,7 @@ const addBanner = async(req,res)=> {
         
     } catch (error) {
         console.log(error.message);
+        res.status(500).json({ error: 'Internal server error' });
     }
 }
 
@@ -46,6 +48,7 @@ const loadBannerPage = async(req,res)=> {
         res.render('bannerDetails',{banner:banners})
     } catch (error) {
         console.log(error.message);
+        res.status(500).json({ error: 'Internal server error' });
     }
 }
 
@@ -67,6 +70,7 @@ const blockBanner = async(req,res)=> {
         }
     } catch (error) {
         console.log(error.message);
+        res.status(500).json({ error: 'Internal server error' });
     }
 }
 
@@ -78,25 +82,29 @@ const blockBanner = async(req,res)=> {
         res.render('editBanner',{banner:banner})
     } catch (error) {
         console.log(error.message);
+        res.status(500).json({ error: 'Internal server error' });
     }
  }
 
  //==============================UPDATE BANNER DETAILS===========================
  const editBanner = async(req,res)=> {
     try {
-        const updated = await Banner.updateOne({_id:req.query.id},{$set:{
-            title: req.body.title,
-            description: req.body.description,
-            image:req.file.filename
-        }})
-        if(updated){
-            res.redirect('/admin/bannerDetails')
+        if(req.file){
+            await Banner.updateOne({_id:req.query.id},{$set:{
+                title: req.body.title,
+                description: req.body.description,
+                image:req.file.filename
+            }})
         }else{
-            console.log('not updated');
+            await Banner.updateOne({_id:req.query.id},{$set:{
+                title: req.body.title,
+                description: req.body.description
+            }})
         }
-        
+        res.redirect('/admin/bannerDetails')        
     } catch (error) {
         console.log(error.message);
+        res.status(500).json({ error: 'Internal server error' });
     }
  }
 

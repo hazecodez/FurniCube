@@ -19,6 +19,7 @@ include('../admin/layout/adminHeader.ejs')%>
                   <th>Payment</th>
                   <th>Status</th>
                   <th>View</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -44,6 +45,18 @@ include('../admin/layout/adminHeader.ejs')%>
                       </a>
                     </div>
                   </td>
+                  <% if(orders.status == "shipped" || orders.status == "placed"){ %>
+                  <td>
+                    <div class="dropdown">
+                      <button class="btn btn-outline-success dropdown-toggle" type="button" id="dropdownMenuOutlineButton5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Actions </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuOutlineButton5">
+                        <a class="dropdown-item" href="/admin/statusUpdate?id=<%= orders._id %>&status=0">Cancel</a>
+                        <a class="dropdown-item" href="/admin/statusUpdate?id=<%= orders._id %>&status=2">Shipped</a>
+                        <a class="dropdown-item" href="/admin/statusUpdate?id=<%= orders._id %>&status=3">Delivery</a>
+                      </div>
+                    </div>
+                  </td>
+                  <% } %>
                 </tr>
 
                 <!-- <tr>
@@ -57,7 +70,13 @@ include('../admin/layout/adminHeader.ejs')%>
                     <td>Verified</td>
                     <td><a href=""><label class="badge badge-danger"></label></a></td>
                   </tr> -->
-                <% }) %> <% }else{ %> <% }%>
+                <% }) %> <% }else{ %> 
+                  
+                  <tr>
+                    <td colspan="5">Orders Not Found</td>
+                  </tr>
+                  
+                  <% }%>
               </tbody>
             </table>
           </div>

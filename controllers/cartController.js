@@ -30,20 +30,6 @@ const showCart = async (req, res) => {
       if (cartData.products.length > 0) {
         const products = cartData.products;
 
-        // const total = await Cart.aggregate([
-        //   { $match: { userId: req.session.user_id } },
-        //   { $unwind: "$products" },
-        //   {
-        //     $group: {
-        //       _id: null,
-        //       total: {
-        //         $sum: {
-        //           $multiply: ["$products.productPrice", "$products.count"],
-        //         },
-        //       },
-        //     },
-        //   },
-        // ]);
         let total = 0;
         for(let i=0;i<products.length;i++){
           total += products[i].totalPrice
@@ -74,7 +60,7 @@ const showCart = async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
-    res.status(404).render("404");
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -140,7 +126,7 @@ const addToCart = async (req, res) => {
     res.json({ success: true });
   } catch (error) {
     console.log(error.message);
-    res.status(404).render("404");
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -163,7 +149,7 @@ const removeCartItem = async (req, res, next) => {
     }
   } catch (error) {
     console.log(error.message);
-    res.status(404).render("404");
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -223,7 +209,8 @@ const quantityUpdation = async (req, res) => {
     );
     res.json({ success: true });
   } catch (error) {
-    next(err);
+    console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -252,21 +239,6 @@ const loadCheckOut = async (req, res) => {
     if(cart){cartCount = cart.products.length}
     if(wish){wishCount = wish.products.length} 
 
-
-    // const total = await Cart.aggregate([
-    //   { $match: { userId: req.session.user_id } },
-    //   { $unwind: "$products" },
-    //   {
-    //     $group: {
-    //       _id: null,
-    //       total: {
-    //         $sum: {
-    //           $multiply: ["$products.productPrice", "$products.count"],
-    //         },
-    //       },
-    //     },
-    //   },
-    // ]);
     let total = 0;
         for(let i=0;i<products.length;i++){
           total += products[i].totalPrice
@@ -320,6 +292,7 @@ const loadCheckOut = async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 

@@ -1,5 +1,5 @@
 //=============EDIT COUPON VALIDATION==================
-document.getElementById('submitBtn').addEventListener('click', function(event){
+document.getElementById('editCoupon').addEventListener('click', function(event){
     event.preventDefault()
     const name = document.getElementById('name').value;
     const code = document.getElementById('code').value;

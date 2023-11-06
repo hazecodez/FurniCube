@@ -18,6 +18,7 @@ const editProfile = async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -42,6 +43,7 @@ const editAddressProfile = async(req,res)=> {
     res.render("editAddressProfile", { name: req.session.name, user: address, wishCount,cartCount });
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 }
 //=====================================EDIT BILLING ADDRESS PROFILE=====================
@@ -66,6 +68,7 @@ const editBillingAddress = async(req,res)=> {
     res.json({success:true})
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 }
 
@@ -120,6 +123,7 @@ const addMultipleAddress = async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -135,7 +139,7 @@ const removeAddress = async (req, res) => {
     res.json({ remove: true });
   } catch (error) {
     console.log(error.message);
-    res.status(404).render("404");
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -161,6 +165,7 @@ const loadEditAddress = async (req, res) => {
     res.render("editAddress", { name: req.session.name, user: address, wishCount,cartCount });
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -187,6 +192,7 @@ const updateAddress = async (req, res) => {
     res.json({success:true})
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
