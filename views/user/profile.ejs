@@ -185,7 +185,7 @@
 
                     <form
                       class="contact-form mb-3"
-                     
+                     id="passForm"
                     >
                       <div class="col-sm-14">
                         <label for="password" class="sr-only">Current Password</label>
@@ -467,7 +467,7 @@
                 role="tabpanel"
                 aria-labelledby="tab-address-link"
               >
-                <div class="row">
+                <div class="row" id="addressReload">
                   <% if(addressData != undefined){
                   addressData.forEach((addressData)=>{ %>
 
@@ -623,6 +623,8 @@
 </main>
 <!-- End .main -->
 <script src="/user/profileEdit.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
 
 <%- include('../user/layout/userFooter.ejs')%>

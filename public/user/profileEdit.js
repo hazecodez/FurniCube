@@ -67,7 +67,7 @@ document.getElementById('submitBtn').addEventListener('click', function (e) {
                   title: 'Profile updated successfully.'
                 })
                 setTimeout(() => {
-                  location.reload();
+                  $("#myForm").load("/profile #myForm");
                 }, 3000);
               }
             },
@@ -130,7 +130,7 @@ document.getElementById('changePass').addEventListener('click', function (e) {
                 title: 'Password changed.'
               })
               setTimeout(() => {
-                location.reload();
+                $("#passForm").load("/profile #passForm");
               }, 3000);
             }else if(response.wrongpass == true){
               currError.style.display = "block";
@@ -167,7 +167,7 @@ function removeAddress(id) {
           method: "post",
           success: (response) => {
             if ((response.remove = true)) {
-              location.reload();
+              $("#addressReload").load("/profile #addressReload");
             }
           },
         });
@@ -272,7 +272,7 @@ document.getElementById('multiAddress').addEventListener('click', function (e) {
                   title: 'Billing address added successfully.'
                 })
                 setTimeout(() => {
-                  location.reload();
+                  $("#addressReload").load("/profile #addressReload");
                 }, 3000);
               }else{
                 const Toast = Swal.mixin({
@@ -293,6 +293,8 @@ document.getElementById('multiAddress').addEventListener('click', function (e) {
       });
   }
 });
+
+
 
 
 //==========================COPYING COUPON CODE===========

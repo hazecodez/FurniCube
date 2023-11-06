@@ -21,7 +21,7 @@
     const mobilePattern = /^\d{10}$/;
     const namePattern = /^[a-zA-Z\s]+$/;
     const pincodePattern = /^\d{6}$/;
-  console.log('hey');
+  
     if(fullname.trim() === "" ){
       fnameError.style.display = "block";
       fnameError.textContent = "Name is required."
@@ -118,4 +118,6 @@
         });
     }
   });
+  
+
   
