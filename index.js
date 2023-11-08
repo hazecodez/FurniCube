@@ -31,5 +31,5 @@ app.use((req,res)=>{
  
 
 app.listen(5030, function () {
-  console.log("server is running");
+  console.log("furniCube server is running");
 });

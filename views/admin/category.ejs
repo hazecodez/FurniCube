@@ -8,8 +8,8 @@
   
   <div class="content-wrapper">
     <br><br><br>
-    <div class="card">
-      <div class="card-body">
+    <div class="card" id="category">
+      <div class="card-body"  >
         
         <h4 class="card-title">Category Management</h4>
         <p class="card-description"> All BloomStyle <code>Product Catagories</code>
@@ -38,12 +38,12 @@
                             <% if(cats[i].blocked==0){ %>
                                 <td class="text-success">Active</td>
                                 <td>
-                                    <a href="/admin/block-cat?id=<%= cats[i]._id %>" class="badge badge-danger">BLOCK</a>
+                                    <a onclick="categoryBlock('<%= cats[i]._id %>')" class="badge badge-danger">BLOCK</a>
                                 </td>
                            <% }else{ %>
                             <td class="text-danger">Blocked</td>
                             <td>
-                                <a href="/admin/block-cat?id=<%= cats[i]._id %>" class="badge badge-success">UNBLOCK</a>
+                                <a onclick="categoryBlock('<%= cats[i]._id %>')" class="badge badge-success">UNBLOCK</a>
                             </td>
 
                          <%  } %>

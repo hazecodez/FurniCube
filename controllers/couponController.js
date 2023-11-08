@@ -78,7 +78,7 @@ const blockCoupons = async (req, res) => {
     } else {
       await Coupon.updateOne({ _id: req.query.id }, { $set: { status: true } });
     }
-    res.redirect("/admin/showCoupon");
+    res.json({success:true})
   } catch (error) {
     console.log(error.message);
     res.status(500).json({ error: 'Internal server error' });

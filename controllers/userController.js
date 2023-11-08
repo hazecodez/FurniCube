@@ -64,7 +64,7 @@ const passRecoverVerifyMail = async (name, email, token) => {
       html:
         "<h2>Dear " +
         name +
-        ' ,please click here to <a href="https://localhost:5030/reset_password?token=' +
+        ' ,please click here to <a href="http://localhost:5030/reset_password?token=' +
         token +
         '">Reset</a> your password </h2>',
     };

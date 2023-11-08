@@ -376,7 +376,6 @@ const adminLogin = async (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
     const adminData = await User.findOne({ email: email });
-
     if (adminData) {
       if (adminData.is_admin == 1) {
         const passwordMatch = await bcrypt.compare(
@@ -409,10 +408,10 @@ const blockUser = async (req, res) => {
     const blockedUser = await User.findOne({ _id: req.query.id });
     if (blockedUser.is_block == 0) {
       await User.updateOne({ _id: req.query.id }, { $set: { is_block: 1 } });
-      res.redirect("/admin/userDetails");
+      res.json({success:true})
     } else {
       await User.updateOne({ _id: req.query.id }, { $set: { is_block: 0 } });
-      res.redirect("/admin/userDetails");
+      res.json({success:true})
     }
   } catch (error) {
     console.log(error.message);
@@ -427,10 +426,10 @@ const blockCat = async (req, res) => {
     const blockedCat = await Category.findOne({ _id: req.query.id });
     if (blockedCat.blocked == 0) {
       await Category.updateOne({ _id: req.query.id }, { $set: { blocked: 1 } });
-      res.redirect("/admin/category");
+      res.json({success:true})
     } else {
       await Category.updateOne({ _id: req.query.id }, { $set: { blocked: 0 } });
-      res.redirect("/admin/category");
+      res.json({success:true})
     }
   } catch (error) {
     console.log(error.message);

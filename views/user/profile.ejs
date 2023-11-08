@@ -98,7 +98,7 @@
               </li>
               
               <li class="nav-item">
-                <a class="nav-link" href="/logout"><i class="fa-duotone fa-arrow-right-from-bracket"></i>&nbsp;&nbsp;&nbsp;Sign Out</a>
+                <a class="nav-link" onclick="logout()"><i class="fa-duotone fa-arrow-right-from-bracket"></i>&nbsp;&nbsp;&nbsp;Sign Out</a>
               </li>
             </ul>
           </aside>
@@ -336,28 +336,7 @@
                   </div>
                   <% } %>
 
-                  <!-- <div class="col-lg-6">
-                  <div class="card card-dashboard">
-                    <div class="card-body">
-                      <h1 class="card-title">Wallet Amount</h1>
-                      <br>
-  
-                      
-                        <div class="col-8 col-sm-12 col-xl-8 my-auto">
-                          <div class="d-flex d-sm-block d-md-flex align-items-center">
-                            <h2 class="mb-0">$45850</h2>
-                            
-                          </div>
-                          <h6 class="text-muted font-weight-normal"> 9.61% Since last month</h6>
-                          <br>
-                        </div>
-                        <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
-                          <i class="icon-lg mdi mdi-wallet-travel text-danger ml-auto"></i>
-                        </div>
-                      </div>
-                    
-                    </div>
-                  </div> -->
+            
 
                   <%}else{%>
                   <div class="col-lg-6">
@@ -419,10 +398,7 @@
                       
                       
                       
-                        <!-- <div style="display: flex; justify-content: space-between;">
-                        <h1 class="card-title"><b><%= value.couponName %>&nbsp;!!</b>&nbsp;</h1>
-                        <i class="fa-duotone fa-gift" style="font-size:40px;"></i>
-                      </div> -->
+                        
                         
                         <!-- End .card-title -->
                        <div class="mt-2 col-12 mx-auto">
@@ -455,8 +431,27 @@
                     <!-- End .card-body -->
                   </div>
                   <% }) %>
+                  <% }else{ %>
+                    <div class="col-lg-6">
+                      <div class="card card-dashboard" style="border-radius: 15px; background: radial-gradient(circle, #E5DCC3, #E5DCC3); height: 300px; width: 400px;" >
+                        <div class="card-body" >                     
+                        
+                          <!-- End .card-title -->
+                         <div class="mt-2 col-12 mx-auto">
+                          <h4 style="text-align: center;">No Coupons Available</h4>
+                          <h4 style="text-align: center;">Now.</h4>
+                          
+                         </div>
+  
+                          
+                          
+                          <div class="circle1"></div>
+                          <div class="circle2"></div>
+                        </div>
+                      </div>
+                      <!-- End .card-body -->
+                    </div>
                   <% } %>
-                  <!-- End .card-dashboard -->
                 </div>
               </div>
               <!-- .End .tab-pane -->

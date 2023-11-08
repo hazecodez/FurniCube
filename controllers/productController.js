@@ -121,10 +121,10 @@ const blockProduct = async (req, res) => {
     const blockedPro = await Product.findOne({ _id: req.query.id });
     if (blockedPro.blocked == 0) {
       await Product.updateOne({ _id: req.query.id }, { $set: { blocked: 1 } });
-      res.redirect("/admin/product");
+      res.json({success:true})
     } else {
       await Product.updateOne({ _id: req.query.id }, { $set: { blocked: 0 } });
-      res.redirect("/admin/product");
+      res.json({success:true})
     }
   } catch (error) {
     console.log(error.message);

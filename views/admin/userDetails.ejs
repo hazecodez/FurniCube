@@ -3,11 +3,11 @@
 
 
 
-<div class="main-panel">
+<div class="main-panel" >
   <div class="content-wrapper">
             <div class="row">
 
-              <div class="col-lg-12 grid-margin stretch-card">
+              <div class="col-lg-12 grid-margin stretch-card" id="users">
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title">User Management</h4>
@@ -43,11 +43,11 @@
                                   <%
                                   if(users[i].is_block == 0){
                                     %>
-                                    <p><a href="/admin/block-user?id=<%= users[i]._id %>" class="badge badge-success">BLOCK USER</a></p>
+                                    <p><a onclick="userBlock('<%= users[i]._id %>')" class="badge badge-success">BLOCK USER</a></p>
                                     <%
                                   }else{
                                     %>
-                                    <p><a href="/admin/block-user?id=<%= users[i]._id %>" class="badge badge-danger">UNBLOCK</a></p>
+                                    <p><a onclick="userBlock('<%= users[i]._id %>')" class="badge badge-danger">UNBLOCK</a></p>
                                     <%
                                   }
                                   %>
@@ -63,13 +63,7 @@
                             </tr><%
                           }
                           %>
-                          <!-- <tr>
-                            <td>Jacob</td>
-                            <td>jacod@gmail.com</td>
-                            <td>987867543</td>
-                            <td>Verified</td>
-                            <td><a href=""><label class="badge badge-danger"></label></a></td>
-                          </tr> -->
+                          
                           
                         </tbody>
                       </table>

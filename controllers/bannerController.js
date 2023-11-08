@@ -58,13 +58,14 @@ const blockBanner = async(req,res)=> {
     try {
         const Id = req.query.id;
         const banner = await Banner.findOne({_id:Id})
+        
         if(banner.status == true){
             await Banner.updateOne({_id:Id},{$set:{status: false}})
         }else{
             await Banner.updateOne({_id:Id},{$set:{status: true}})
         }
         if(banner){
-            res.redirect('/admin/bannerDetails')
+            res.json({success:true})
         }else{
             console.console.log('not get');
         }

@@ -6,7 +6,7 @@
   <div class="content-wrapper">
 <div class="row">
     
-    <div class="col-lg-12 grid-margin stretch-card">
+    <div class="col-lg-12 grid-margin stretch-card"  id="banners">
       <div class="card">
         <div class="card-body">
           <h4 class="card-title">Banner Management</h4>
@@ -25,7 +25,7 @@
                   <a href="/admin/loadAddBanner" class="btn btn-outline-primary btn-rounded">Add Banners</a>
                 </tr>
               </thead>
-              <tbody>
+              <tbody >
                 <% if(banner.length > 0){ %>
                     <% banner.forEach((banner)=> { %>
                
@@ -38,10 +38,11 @@
                   <td><%= banner.description %></td>
                   <% if(banner.status == true){ %>
                     <td class="text-success">Active</td>
-                    <td><a href="/admin/block-banner?id=<%= banner._id %>" class="badge badge-danger" onclick="return confirm('Are you sure? Do you want to Block ?')">Block</a></td>
+                    <td><a onclick="blockBanner('<%= banner._id %>')" class="badge badge-danger">Block</a></td>
+                    
                    <% }else{ %>
                     <td class="text-danger">Blocked</td>
-                    <td><a href="/admin/block-banner?id=<%= banner._id %>" class="badge badge-success" onclick="return confirm('Are you sure you? Do you want to Unblock ?')">Unblock</a></td>
+                    <td><a onclick="blockBanner('<%= banner._id %>')" class="badge badge-success" >Unblock</a></td>
                   
 
                     <% } %>
@@ -49,9 +50,7 @@
 
                 </tr>
                 
-                  <!-- <tr>
-                      <td colspan="5">Products Not Found</td>
-                 </tr> -->
+                 
                  <% }) %>
                <% }else{ %>
                 <tr>
