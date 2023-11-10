@@ -76,7 +76,7 @@ userRoute.post('/removeCartItem', auth.isLogin, cartController.removeCartItem)
 userRoute.post('/cartQuantityUpdation', auth.isLogin, cartController.quantityUpdation)
 
 //================================CHECKOUT HANDLING============================
-userRoute.get('/checkOut', auth.isLogin, cartController.loadCheckOut)
+userRoute.get('/checkOut', auth.isLogin, stock.inCart, cartController.loadCheckOut)
 userRoute.post('/addBillingAddress', auth.isLogin, addressController.addMultipleAddress)
 userRoute.post('/removeAddress', auth.isLogin, addressController.removeAddress)
 userRoute.post('/update_address', auth.isLogin, addressController.updateAddress)

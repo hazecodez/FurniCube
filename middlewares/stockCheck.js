@@ -1,5 +1,14 @@
 const Cart = require('../models/cartModel')
 
+const inCart = async(req,res,next)=> {
+    const cart = await Cart.findOne({userId: req.session.user_id})
+    if(!cart){
+        res.redirect('/cart')
+    }else{
+        next()
+    }
+}
+
 const inStock = async(req,res,next)=>{
     try {
         const cartData = await Cart.findOne({
@@ -39,5 +48,5 @@ const inStock = async(req,res,next)=>{
 }
 
 module.exports = {
-    inStock
+    inStock,inCart
 }
