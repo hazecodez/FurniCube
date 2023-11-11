@@ -77,7 +77,6 @@ const editBillingAddress = async(req,res)=> {
 const addMultipleAddress = async (req, res) => {
   try {
     const user = req.session.user_id;
-    // const userData = await User.findOne({ _id: user });
     const addressData = await Address.findOne({ user: req.session.user_id });
     if (addressData) {
       const updated = await Address.updateOne(

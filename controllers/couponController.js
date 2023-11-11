@@ -190,11 +190,7 @@ const applyCoupon = async (req, res) => {
               if (couponData.criteriaAmount >= amount) {
                 res.json({ cartAmount: true });
               } else {
-                //user limit decreasing
-                // await Coupon.updateOne({couponCode:code},{$inc:{usersLimit: -1 }})
-                //user name adding
-                // await Coupon.updateOne({couponCode:code},{$push:{usedUsers:req.session.user_id}})
-                  
+                                  
                   const disAmount = couponData.discountAmount;
                   const disTotal = Math.round(amount - disAmount);
                   await Cart.updateOne({userId:req.session.user_id},{$set:{applied:"applied"}})

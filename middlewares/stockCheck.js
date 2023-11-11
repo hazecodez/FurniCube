@@ -2,6 +2,7 @@ const Cart = require('../models/cartModel')
 
 const inCart = async(req,res,next)=> {
     const cart = await Cart.findOne({userId: req.session.user_id})
+    
     if(!cart){
         res.redirect('/cart')
     }else{
@@ -36,7 +37,7 @@ const inStock = async(req,res,next)=>{
               }
             }
 
-            if(inStock != true){
+            if(inStock !== true){
                 req.session.inStock = true;
                 res.redirect('/checkOut')
             }else{

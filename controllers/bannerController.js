@@ -18,7 +18,7 @@ const loadAddBanner = async(req,res)=> {
 const addBanner = async(req,res)=> {
     try {
         // const image = req.file.filename
-        let banner = new Banner({
+        const banner = new Banner({
             title: req.body.title,
             description: req.body.description,
             image:req.file.filename ,
