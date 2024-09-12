@@ -4,9 +4,11 @@ let dotenv = require("dotenv");
 dotenv.config();
 
 module.exports = {
+  
+  
   mongoDB: () => {
     mongoose
-      .connect(process.env.Mongo_url, {})
+      .connect(process.env.Mongo_uri, {})
       .then(() => {
         console.log("Database connected");
       })

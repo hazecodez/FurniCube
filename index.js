@@ -31,5 +31,5 @@ app.use((req,res)=>{
  
 
 app.listen(5030, function () {
-  console.log("furniCube server is running");
+  console.log(`furniCube server is running ${"http://localhost:5030"}`);
 });
